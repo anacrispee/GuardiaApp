@@ -1,0 +1,21 @@
+
+e
+5app/src/main/java/com/example/guardia/MainActivity.kt,5\9\597281870d6342e5dfb2f82974fa8b4cf0ba8d77
+g
+7app/src/main/java/com/example/guardia/ui/theme/Color.kt,0\f\0f0da03779d494519945c9fcae98d2f67be53199
+o
+?app/src/main/java/com/example/guardia/ui/app_theme/AppColors.kt,b\3\b3368e76be4a5d7ff1811e30442267a0f880b574
+s
+Capp/src/main/java/com/example/guardia/ui/app_theme/AppTypography.kt,2\a\2a053a84648b6170ed1ed9031586195145513e81
+n
+>app/src/main/java/com/example/guardia/ui/app_theme/AppTheme.kt,5\2\5205dfbbdc1d4c0e417a3c9a27e2cead4222f493
+P
+ app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
+D
+app/build.gradle.kts,d\2\d2a4383452aad84a18429a5844d31330a012a9e6
+]
+-app/src/main/java/com/example/AppConstants.kt,9\9\997104d40483092cb0fae501c822a0c5d9a3c901
+e
+5app/src/main/java/com/example/guardia/AppConstants.kt,d\0\d08ab485fb992d08f54ec585920d24d07e1af7ac
+`
+0app/src/main/java/com/example/guardia/BaseApp.kt,7\7\77398a39744840110c103977c5ff8766160a73c1

@@ -1,3 +1,8 @@
 <resources>
+    <!-- Main -->
     <string name="app_name">Guardiã</string>
+    <string name="navigation_bar_home">Home</string>
+    <string name="navigation_bar_emergency">Emergência</string>
+    <string name="navigation_bar_find_shelters">Abrigos</string>
+    <string name="navigation_bar_my_profile">Perfil</string>
 </resources>

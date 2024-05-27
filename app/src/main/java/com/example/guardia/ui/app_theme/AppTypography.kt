@@ -13,7 +13,9 @@ private const val medium_size = 16
 private const val small_size = 14
 
 data class AppTypography(
-    val title: TitleRegular = TitleRegular,
+    val titleRegular: TitleRegular = TitleRegular,
+    val titleBold: TitleBold = TitleBold,
+    val titleSemiBold: TitleSemiBold = TitleSemiBold,
     val body: Body = Body
 )
 

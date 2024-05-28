@@ -51,6 +51,9 @@ android {
 
 dependencies {
 
+    implementation(libs.android.koin)
+    implementation(libs.android.koinCore)
+    implementation(libs.android.koinCompose)
     implementation(libs.navigation)
     implementation(libs.splashscreen)
     implementation(libs.androidx.core.ktx)

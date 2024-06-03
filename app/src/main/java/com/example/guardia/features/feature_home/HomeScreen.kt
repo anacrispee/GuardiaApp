@@ -16,8 +16,11 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    viewModel: HomeScreenViewModel = koinViewModel()
+    viewModel: HomeViewModel = koinViewModel()
 ) {
+    val viewState = viewModel.viewState
+    val action = viewModel::dispatcherViewAction
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,

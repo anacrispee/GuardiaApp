@@ -35,18 +35,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.guardia.AppConstants.FIND_SHELTERS_SCREEN
 import com.example.guardia.AppConstants.HOME_SCREEN
 import com.example.guardia.AppConstants.MY_PROFILE_SCREEN
 import com.example.guardia.AppConstants.PANIC_BUTTON_SCREEN
-import com.example.guardia.features.feature_home.HomeScreen
-import com.example.guardia.features.feature_my_profile.MyProfileScreen
-import com.example.guardia.features.feature_panic_button.PanicButtonScreen
-import com.example.guardia.features.feature_shelters.FindSheltersScreen
+import com.example.guardia.di.NavigationGraph
 import com.example.guardia.ui.app_theme.AppTheme
 
 class MainActivity : ComponentActivity() {
@@ -172,28 +166,4 @@ class MainActivity : ComponentActivity() {
         val hasNews: Boolean = false,
         val badgeCount: Int? = null
     )
-
-    @Composable
-    fun NavigationGraph(navController: NavHostController) {
-        NavHost(
-            navController = navController,
-            startDestination = HOME_SCREEN
-        ) {
-            composable(HOME_SCREEN) {
-                HomeScreen(navController)
-            }
-
-            composable(MY_PROFILE_SCREEN) {
-                MyProfileScreen(navController)
-            }
-
-            composable(PANIC_BUTTON_SCREEN) {
-                PanicButtonScreen(navController)
-            }
-
-            composable(FIND_SHELTERS_SCREEN) {
-                FindSheltersScreen(navController)
-            }
-        }
-    }
 }

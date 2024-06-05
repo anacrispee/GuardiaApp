@@ -56,11 +56,11 @@ class MainActivity : ComponentActivity() {
             val items = bottomNavigationItems()
 
             Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = AppTheme.colors.secondary.background
+                modifier = Modifier.fillMaxSize()
             ) {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
+                    containerColor = AppTheme.colors.secondary.background,
                     bottomBar = {
                         NavigationBar(
                             containerColor = AppTheme.colors.primary.dark_pink,

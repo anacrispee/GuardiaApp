@@ -7,10 +7,16 @@ import androidx.lifecycle.ViewModel
 import org.koin.core.component.KoinComponent
 
 class HomeViewModel() : ViewModel(), KoinComponent {
+
     var viewState by mutableStateOf(HomeViewState())
 
     fun dispatcherViewAction(action: HomeViewAction) {
-//        when (action) {
-//        }
+        when (action) {
+            is HomeViewAction.ChangeInputValue -> {
+                viewState = viewState.copy(
+                    searchInputValue = action.value
+                )
+            }
+        }
     }
 }

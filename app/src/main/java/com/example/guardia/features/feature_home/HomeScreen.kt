@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
@@ -37,6 +38,12 @@ fun HomeScreen(
     val viewState = viewModel.viewState
     val action = viewModel::dispatcherViewAction
     val listVerticalFilters = listVerticalFilters()
+
+    LaunchedEffect(key1 = true) {
+        action(
+            HomeViewAction.GetWomanViolenceArticles
+        )
+    }
 
     Column(
         modifier = Modifier

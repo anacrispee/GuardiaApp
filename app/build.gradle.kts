@@ -51,6 +51,11 @@ android {
 
 dependencies {
 
+    implementation(platform(libs.okhttp3))
+    implementation(libs.squareup.okhttp)
+    implementation(libs.squareup.okhttp.interceptor)
+    implementation(libs.squareup.okhttp.retrofit)
+    implementation(libs.squareup.okhttp.retrofit.gson.converter)
     implementation(libs.android.koin)
     implementation(libs.android.koinCore)
     implementation(libs.android.koinCompose)

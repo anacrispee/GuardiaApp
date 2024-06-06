@@ -18,7 +18,7 @@ interface NewsApiService {
 
     object NewsApiServiceConstants {
         const val QUERY = "q"
-        const val QUERY_PARAM = "violence against woman"
         const val API_KEY = "apiKey"
+        const val QUERY_PARAM = "domestic violence"
     }
 }

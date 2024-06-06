@@ -26,11 +26,11 @@ class HomeViewModel : ViewModel(), KoinComponent {
                 )
             }
 
-            HomeViewAction.GetWomanViolenceArticles -> getWomansViolenceArticles()
+            HomeViewAction.GetArticles -> GetArticles()
         }
     }
 
-    private fun getWomansViolenceArticles() {
+    private fun GetArticles() {
         viewState = viewState.copy(
             isLoading = true
         )

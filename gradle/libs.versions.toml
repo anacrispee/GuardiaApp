@@ -14,6 +14,7 @@ koinVersion = "3.5.3"
 koinTestVersion = "3.5.0"
 okhttp3Version = "4.12.0"
 squareupRetrofitVersion = "2.9.0"
+coilVersion = "2.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +41,9 @@ squareup-okhttp-retrofit-gson-converter = { group = "com.squareup.retrofit2", na
 
 #Splashscreen
 splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+
+# Coil for Async Image
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilVersion" }
 
 #Navigation
 navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }

@@ -51,6 +51,7 @@ android {
 
 dependencies {
 
+    implementation(libs.coil)
     implementation(platform(libs.okhttp3))
     implementation(libs.squareup.okhttp)
     implementation(libs.squareup.okhttp.interceptor)

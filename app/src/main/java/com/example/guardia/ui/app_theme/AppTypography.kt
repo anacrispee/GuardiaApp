@@ -17,9 +17,11 @@ data class AppTypography(
     val titleRegular: TitleRegular = TitleRegular,
     val titleBold: TitleBold = TitleBold,
     val titleSemiBold: TitleSemiBold = TitleSemiBold,
+
     val bodyRegular: BodyRegular = BodyRegular,
-    val bodySemiBold: BodySemiBold = BodySemiBold,
-    val bodyBold: BodyBold = BodyBold
+    val bodyMedium: BodyMedium = BodyMedium,
+    val bodyBold: BodyBold = BodyBold,
+    val bodySemiBold: BodySemiBold = BodySemiBold
 )
 
 object TitleRegular {
@@ -71,9 +73,25 @@ object BodyRegular {
     )
 }
 
+object BodyMedium {
+    private val manropeMedium = FontFamily(
+        Font(R.font.manrope_medium, FontWeight.Medium)
+    )
+
+    val body_small: TextStyle = TextStyle(
+        fontFamily = manropeMedium,
+        fontSize = small_size.sp
+    )
+}
+
 object BodyBold {
     private val manropeBold = FontFamily(
         Font(R.font.manrope_bold, FontWeight.Bold)
+    )
+
+    val body_small: TextStyle = TextStyle(
+        fontFamily = manropeBold,
+        fontSize = small_size.sp
     )
 
     val body_tiny: TextStyle = TextStyle(
@@ -90,6 +108,16 @@ object BodySemiBold {
     val body_medium: TextStyle = TextStyle(
         fontFamily = manropeSemiBold,
         fontSize = medium_size.sp
+    )
+
+    val body_small: TextStyle = TextStyle(
+        fontFamily = manropeSemiBold,
+        fontSize = small_size.sp
+    )
+
+    val body_tiny: TextStyle = TextStyle(
+        fontFamily = manropeSemiBold,
+        fontSize = tiny_size.sp
     )
 }
 

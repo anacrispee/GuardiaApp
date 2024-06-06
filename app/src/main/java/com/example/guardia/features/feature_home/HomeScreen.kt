@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -58,7 +59,10 @@ fun HomeScreen(
 
     LaunchedEffect(key1 = true) {
         action(
-            HomeViewAction.GetArticles
+            HomeViewAction.GetDomesticViolenceArticles
+        )
+        action(
+            HomeViewAction.GetDomesticViolenceStories
         )
     }
 
@@ -92,27 +96,46 @@ private fun ContentScreen(
         Filters(
             listVerticalFilters = listVerticalFilters
         )
-        Text(
-            text = stringResource(id = R.string.home_popular_articles),
-            style = AppTheme.typography.titleBold.title_lg_bold,
-            color = AppTheme.colors.primary.dark_grey,
-            modifier = Modifier
-                .padding(bottom = 16.dp)
+        ArticlesArea(
+            domesticViolencePopularArticles = viewState.domesticViolencePopularArticles.orEmpty(),
+            domesticViolenceStories = viewState.domesticViolenceStories.orEmpty()
         )
-        LazyRow {
-            items(viewState.domesticViolenceArticles ?: listOf()) { article ->
-                ArticleCard(
-                    article = article
-                )
-            }
+        Spacer(modifier = Modifier.height(120.dp))
+    }
+}
+
+@Composable
+private fun ArticlesArea(
+    domesticViolencePopularArticles: List<DomesticViolenceArticleResponse>,
+    domesticViolenceStories: List<DomesticViolenceArticleResponse>
+) {
+    Text(
+        text = stringResource(id = R.string.home_popular_articles),
+        style = AppTheme.typography.titleBold.title_lg_bold,
+        color = AppTheme.colors.primary.dark_grey,
+        modifier = Modifier
+            .padding(bottom = 16.dp)
+    )
+    LazyRow {
+        items(domesticViolencePopularArticles) { article ->
+            ArticleCard(
+                article = article
+            )
         }
-        Text(
-            text = stringResource(id = R.string.home_personal_stories),
-            style = AppTheme.typography.titleBold.title_lg_bold,
-            color = AppTheme.colors.primary.dark_grey,
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-        )
+    }
+    Text(
+        text = stringResource(id = R.string.home_personal_stories),
+        style = AppTheme.typography.titleBold.title_lg_bold,
+        color = AppTheme.colors.primary.dark_grey,
+        modifier = Modifier
+            .padding(vertical = 16.dp)
+    )
+    LazyRow {
+        items(domesticViolenceStories) { article ->
+            ArticleCard(
+                article = article
+            )
+        }
     }
 }
 
@@ -145,6 +168,7 @@ private fun ArticleCard(
                     )
                 )
                 .fillMaxWidth()
+                .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
                 .padding(bottom = 8.dp)
                 .width(160.dp)
                 .height(170.dp),

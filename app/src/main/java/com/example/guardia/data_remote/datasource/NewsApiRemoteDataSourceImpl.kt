@@ -22,4 +22,36 @@ class NewsApiRemoteDataSourceImpl(
             }
         )
     }
+
+    override fun getDomesticViolenceStories(): Flow<List<DomesticViolenceArticleResponse>> = flow {
+        emit(
+            requestWrapper.wrapperGenericResponse {
+                webService.getDomesticViolenceStories()
+            }
+        )
+    }
+
+    override fun getDomesticPsychologicalAbuseArticles(): Flow<List<DomesticViolenceArticleResponse>> = flow {
+        emit(
+            requestWrapper.wrapperGenericResponse {
+                webService.getDomesticPsychologicalAbuseArticles()
+            }
+        )
+    }
+
+    override fun getHarassmentAgainstWomenArticles(): Flow<List<DomesticViolenceArticleResponse>> = flow {
+        emit(
+            requestWrapper.wrapperGenericResponse {
+                webService.getHarassmentAgainstWomenArticles()
+            }
+        )
+    }
+
+    override fun getThreatAgainstWomenArticles(): Flow<List<DomesticViolenceArticleResponse>> = flow {
+        emit(
+            requestWrapper.wrapperGenericResponse {
+                webService.getThreatAgainstWomenArticles()
+            }
+        )
+    }
 }

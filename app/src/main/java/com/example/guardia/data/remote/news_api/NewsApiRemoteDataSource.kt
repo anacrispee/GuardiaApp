@@ -5,4 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface NewsApiRemoteDataSource {
     fun getDomesticViolenceArticles(): Flow<List<DomesticViolenceArticleResponse>>
+    fun getDomesticViolenceStories(): Flow<List<DomesticViolenceArticleResponse>>
+    fun getDomesticPsychologicalAbuseArticles(): Flow<List<DomesticViolenceArticleResponse>>
+    fun getHarassmentAgainstWomenArticles(): Flow<List<DomesticViolenceArticleResponse>>
+    fun getThreatAgainstWomenArticles(): Flow<List<DomesticViolenceArticleResponse>>
 }

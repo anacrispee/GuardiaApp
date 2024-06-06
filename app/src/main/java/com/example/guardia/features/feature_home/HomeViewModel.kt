@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.guardia.domain.use_case.GetDomesticViolenceArticlesUseCase
+import com.example.guardia.domain.use_case.GetDomesticViolenceStoriesUseCase
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
@@ -14,9 +15,8 @@ class HomeViewModel : ViewModel(), KoinComponent {
 
     var viewState by mutableStateOf(HomeViewState())
 
-    private val getDomesticViolenceArticlesUseCase: GetDomesticViolenceArticlesUseCase by inject {
-        parametersOf(viewModelScope)
-    }
+    private val getDomesticViolenceArticlesUseCase: GetDomesticViolenceArticlesUseCase by inject { parametersOf(viewModelScope) }
+    private val getDomesticViolenceStoriesUseCase: GetDomesticViolenceStoriesUseCase by inject { parametersOf(viewModelScope) }
 
     fun dispatcherViewAction(action: HomeViewAction) {
         when (action) {
@@ -26,11 +26,12 @@ class HomeViewModel : ViewModel(), KoinComponent {
                 )
             }
 
-            HomeViewAction.GetArticles -> getArticles()
+            HomeViewAction.GetDomesticViolenceArticles -> getDomesticViolenceArticles()
+            HomeViewAction.GetDomesticViolenceStories -> getDomesticViolenceStories()
         }
     }
 
-    private fun getArticles() {
+    private fun getDomesticViolenceArticles() {
         viewState = viewState.copy(
             isLoading = true
         )
@@ -38,12 +39,33 @@ class HomeViewModel : ViewModel(), KoinComponent {
             onSuccess = {
                 viewState = viewState.copy(
                     isLoading = false,
-                    domesticViolenceArticles = it
+                    domesticViolencePopularArticles = it
                 )
             },
             onError = {
                 viewState = viewState.copy(
-                    error = it
+                    error = it,
+                    isLoading = false
+                )
+            }
+        )
+    }
+
+    private fun getDomesticViolenceStories() {
+        viewState = viewState.copy(
+            isLoading = true
+        )
+        getDomesticViolenceStoriesUseCase(
+            onSuccess = {
+                viewState = viewState.copy(
+                    isLoading = false,
+                    domesticViolenceStories = it
+                )
+            },
+            onError = {
+                viewState = viewState.copy(
+                    error = it,
+                    isLoading = false
                 )
             }
         )

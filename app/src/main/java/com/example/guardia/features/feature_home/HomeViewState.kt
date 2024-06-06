@@ -6,6 +6,6 @@ data class HomeViewState(
     var isLoading: Boolean = false,
     var error: Throwable? = null,
     val searchInputValue: String = "",
-    val domesticViolenceArticles: List<DomesticViolenceArticleResponse>? = null,
+    val domesticViolencePopularArticles: List<DomesticViolenceArticleResponse>? = null,
     val domesticViolenceStories: List<DomesticViolenceArticleResponse>? = null
 )

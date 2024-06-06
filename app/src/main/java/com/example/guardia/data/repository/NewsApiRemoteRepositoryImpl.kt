@@ -11,4 +11,16 @@ class NewsApiRemoteRepositoryImpl(
 
     override fun getDomesticViolenceArticles(): Flow<List<DomesticViolenceArticleResponse>> =
         dataSource.getDomesticViolenceArticles()
+
+    override fun getDomesticViolenceStories(): Flow<List<DomesticViolenceArticleResponse>> =
+        dataSource.getDomesticViolenceStories()
+
+    override fun getDomesticPsychologicalAbuseArticles(): Flow<List<DomesticViolenceArticleResponse>> =
+        dataSource.getDomesticPsychologicalAbuseArticles()
+
+    override fun getHarassmentAgainstWomenArticles(): Flow<List<DomesticViolenceArticleResponse>> =
+        dataSource.getHarassmentAgainstWomenArticles()
+
+    override fun getThreatAgainstWomenArticles(): Flow<List<DomesticViolenceArticleResponse>> =
+        dataSource.getThreatAgainstWomenArticles()
 }

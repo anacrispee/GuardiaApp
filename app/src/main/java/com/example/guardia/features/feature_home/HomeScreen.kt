@@ -1,6 +1,8 @@
 package com.example.guardia.features.feature_home
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,7 +57,6 @@ fun HomeScreen(
 ) {
     val viewState = viewModel.viewState
     val action = viewModel::dispatcherViewAction
-    val listVerticalFilters = listVerticalFilters()
 
     LaunchedEffect(key1 = true) {
         action(
@@ -81,8 +82,10 @@ fun HomeScreen(
 private fun ContentScreen(
     viewState: HomeViewState,
     action: (HomeViewAction) -> Unit,
-    listVerticalFilters: List<Int>
+    listVerticalFilters: List<SearchFiltersModel>
 ) {
+    var filterOption by remember { mutableStateOf(FiltersEnum.VIOLENCE.id) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -93,45 +96,85 @@ private fun ContentScreen(
             searchInputValue = viewState.searchInputValue,
             action = action
         )
-        Filters(
-            listVerticalFilters = listVerticalFilters
-        )
-        ArticlesArea(
-            domesticViolencePopularArticles = viewState.domesticViolencePopularArticles.orEmpty(),
-            domesticViolenceStories = viewState.domesticViolenceStories.orEmpty()
+        LazyRow {
+            items(listVerticalFilters) { filter ->
+                Box(
+                    modifier = Modifier
+                        .padding(vertical = 16.dp, horizontal = 8.dp)
+                        .background(
+                            color = AppTheme.colors.primary.dark_pink,
+                            shape = RoundedCornerShape(50.dp)
+                        )
+                        .clickable {
+                            filterOption = filter.id
+                            action(
+                                HomeViewAction.FetchDataByFilterOption(
+                                    id = filter.id
+                                )
+                            )
+                        }
+                ) {
+                    Text(
+                        text = stringResource(id = filter.name),
+                        style = AppTheme.typography.bodyBold.body_tiny,
+                        color = AppTheme.colors.secondary.lighter,
+                        modifier = Modifier
+                            .padding(vertical = 4.dp, horizontal = 16.dp)
+                            .clip(shape = RoundedCornerShape(50.dp))
+                    )
+                }
+            }
+        }
+        DefaultHomeArticles(
+            viewState = viewState,
+            filterOption = filterOption
         )
         Spacer(modifier = Modifier.height(120.dp))
     }
 }
 
 @Composable
-private fun ArticlesArea(
-    domesticViolencePopularArticles: List<DomesticViolenceArticleResponse>,
-    domesticViolenceStories: List<DomesticViolenceArticleResponse>
+private fun DefaultHomeArticles(
+    viewState: HomeViewState,
+    filterOption: Int
+) {
+    LazyRowItem(
+        articlesTitle = when (filterOption) {
+            FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> listVerticalFilters.first { it.id == filterOption }.name
+            FiltersEnum.HARASSMENT.id -> listVerticalFilters.first { it.id == filterOption }.name
+            FiltersEnum.THREAT.id -> listVerticalFilters.first { it.id == filterOption }.name
+            else -> R.string.home_popular_articles
+        },
+        articlesList = when (filterOption) {
+            FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> viewState.domesticPsychologicalAbuseArticles ?: listOf()
+            FiltersEnum.HARASSMENT.id -> viewState.harassmentAgainstWomenArticles ?: listOf()
+            FiltersEnum.THREAT.id -> viewState.threatAgainstWomenArticles ?: listOf()
+            else -> viewState.domesticViolencePopularArticles ?: listOf()
+        }
+    )
+    if (filterOption == FiltersEnum.VIOLENCE.id) {
+        Spacer(modifier = Modifier.height(24.dp))
+        LazyRowItem(
+            articlesTitle = R.string.home_personal_stories,
+            articlesList = viewState.domesticViolenceStories ?: listOf()
+        )
+    }
+}
+
+@Composable
+private fun LazyRowItem(
+    articlesTitle: Int,
+    articlesList: List<DomesticViolenceArticleResponse>
 ) {
     Text(
-        text = stringResource(id = R.string.home_popular_articles),
+        text = stringResource(id = articlesTitle),
         style = AppTheme.typography.titleBold.title_lg_bold,
         color = AppTheme.colors.primary.dark_grey,
         modifier = Modifier
             .padding(bottom = 16.dp)
     )
     LazyRow {
-        items(domesticViolencePopularArticles) { article ->
-            ArticleCard(
-                article = article
-            )
-        }
-    }
-    Text(
-        text = stringResource(id = R.string.home_personal_stories),
-        style = AppTheme.typography.titleBold.title_lg_bold,
-        color = AppTheme.colors.primary.dark_grey,
-        modifier = Modifier
-            .padding(vertical = 16.dp)
-    )
-    LazyRow {
-        items(domesticViolenceStories) { article ->
+        items(articlesList) { article ->
             ArticleCard(
                 article = article
             )
@@ -232,33 +275,6 @@ private fun LoadingScreen() {
 }
 
 @Composable
-private fun Filters(
-    listVerticalFilters: List<Int>
-) {
-    LazyRow {
-        items(listVerticalFilters) { filter ->
-            Box(
-                modifier = Modifier
-                    .padding(vertical = 16.dp, horizontal = 8.dp)
-                    .background(
-                        color = AppTheme.colors.primary.dark_pink,
-                        shape = RoundedCornerShape(50.dp)
-                    )
-            ) {
-                Text(
-                    text = stringResource(id = filter),
-                    style = AppTheme.typography.bodyBold.body_tiny,
-                    color = AppTheme.colors.secondary.lighter,
-                    modifier = Modifier
-                        .padding(vertical = 4.dp, horizontal = 16.dp)
-                        .clip(shape = RoundedCornerShape(50.dp))
-                )
-            }
-        }
-    }
-}
-
-@Composable
 private fun InputSearch(
     searchInputValue: String,
     action: (HomeViewAction) -> Unit
@@ -304,12 +320,38 @@ private fun InputSearch(
     )
 }
 
-private fun listVerticalFilters() = listOf(
-    R.string.home_filter_violence,
-    R.string.home_filter_psychological_abuse,
-    R.string.home_filter_harassment,
-    R.string.home_filter_threat
+val listVerticalFilters = listOf(
+    SearchFiltersModel(
+        id = FiltersEnum.VIOLENCE.id,
+        name = R.string.home_filter_violence
+    ),
+    SearchFiltersModel(
+        id = FiltersEnum.PSYCHOLOGICAL_ABUSE.id,
+        name = R.string.home_filter_psychological_abuse
+    ),
+    SearchFiltersModel(
+        id = FiltersEnum.HARASSMENT.id,
+        name = R.string.home_filter_harassment
+    ),
+    SearchFiltersModel(
+        id = FiltersEnum.THREAT.id,
+        name = R.string.home_filter_threat
+    )
 )
+
+data class SearchFiltersModel(
+    val id: Int,
+    @StringRes val name: Int
+)
+
+enum class FiltersEnum(
+    val id: Int
+) {
+    VIOLENCE(1),
+    PSYCHOLOGICAL_ABUSE(2),
+    HARASSMENT(3),
+    THREAT(4)
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -317,6 +359,6 @@ private fun HomeScreenPreview() {
     ContentScreen(
         viewState = HomeViewState(),
         action = {},
-        listVerticalFilters = listVerticalFilters()
+        listVerticalFilters = listVerticalFilters
     )
 }

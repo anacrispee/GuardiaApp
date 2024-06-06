@@ -6,6 +6,10 @@ data class HomeViewState(
     var isLoading: Boolean = false,
     var error: Throwable? = null,
     val searchInputValue: String = "",
+    val filterId: Int = FiltersEnum.VIOLENCE.id,
     val domesticViolencePopularArticles: List<DomesticViolenceArticleResponse>? = null,
-    val domesticViolenceStories: List<DomesticViolenceArticleResponse>? = null
+    val domesticViolenceStories: List<DomesticViolenceArticleResponse>? = null,
+    val domesticPsychologicalAbuseArticles: List<DomesticViolenceArticleResponse>? = null,
+    val harassmentAgainstWomenArticles: List<DomesticViolenceArticleResponse>? = null,
+    val threatAgainstWomenArticles: List<DomesticViolenceArticleResponse>? = null
 )

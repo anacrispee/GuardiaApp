@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.guardia.domain.use_case.GetWomansViolenceArticlesUseCase
+import com.example.guardia.domain.use_case.GetDomesticViolenceArticlesUseCase
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
@@ -14,7 +14,7 @@ class HomeViewModel : ViewModel(), KoinComponent {
 
     var viewState by mutableStateOf(HomeViewState())
 
-    private val getWomansViolenceArticlesUseCase: GetWomansViolenceArticlesUseCase by inject {
+    private val getDomesticViolenceArticlesUseCase: GetDomesticViolenceArticlesUseCase by inject {
         parametersOf(viewModelScope)
     }
 
@@ -26,19 +26,19 @@ class HomeViewModel : ViewModel(), KoinComponent {
                 )
             }
 
-            HomeViewAction.GetArticles -> GetArticles()
+            HomeViewAction.GetArticles -> getArticles()
         }
     }
 
-    private fun GetArticles() {
+    private fun getArticles() {
         viewState = viewState.copy(
             isLoading = true
         )
-        getWomansViolenceArticlesUseCase(
+        getDomesticViolenceArticlesUseCase(
             onSuccess = {
                 viewState = viewState.copy(
                     isLoading = false,
-                    violenceArticles = it
+                    domesticViolenceArticles = it
                 )
             },
             onError = {

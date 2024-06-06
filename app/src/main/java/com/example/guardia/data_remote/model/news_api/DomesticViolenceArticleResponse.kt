@@ -2,7 +2,7 @@ package com.example.guardia.data_remote.model.news_api
 
 import com.google.gson.annotations.SerializedName
 
-data class WomansViolenceArticleResponse(
+data class DomesticViolenceArticleResponse(
     @SerializedName("source")
     val source: ArticleSource? = ArticleSource(),
     @SerializedName("author")

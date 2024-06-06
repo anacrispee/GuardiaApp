@@ -1,7 +1,7 @@
 package com.example.guardia.di.modules
 
 import com.example.guardia.domain.core.ThreadContextProvider
-import com.example.guardia.domain.use_case.GetWomansViolenceArticlesUseCase
+import com.example.guardia.domain.use_case.GetDomesticViolenceArticlesUseCase
 import kotlinx.coroutines.CoroutineScope
 import org.koin.dsl.module
 
@@ -11,7 +11,7 @@ val domainModule = module {
     }
 
     factory { (scope: CoroutineScope) ->
-        GetWomansViolenceArticlesUseCase(
+        GetDomesticViolenceArticlesUseCase(
             scope = scope,
             repository = get()
         )

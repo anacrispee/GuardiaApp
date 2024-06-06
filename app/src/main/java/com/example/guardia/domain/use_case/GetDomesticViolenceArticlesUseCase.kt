@@ -1,15 +1,15 @@
 package com.example.guardia.domain.use_case
 
-import com.example.guardia.data_remote.model.news_api.WomansViolenceArticleResponse
+import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleResponse
 import com.example.guardia.domain.core.UseCase
 import com.example.guardia.domain.repository.NewsApiRemoteRepository
 import kotlinx.coroutines.CoroutineScope
 
-class GetWomansViolenceArticlesUseCase(
+class GetDomesticViolenceArticlesUseCase(
     scope: CoroutineScope,
     private val repository: NewsApiRemoteRepository
-) : UseCase<List<WomansViolenceArticleResponse>, Unit?>(scope) {
+) : UseCase<List<DomesticViolenceArticleResponse>, Unit?>(scope) {
 
     override fun run(params: Unit?) =
-        repository.getWomansViolenceArticles()
+        repository.getDomesticViolenceArticles()
 }

@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.guardia.R
+import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleResponse
 import com.example.guardia.domain.utils.getDayAndMonthNameAndYear
 import com.example.guardia.domain.utils.toServiceDate
 import com.example.guardia.ui.app_theme.AppTheme
@@ -78,10 +79,6 @@ private fun ContentScreen(
     action: (HomeViewAction) -> Unit,
     listVerticalFilters: List<Int>
 ) {
-    var showShimmer by remember {
-        mutableStateOf(false)
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -103,75 +100,10 @@ private fun ContentScreen(
                 .padding(bottom = 16.dp)
         )
         LazyRow {
-            items(viewState.violenceArticles ?: listOf()) { article ->
-                Column(
-                    modifier = Modifier
-                        .padding(end = 24.dp)
-                        .background(
-                            color = AppTheme.colors.secondary.lighter,
-                            shape = RoundedCornerShape(14.dp)
-                        )
-                        .width(320.dp)
-                        .height(280.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceBetween
-                ) {
-                    AsyncImage(
-                        modifier = Modifier
-                            .background(
-                                shimmerBrush(
-                                    targetValue = 1300f,
-                                    showShimmer = showShimmer
-                                )
-                            )
-                            .fillMaxWidth()
-                            .padding(bottom = 8.dp)
-                            .width(160.dp)
-                            .height(170.dp),
-                        onLoading = {
-                            showShimmer = true
-                        },
-                        onSuccess = {
-                            showShimmer = false
-                        },
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        model = article.urlToImage?.ifEmpty { R.drawable.image_unavailable_image },
-                        error = painterResource(id = R.drawable.image_unavailable_image)
-                    )
-                    Text(
-                        text = article.title.orEmpty(),
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
-                        style = AppTheme.typography.bodyBold.body_small,
-                        color = AppTheme.colors.primary.dark_grey,
-                        modifier = Modifier
-                            .padding(top = 8.dp, bottom = 4.dp, start = 16.dp, end = 16.dp)
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = article.publishedAt?.toServiceDate()?.getDayAndMonthNameAndYear().orEmpty(),
-                            style = AppTheme.typography.bodySemiBold.body_tiny,
-                            color = AppTheme.colors.primary.light_grey,
-                            modifier = Modifier
-                                .padding(vertical = 4.dp, horizontal = 16.dp),
-                            textAlign = TextAlign.Start
-                        )
-                        Text(
-                            text = stringResource(id = R.string.home_see_more_news_card),
-                            style = AppTheme.typography.bodySemiBold.body_tiny,
-                            color = AppTheme.colors.primary.dark_pink,
-                            modifier = Modifier
-                                .padding(top = 8.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
-                            textAlign = TextAlign.Start
-                        )
-                    }
-                }
+            items(viewState.domesticViolenceArticles ?: listOf()) { article ->
+                ArticleCard(
+                    article = article
+                )
             }
         }
         Text(
@@ -181,6 +113,84 @@ private fun ContentScreen(
             modifier = Modifier
                 .padding(vertical = 16.dp)
         )
+    }
+}
+
+@Composable
+private fun ArticleCard(
+    article: DomesticViolenceArticleResponse,
+) {
+    var showShimmer by remember {
+        mutableStateOf(false)
+    }
+
+    Column(
+        modifier = Modifier
+            .padding(end = 24.dp)
+            .background(
+                color = AppTheme.colors.secondary.lighter,
+                shape = RoundedCornerShape(14.dp)
+            )
+            .width(320.dp)
+            .height(280.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        AsyncImage(
+            modifier = Modifier
+                .background(
+                    shimmerBrush(
+                        targetValue = 1300f,
+                        showShimmer = showShimmer
+                    )
+                )
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+                .width(160.dp)
+                .height(170.dp),
+            onLoading = {
+                showShimmer = true
+            },
+            onSuccess = {
+                showShimmer = false
+            },
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            model = article.urlToImage?.ifEmpty { R.drawable.image_unavailable_image },
+            error = painterResource(id = R.drawable.image_unavailable_image)
+        )
+        Text(
+            text = article.title.orEmpty(),
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            style = AppTheme.typography.bodyBold.body_small,
+            color = AppTheme.colors.primary.dark_grey,
+            modifier = Modifier
+                .padding(top = 8.dp, bottom = 4.dp, start = 16.dp, end = 16.dp)
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = article.publishedAt?.toServiceDate()?.getDayAndMonthNameAndYear().orEmpty(),
+                style = AppTheme.typography.bodySemiBold.body_tiny,
+                color = AppTheme.colors.primary.light_grey,
+                modifier = Modifier
+                    .padding(vertical = 4.dp, horizontal = 16.dp),
+                textAlign = TextAlign.Start
+            )
+            Text(
+                text = stringResource(id = R.string.home_see_more_news_card),
+                style = AppTheme.typography.bodySemiBold.body_tiny,
+                color = AppTheme.colors.primary.dark_pink,
+                modifier = Modifier
+                    .padding(top = 8.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
+                textAlign = TextAlign.Start
+            )
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 package com.example.guardia.data_remote.datasource
 
 import com.example.guardia.data.remote.news_api.NewsApiRemoteDataSource
-import com.example.guardia.data_remote.model.news_api.WomansViolenceArticleResponse
+import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleResponse
 import com.example.guardia.data_remote.services.NewsApiService
 import com.example.guardia.data_remote.utils.RequestWrapper
 import kotlinx.coroutines.flow.Flow
@@ -15,10 +15,10 @@ class NewsApiRemoteDataSourceImpl(
 
     private val requestWrapper: RequestWrapper by inject()
 
-    override fun getWomansViolenceArticles(): Flow<List<WomansViolenceArticleResponse>> = flow {
+    override fun getDomesticViolenceArticles(): Flow<List<DomesticViolenceArticleResponse>> = flow {
         emit(
             requestWrapper.wrapperGenericResponse {
-                webService.getWomansViolenceArticles()
+                webService.getDomesticViolenceArticles()
             }
         )
     }

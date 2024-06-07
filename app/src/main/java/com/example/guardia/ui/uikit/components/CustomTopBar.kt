@@ -1,4 +1,4 @@
-package com.example.guardia.ui.components
+package com.example.guardia.ui.uikit.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
@@ -25,7 +25,7 @@ fun CustomTopBar(
         title = {
             Text(
                 text = stringResource(id = title),
-                style = AppTheme.typography.titleBold.title_lg_bold,
+                style = AppTheme.typography.titleBold.title_lg,
                 color = AppTheme.colors.secondary.background
             )
         },

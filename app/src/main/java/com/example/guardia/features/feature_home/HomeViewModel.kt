@@ -26,14 +26,13 @@ class HomeViewModel : ViewModel(), KoinComponent {
 
     fun dispatcherViewAction(action: HomeViewAction) {
         when (action) {
-            is HomeViewAction.ChangeInputValue -> {
-                viewState = viewState.copy(
-                    searchInputValue = action.value
-                )
-            }
 
             is HomeViewAction.FetchDataByFilterOption -> fetchDataByFilterOption(
                 id = action.id
+            )
+
+            is HomeViewAction.SearchNewsSubject -> searchNewsSubject(
+                subject = action.subject
             )
 
             HomeViewAction.GetDomesticViolenceArticles -> getDomesticViolenceArticles()
@@ -41,7 +40,35 @@ class HomeViewModel : ViewModel(), KoinComponent {
         }
     }
 
+    private fun searchNewsSubject(subject: String) {
+        if (subject.isBlank()) {
+            viewState = viewState.copy(
+                isEmptyState = false
+            )
+        } else if (subject.isNotBlank() && (subject.length >= 3)) {
+            validateIfIsOnThePredefinedList(subject)
+        }
+    }
+
+    private fun validateIfIsOnThePredefinedList(subject: String) {
+        val list = listVerticalFilters
+
+        list.forEach { filter ->
+            if (filter.searchableName.contains(subject)) {
+                fetchDataByFilterOption(id = filter.id)
+                return
+            } else {
+                viewState = viewState.copy(
+                    isEmptyState = true
+                )
+            }
+        }
+    }
+
     private fun fetchDataByFilterOption(id: Int) {
+        viewState = viewState.copy(
+            isEmptyState = false
+        )
         when (id) {
             FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> getDomesticPsychologicalAbuseArticles()
             FiltersEnum.HARASSMENT.id -> getHarassmentAgainstWomenArticles()

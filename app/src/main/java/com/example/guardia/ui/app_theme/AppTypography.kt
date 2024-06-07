@@ -40,7 +40,12 @@ object TitleBold {
         Font(R.font.manrope_bold, FontWeight.Bold)
     )
 
-    val title_lg_bold: TextStyle = TextStyle(
+    val title_md: TextStyle = TextStyle(
+        fontFamily = manropeBold,
+        fontSize = medium_size.sp
+    )
+
+    val title_lg: TextStyle = TextStyle(
         fontFamily = manropeBold,
         fontSize = large_size.sp
     )
@@ -76,6 +81,11 @@ object BodyRegular {
 object BodyMedium {
     private val manropeMedium = FontFamily(
         Font(R.font.manrope_medium, FontWeight.Medium)
+    )
+
+    val body_medium: TextStyle = TextStyle(
+        fontFamily = manropeMedium,
+        fontSize = medium_size.sp
     )
 
     val body_small: TextStyle = TextStyle(

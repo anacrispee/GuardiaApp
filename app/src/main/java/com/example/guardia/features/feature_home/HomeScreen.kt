@@ -1,6 +1,5 @@
 package com.example.guardia.features.feature_home
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +26,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,7 +47,8 @@ import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleRes
 import com.example.guardia.domain.utils.getDayAndMonthNameAndYear
 import com.example.guardia.domain.utils.toServiceDate
 import com.example.guardia.ui.app_theme.AppTheme
-import com.example.guardia.ui.components.shimmer_effect.shimmerBrush
+import com.example.guardia.ui.uikit.components.shimmer_effect.shimmerBrush
+import com.example.guardia.ui.uikit.generic_screens.SimpleGenericScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -84,23 +85,70 @@ private fun ContentScreen(
     action: (HomeViewAction) -> Unit,
     listVerticalFilters: List<SearchFiltersModel>
 ) {
-    var filterOption by remember { mutableStateOf(FiltersEnum.VIOLENCE.id) }
+    var filterOption by remember { mutableIntStateOf(FiltersEnum.VIOLENCE.id) }
+    var searchInputValue by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        InputSearch(
-            searchInputValue = viewState.searchInputValue,
-            action = action
+        TextField(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .clip(
+                    RoundedCornerShape(50.dp)
+                ),
+            value = searchInputValue,
+            onValueChange = {
+                searchInputValue = it
+                action(
+                    HomeViewAction.SearchNewsSubject(
+                        subject = it
+                    )
+                )
+            },
+            label = {
+                Text(
+                    text = stringResource(id = R.string.home_text_field)
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.magnifying_glass),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(16.dp)
+                )
+            },
+            trailingIcon = {
+                if (searchInputValue.isNotBlank()) {
+//                    Icon(
+//                        painter = ,
+//                        contentDescription =
+//                    )
+                }
+            },
+            textStyle = AppTheme.typography.bodySemiBold.body_medium.copy(
+                color = AppTheme.colors.primary.light_grey
+            ),
+            colors = TextFieldDefaults
+                .colors(
+                    unfocusedContainerColor = AppTheme.colors.secondary.lighter,
+                    focusedContainerColor = AppTheme.colors.secondary.lighter,
+                    unfocusedTextColor = AppTheme.colors.primary.light_grey,
+                    focusedTextColor = AppTheme.colors.primary.light_grey,
+                    focusedIndicatorColor = AppTheme.colors.primary.light_grey
+                ),
+            maxLines = 1
         )
         LazyRow {
+            item { Spacer(modifier = Modifier.width(16.dp)) }
             items(listVerticalFilters) { filter ->
                 Box(
                     modifier = Modifier
-                        .padding(vertical = 16.dp, horizontal = 8.dp)
+                        .padding(end = 8.dp)
                         .background(
                             color = AppTheme.colors.primary.dark_pink,
                             shape = RoundedCornerShape(50.dp)
@@ -124,6 +172,7 @@ private fun ContentScreen(
                     )
                 }
             }
+            item { Spacer(modifier = Modifier.width(16.dp)) }
         }
         DefaultHomeArticles(
             viewState = viewState,
@@ -138,27 +187,42 @@ private fun DefaultHomeArticles(
     viewState: HomeViewState,
     filterOption: Int
 ) {
-    LazyRowItem(
-        articlesTitle = when (filterOption) {
-            FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> listVerticalFilters.first { it.id == filterOption }.name
-            FiltersEnum.HARASSMENT.id -> listVerticalFilters.first { it.id == filterOption }.name
-            FiltersEnum.THREAT.id -> listVerticalFilters.first { it.id == filterOption }.name
-            else -> R.string.home_popular_articles
-        },
-        articlesList = when (filterOption) {
-            FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> viewState.domesticPsychologicalAbuseArticles ?: listOf()
-            FiltersEnum.HARASSMENT.id -> viewState.harassmentAgainstWomenArticles ?: listOf()
-            FiltersEnum.THREAT.id -> viewState.threatAgainstWomenArticles ?: listOf()
-            else -> viewState.domesticViolencePopularArticles ?: listOf()
-        }
-    )
-    if (filterOption == FiltersEnum.VIOLENCE.id) {
-        Spacer(modifier = Modifier.height(24.dp))
+    if (viewState.isEmptyState) {
+        EmptyStateContentScreen()
+    } else {
         LazyRowItem(
-            articlesTitle = R.string.home_personal_stories,
-            articlesList = viewState.domesticViolenceStories ?: listOf()
+            articlesTitle = when (filterOption) {
+                FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> listVerticalFilters.first { it.id == filterOption }.name
+                FiltersEnum.HARASSMENT.id -> listVerticalFilters.first { it.id == filterOption }.name
+                FiltersEnum.THREAT.id -> listVerticalFilters.first { it.id == filterOption }.name
+                else -> R.string.home_popular_articles
+            },
+            articlesList = when (filterOption) {
+                FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> viewState.domesticPsychologicalAbuseArticles
+                    ?: listOf()
+
+                FiltersEnum.HARASSMENT.id -> viewState.harassmentAgainstWomenArticles ?: listOf()
+                FiltersEnum.THREAT.id -> viewState.threatAgainstWomenArticles ?: listOf()
+                else -> viewState.domesticViolencePopularArticles ?: listOf()
+            }
         )
+        if (filterOption == FiltersEnum.VIOLENCE.id) {
+            Spacer(modifier = Modifier.height(24.dp))
+            LazyRowItem(
+                articlesTitle = R.string.home_personal_stories,
+                articlesList = viewState.domesticViolenceStories ?: listOf()
+            )
+        }
     }
+}
+
+@Composable
+private fun EmptyStateContentScreen() {
+    SimpleGenericScreen(
+        image = R.drawable.magnifying_glass,
+        title = R.string.empty_state_screen_title,
+        subtitle = R.string.empty_state_screen_subtitle
+    )
 }
 
 @Composable
@@ -168,23 +232,25 @@ private fun LazyRowItem(
 ) {
     Text(
         text = stringResource(id = articlesTitle),
-        style = AppTheme.typography.titleBold.title_lg_bold,
+        style = AppTheme.typography.titleBold.title_lg,
         color = AppTheme.colors.primary.dark_grey,
         modifier = Modifier
-            .padding(bottom = 16.dp)
+            .padding(16.dp)
     )
     LazyRow {
+        item { Spacer(modifier = Modifier.width(16.dp)) }
         items(articlesList) { article ->
-            ArticleCard(
-                article = article
-            )
+            if (article.source?.sourceId != null)
+                ArticleCard(
+                    article = article
+                )
         }
     }
 }
 
 @Composable
 private fun ArticleCard(
-    article: DomesticViolenceArticleResponse,
+    article: DomesticViolenceArticleResponse
 ) {
     var showShimmer by remember {
         mutableStateOf(false)
@@ -192,7 +258,7 @@ private fun ArticleCard(
 
     Column(
         modifier = Modifier
-            .padding(end = 24.dp)
+            .padding(end = 16.dp)
             .background(
                 color = AppTheme.colors.secondary.lighter,
                 shape = RoundedCornerShape(14.dp)
@@ -206,13 +272,12 @@ private fun ArticleCard(
             modifier = Modifier
                 .background(
                     shimmerBrush(
-                        targetValue = 1300f,
                         showShimmer = showShimmer
                     )
                 )
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
-                .padding(bottom = 8.dp)
+                .padding(bottom = 4.dp)
                 .width(160.dp)
                 .height(170.dp),
             onLoading = {
@@ -233,7 +298,7 @@ private fun ArticleCard(
             style = AppTheme.typography.bodyBold.body_small,
             color = AppTheme.colors.primary.dark_grey,
             modifier = Modifier
-                .padding(top = 8.dp, bottom = 4.dp, start = 16.dp, end = 16.dp)
+                .padding(top = 4.dp, bottom = 4.dp, start = 16.dp, end = 16.dp)
         )
         Row(
             modifier = Modifier
@@ -254,7 +319,7 @@ private fun ArticleCard(
                 style = AppTheme.typography.bodySemiBold.body_tiny,
                 color = AppTheme.colors.primary.dark_pink,
                 modifier = Modifier
-                    .padding(top = 8.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
+                    .padding(top = 4.dp, bottom = 16.dp, start = 16.dp, end = 16.dp),
                 textAlign = TextAlign.Start
             )
         }
@@ -272,85 +337,6 @@ private fun LoadingScreen() {
             color = AppTheme.colors.primary.dark_pink
         )
     }
-}
-
-@Composable
-private fun InputSearch(
-    searchInputValue: String,
-    action: (HomeViewAction) -> Unit
-) {
-    TextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(
-                RoundedCornerShape(50.dp)
-            ),
-        value = searchInputValue,
-        onValueChange = {
-            action(
-                HomeViewAction.ChangeInputValue(
-                    value = it
-                )
-            )
-        },
-        label = {
-            Text(
-                text = stringResource(id = R.string.home_text_field)
-            )
-        },
-        leadingIcon = {
-            Icon(
-                painter = painterResource(id = R.drawable.magnifying_glass),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(16.dp)
-            )
-        },
-        textStyle = AppTheme.typography.bodySemiBold.body_medium.copy(
-            color = AppTheme.colors.primary.light_grey
-        ),
-        colors = TextFieldDefaults
-            .colors(
-                unfocusedContainerColor = AppTheme.colors.secondary.lighter,
-                focusedContainerColor = AppTheme.colors.secondary.lighter,
-                unfocusedTextColor = AppTheme.colors.primary.light_grey,
-                focusedTextColor = AppTheme.colors.primary.light_grey,
-                focusedIndicatorColor = AppTheme.colors.primary.light_grey
-            )
-    )
-}
-
-val listVerticalFilters = listOf(
-    SearchFiltersModel(
-        id = FiltersEnum.VIOLENCE.id,
-        name = R.string.home_filter_violence
-    ),
-    SearchFiltersModel(
-        id = FiltersEnum.PSYCHOLOGICAL_ABUSE.id,
-        name = R.string.home_filter_psychological_abuse
-    ),
-    SearchFiltersModel(
-        id = FiltersEnum.HARASSMENT.id,
-        name = R.string.home_filter_harassment
-    ),
-    SearchFiltersModel(
-        id = FiltersEnum.THREAT.id,
-        name = R.string.home_filter_threat
-    )
-)
-
-data class SearchFiltersModel(
-    val id: Int,
-    @StringRes val name: Int
-)
-
-enum class FiltersEnum(
-    val id: Int
-) {
-    VIOLENCE(1),
-    PSYCHOLOGICAL_ABUSE(2),
-    HARASSMENT(3),
-    THREAT(4)
 }
 
 @Preview(showBackground = true)

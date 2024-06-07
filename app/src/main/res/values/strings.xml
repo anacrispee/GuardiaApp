@@ -15,4 +15,8 @@
     <string name="home_popular_articles">Artigos populares</string>
     <string name="home_personal_stories">Relatos pessoais</string>
     <string name="home_see_more_news_card">Veja mais...</string>
+
+    <!-- Generic Screens -->
+    <string name="empty_state_screen_title">Não encontramos nenhum artigo relacionado...</string>
+    <string name="empty_state_screen_subtitle">Verifique o que foi escrito e tente novamente. \n Utilize palavras-chave como violência, abuso, etc...</string>
 </resources>

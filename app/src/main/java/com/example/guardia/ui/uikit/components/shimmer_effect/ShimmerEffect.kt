@@ -1,4 +1,4 @@
-package com.example.guardia.ui.components.shimmer_effect
+package com.example.guardia.ui.uikit.components.shimmer_effect
 
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -11,7 +11,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun shimmerBrush(showShimmer: Boolean = true,targetValue:Float = 1000f): Brush {
+fun shimmerBrush(
+    showShimmer: Boolean = true,
+    targetValue: Float = 1300f)
+: Brush {
     return if (showShimmer) {
         val shimmerColors = listOf(
             Color.LightGray.copy(alpha = 0.6f),

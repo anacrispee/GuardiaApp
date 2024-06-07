@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -87,6 +88,7 @@ private fun ContentScreen(
 ) {
     var filterOption by remember { mutableIntStateOf(FiltersEnum.VIOLENCE.id) }
     var searchInputValue by remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
 
     Column(
         modifier = Modifier
@@ -124,10 +126,17 @@ private fun ContentScreen(
             },
             trailingIcon = {
                 if (searchInputValue.isNotBlank()) {
-//                    Icon(
-//                        painter = ,
-//                        contentDescription =
-//                    )
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_close),
+                        tint = AppTheme.colors.primary.light_grey,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(16.dp)
+                            .clickable {
+                                searchInputValue = ""
+                                focusManager.clearFocus()
+                            }
+                    )
                 }
             },
             textStyle = AppTheme.typography.bodySemiBold.body_medium.copy(
@@ -154,6 +163,8 @@ private fun ContentScreen(
                             shape = RoundedCornerShape(50.dp)
                         )
                         .clickable {
+                            searchInputValue = ""
+                            focusManager.clearFocus()
                             filterOption = filter.id
                             action(
                                 HomeViewAction.FetchDataByFilterOption(
@@ -214,9 +225,9 @@ private fun DefaultHomeArticles(
 
 @Composable
 private fun decideArticlesSectionList(
-    filterOption: Int,
-    viewState: HomeViewState,
-) = when (filterOption) {
+    listId: Int,
+    viewState: HomeViewState
+) = when (listId) {
     FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> viewState.domesticPsychologicalAbuseArticles
         ?: listOf()
 
@@ -227,11 +238,11 @@ private fun decideArticlesSectionList(
 
 @Composable
 private fun decideArticlesSectionTitle(
-    filterOption: Int
-) = when (filterOption) {
-    FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> listVerticalFilters.first { it.id == filterOption }.name
-    FiltersEnum.HARASSMENT.id -> listVerticalFilters.first { it.id == filterOption }.name
-    FiltersEnum.THREAT.id -> listVerticalFilters.first { it.id == filterOption }.name
+    titleId: Int
+) = when (titleId) {
+    FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> listVerticalFilters.first { it.id == titleId }.name
+    FiltersEnum.HARASSMENT.id -> listVerticalFilters.first { it.id == titleId }.name
+    FiltersEnum.THREAT.id -> listVerticalFilters.first { it.id == titleId }.name
     else -> R.string.home_popular_articles
 }
 

@@ -190,30 +190,49 @@ private fun DefaultHomeArticles(
     if (viewState.isEmptyState) {
         EmptyStateContentScreen()
     } else {
-        LazyRowItem(
-            articlesTitle = when (filterOption) {
-                FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> listVerticalFilters.first { it.id == filterOption }.name
-                FiltersEnum.HARASSMENT.id -> listVerticalFilters.first { it.id == filterOption }.name
-                FiltersEnum.THREAT.id -> listVerticalFilters.first { it.id == filterOption }.name
-                else -> R.string.home_popular_articles
-            },
-            articlesList = when (filterOption) {
-                FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> viewState.domesticPsychologicalAbuseArticles
-                    ?: listOf()
-
-                FiltersEnum.HARASSMENT.id -> viewState.harassmentAgainstWomenArticles ?: listOf()
-                FiltersEnum.THREAT.id -> viewState.threatAgainstWomenArticles ?: listOf()
-                else -> viewState.domesticViolencePopularArticles ?: listOf()
-            }
-        )
-        if (filterOption == FiltersEnum.VIOLENCE.id) {
-            Spacer(modifier = Modifier.height(24.dp))
+        if (viewState.hasSearched.not()) {
             LazyRowItem(
-                articlesTitle = R.string.home_personal_stories,
-                articlesList = viewState.domesticViolenceStories ?: listOf()
+                articlesTitle = decideArticlesSectionTitle(filterOption),
+                articlesList = decideArticlesSectionList(filterOption, viewState)
+            )
+            if (filterOption == FiltersEnum.VIOLENCE.id) {
+                Spacer(modifier = Modifier.height(24.dp))
+                LazyRowItem(
+                    articlesTitle = R.string.home_personal_stories,
+                    articlesList = viewState.domesticViolenceStories ?: listOf()
+                )
+            }
+        } else {
+            LazyRowItem(
+                articlesTitle = decideArticlesSectionTitle(viewState.searchId),
+                articlesList = decideArticlesSectionList(viewState.searchId, viewState)
             )
         }
     }
+}
+
+
+@Composable
+private fun decideArticlesSectionList(
+    filterOption: Int,
+    viewState: HomeViewState,
+) = when (filterOption) {
+    FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> viewState.domesticPsychologicalAbuseArticles
+        ?: listOf()
+
+    FiltersEnum.HARASSMENT.id -> viewState.harassmentAgainstWomenArticles ?: listOf()
+    FiltersEnum.THREAT.id -> viewState.threatAgainstWomenArticles ?: listOf()
+    else -> viewState.domesticViolencePopularArticles ?: listOf()
+}
+
+@Composable
+private fun decideArticlesSectionTitle(
+    filterOption: Int
+) = when (filterOption) {
+    FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> listVerticalFilters.first { it.id == filterOption }.name
+    FiltersEnum.HARASSMENT.id -> listVerticalFilters.first { it.id == filterOption }.name
+    FiltersEnum.THREAT.id -> listVerticalFilters.first { it.id == filterOption }.name
+    else -> R.string.home_popular_articles
 }
 
 @Composable

@@ -11,5 +11,7 @@ data class HomeViewState(
     val domesticPsychologicalAbuseArticles: List<DomesticViolenceArticleResponse>? = null,
     val harassmentAgainstWomenArticles: List<DomesticViolenceArticleResponse>? = null,
     val threatAgainstWomenArticles: List<DomesticViolenceArticleResponse>? = null,
-    val isEmptyState: Boolean = false
+    val isEmptyState: Boolean = false,
+    val hasSearched: Boolean = false,
+    val searchId: Int = FiltersEnum.VIOLENCE.id,
 )

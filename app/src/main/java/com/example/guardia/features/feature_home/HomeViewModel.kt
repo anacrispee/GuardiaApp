@@ -43,7 +43,8 @@ class HomeViewModel : ViewModel(), KoinComponent {
     private fun searchNewsSubject(subject: String) {
         if (subject.isBlank()) {
             viewState = viewState.copy(
-                isEmptyState = false
+                isEmptyState = false,
+                hasSearched = false
             )
         } else if (subject.isNotBlank() && (subject.length >= 3)) {
             validateIfIsOnThePredefinedList(subject)
@@ -55,11 +56,15 @@ class HomeViewModel : ViewModel(), KoinComponent {
 
         list.forEach { filter ->
             if (filter.searchableName.contains(subject)) {
+                viewState = viewState.copy(
+                    searchId = filter.id,
+                )
                 fetchDataByFilterOption(id = filter.id)
                 return
             } else {
                 viewState = viewState.copy(
-                    isEmptyState = true
+                    isEmptyState = true,
+                    hasSearched = true
                 )
             }
         }

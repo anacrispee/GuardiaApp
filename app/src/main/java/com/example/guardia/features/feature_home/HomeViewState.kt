@@ -14,4 +14,5 @@ data class HomeViewState(
     val isEmptyState: Boolean = false,
     val hasSearched: Boolean = false,
     val searchId: Int = FiltersEnum.VIOLENCE.id,
+    val wordMatched: Boolean = false
 )

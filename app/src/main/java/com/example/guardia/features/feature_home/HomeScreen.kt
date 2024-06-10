@@ -201,7 +201,12 @@ private fun DefaultHomeArticles(
     if (viewState.isEmptyState) {
         EmptyStateContentScreen()
     } else {
-        if (viewState.hasSearched.not()) {
+        if (viewState.hasSearched) {
+            LazyRowItem(
+                articlesTitle = decideArticlesSectionTitle(viewState.searchId),
+                articlesList = decideArticlesSectionList(viewState.searchId, viewState)
+            )
+        } else {
             LazyRowItem(
                 articlesTitle = decideArticlesSectionTitle(filterOption),
                 articlesList = decideArticlesSectionList(filterOption, viewState)
@@ -213,11 +218,6 @@ private fun DefaultHomeArticles(
                     articlesList = viewState.domesticViolenceStories ?: listOf()
                 )
             }
-        } else {
-            LazyRowItem(
-                articlesTitle = decideArticlesSectionTitle(viewState.searchId),
-                articlesList = decideArticlesSectionList(viewState.searchId, viewState)
-            )
         }
     }
 }

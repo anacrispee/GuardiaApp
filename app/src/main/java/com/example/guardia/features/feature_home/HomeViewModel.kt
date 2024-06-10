@@ -41,12 +41,11 @@ class HomeViewModel : ViewModel(), KoinComponent {
     }
 
     private fun searchNewsSubject(subject: String) {
-        if (subject.isBlank()) {
+        if (subject.trim().isBlank() || subject.trim().length <= 3) {
             viewState = viewState.copy(
-                isEmptyState = false,
-                hasSearched = false
+                isEmptyState = true
             )
-        } else if (subject.isNotBlank() && (subject.length >= 3)) {
+        } else {
             validateIfIsOnThePredefinedList(subject)
         }
     }
@@ -54,17 +53,18 @@ class HomeViewModel : ViewModel(), KoinComponent {
     private fun validateIfIsOnThePredefinedList(subject: String) {
         val list = listVerticalFilters
 
-        list.forEach { filter ->
-            if (filter.searchableName.contains(subject)) {
+        list.forEach { listItem ->
+            if (listItem.searchableName.any { it == subject }) {
                 viewState = viewState.copy(
-                    searchId = filter.id,
+                    searchId = listItem.id,
+                    hasSearched = true,
+                    isEmptyState = false,
+                    wordMatched = true
                 )
-                fetchDataByFilterOption(id = filter.id)
-                return
-            } else {
+                getNews(id = listItem.id)
+            } else if (viewState.wordMatched.not()) {
                 viewState = viewState.copy(
-                    isEmptyState = true,
-                    hasSearched = true
+                    isEmptyState = true
                 )
             }
         }
@@ -72,8 +72,13 @@ class HomeViewModel : ViewModel(), KoinComponent {
 
     private fun fetchDataByFilterOption(id: Int) {
         viewState = viewState.copy(
-            isEmptyState = false
+            isEmptyState = false,
+            hasSearched = false
         )
+        getNews(id)
+    }
+
+    private fun getNews(id: Int) {
         when (id) {
             FiltersEnum.PSYCHOLOGICAL_ABUSE.id -> getDomesticPsychologicalAbuseArticles()
             FiltersEnum.HARASSMENT.id -> getHarassmentAgainstWomenArticles()

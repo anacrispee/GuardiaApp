@@ -82,87 +82,97 @@ class HomeViewModel : ViewModel(), KoinComponent {
     }
 
     private fun getDomesticViolenceArticles() {
-        viewState = viewState.copy(
-            isLoading = true
-        )
-        getDomesticViolenceArticlesUseCase(
-            onSuccess = {
-                viewState = viewState.copy(
-                    isLoading = false,
-                    domesticViolencePopularArticles = it
-                )
-            },
-            onError = {
-                viewState = viewState.copy(
-                    error = it,
-                    isLoading = false
-                )
-            }
-        )
+        if (viewState.domesticViolencePopularArticles.isNullOrEmpty()) {
+            viewState = viewState.copy(
+                isLoading = true
+            )
+            getDomesticViolenceArticlesUseCase(
+                onSuccess = {
+                    viewState = viewState.copy(
+                        isLoading = false,
+                        domesticViolencePopularArticles = it
+                    )
+                },
+                onError = {
+                    viewState = viewState.copy(
+                        error = it,
+                        isLoading = false
+                    )
+                }
+            )
+        }
     }
 
     private fun getDomesticViolenceStories() {
-        viewState = viewState.copy(
-            isLoading = true
-        )
-        getDomesticViolenceStoriesUseCase(
-            onSuccess = {
-                viewState = viewState.copy(
-                    isLoading = false,
-                    domesticViolenceStories = it
-                )
-            },
-            onError = {
-                viewState = viewState.copy(
-                    error = it,
-                    isLoading = false
-                )
-            }
-        )
+        if (viewState.domesticViolenceStories.isNullOrEmpty()) {
+            viewState = viewState.copy(
+                isLoading = true
+            )
+            getDomesticViolenceStoriesUseCase(
+                onSuccess = {
+                    viewState = viewState.copy(
+                        isLoading = false,
+                        domesticViolenceStories = it
+                    )
+                },
+                onError = {
+                    viewState = viewState.copy(
+                        error = it,
+                        isLoading = false
+                    )
+                }
+            )
+        }
     }
 
     private fun getDomesticPsychologicalAbuseArticles() {
-        getDomesticPsychologicalAbuseArticlesUseCase(
-            onSuccess = {
-                viewState = viewState.copy(
-                    domesticPsychologicalAbuseArticles = it
-                )
-            },
-            onError = {
-                viewState = viewState.copy(
-                    error = it
-                )
-            }
-        )
+        if (viewState.domesticPsychologicalAbuseArticles.isNullOrEmpty()) {
+            getDomesticPsychologicalAbuseArticlesUseCase(
+                onSuccess = {
+                    viewState = viewState.copy(
+                        domesticPsychologicalAbuseArticles = it
+                    )
+                },
+                onError = {
+                    viewState = viewState.copy(
+                        error = it
+                    )
+                }
+            )
+        }
     }
 
     private fun getHarassmentAgainstWomenArticles() {
-        getHarassmentAgainstWomenArticlesUseCase(
-            onSuccess = {
-                viewState = viewState.copy(
-                    harassmentAgainstWomenArticles = it
-                )
-            },
-            onError = {
-                viewState = viewState.copy(
-                    error = it
-                )
-            }
-        )
+        if (viewState.harassmentAgainstWomenArticles.isNullOrEmpty()) {
+            getHarassmentAgainstWomenArticlesUseCase(
+                onSuccess = {
+                    viewState = viewState.copy(
+                        harassmentAgainstWomenArticles = it
+                    )
+                },
+                onError = {
+                    viewState = viewState.copy(
+                        error = it
+                    )
+                }
+            )
+        }
     }
 
     private fun getThreatAgainstWomenArticles() {
-        getThreatAgainstWomenArticlesUseCase(
-            onSuccess = {
-                viewState = viewState.copy(
-                    threatAgainstWomenArticles = it
-                )
-            },
-            onError = {
-                viewState = viewState.copy(
-                    error = it
-                )
-            }
-        )
+        if (viewState.threatAgainstWomenArticles.isNullOrEmpty()) {
+            getThreatAgainstWomenArticlesUseCase(
+                onSuccess = {
+                    viewState = viewState.copy(
+                        threatAgainstWomenArticles = it
+                    )
+                },
+                onError = {
+                    viewState = viewState.copy(
+                        error = it
+                    )
+                }
+            )
+        }
     }
 }

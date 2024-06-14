@@ -18,3 +18,4 @@ Tem como funcionalidades principais:
 - Retrofrit/OkHttp
 - Koin para injeção de dependência
 - Trello para organização das tasks utilizando metodologias ágeis
+- Gitflow para organização do fluxo de trabalho

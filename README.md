@@ -1,4 +1,4 @@
-<div><img src="https://raw.githubusercontent.com/anacrispee/GuardiaApp/main/Wireframe%20Github.png?token=GHSAT0AAAAAACPZWTCSVGWE2ZV5JA27POR4ZTMOQQA" width="840px"/></div>
+<div><img src="https://raw.githubusercontent.com/anacrispee/GuardiaApp/main/Wireframe%20Github.png?token=GHSAT0AAAAAACPZWTCSVGWE2ZV5JA27POR4ZTMOQQA" width="740px"/></div>
 
 ## Guardiã App
 _Projeto desenvolvido para graduação de ADS/UNIVALI._<br>
@@ -10,6 +10,8 @@ Tem como funcionalidades principais:
 - **Meu perfil** - informações de identificação, contato e localização do usuário.
 ### Figma
 - Acesse o [Figma Design](https://www.figma.com/design/O8yoOtgsnMyKRRSFxCnrS3/App-Guardi%C3%A3?node-id=0-1&t=X03ZkEo7pfHircG9-1) do App
+### Documentação
+- Acesse a [Documentação do projeto](https://docs.google.com/document/d/1pEYAvKYYmZ6197spZDcHUI27Kzemrdp3PDNpipK6IhQ/edit?usp=sharing)
 ### Tecnologias e ferramentas usadas
 - Kotlin com Jetpack Compose
 - Arquitetura MVI

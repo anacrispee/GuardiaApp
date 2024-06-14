@@ -19,3 +19,5 @@ Tem como funcionalidades principais:
 - Koin para injeção de dependência
 - Trello para organização das tasks utilizando metodologias ágeis
 - Gitflow para organização do fluxo de trabalho
+### APIs utilizadas
+- [NewsAPI](https://newsapi.org/) - retorna notícias de todo o mundo

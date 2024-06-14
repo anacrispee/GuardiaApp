@@ -2,7 +2,7 @@
 
 ## Guardiã App
 _Projeto desenvolvido para graduação de ADS/UNIVALI._<br>
-Um app para auxiliar mulheres vítimas de situação de violência doméstica. <br>
+Um app para auxiliar mulheres em situação de violência doméstica. <br>
 Tem como funcionalidades principais:
 - **Home** -  um hall com artigos informativos, relatos pessoais e notícias sobre violência doméstica, abuso, assédio e outros assuntos relacionados;
 - **Abrigos** - uma aba com uma listagem de abrigos próximos que a vítima possa recorrer, de acordo com sua localização;

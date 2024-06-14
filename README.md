@@ -1,3 +1,5 @@
+<div><img src="https://raw.githubusercontent.com/anacrispee/GuardiaApp/main/Wireframe%20Github.png?token=GHSAT0AAAAAACPZWTCSVGWE2ZV5JA27POR4ZTMOQQA" width="840px"/></div>
+
 ## Guardiã App
 _Projeto desenvolvido para graduação de ADS/UNIVALI._<br>
 Um app para auxiliar mulheres vítimas de situação de violência doméstica. <br>

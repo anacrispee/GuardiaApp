@@ -1,7 +1,7 @@
 <div><img src="https://raw.githubusercontent.com/anacrispee/GuardiaApp/main/Wireframe%20Github.png?token=GHSAT0AAAAAACPZWTCSVGWE2ZV5JA27POR4ZTMOQQA" width="740px"/></div>
 
 ## Guardiã App
-_Projeto desenvolvido para graduação de ADS/UNIVALI._<br>
+_Projeto desenvolvido para disciplina durante o curso de graduação de ADS - UNIVALI._<br>
 Um app para auxiliar mulheres em situação de violência doméstica. <br>
 Tem como funcionalidades principais:
 - **Home** -  um hall com artigos informativos, relatos pessoais e notícias sobre violência doméstica, abuso, assédio e outros assuntos relacionados;

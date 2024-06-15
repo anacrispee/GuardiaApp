@@ -10,6 +10,11 @@ activityCompose = "1.9.0"
 composeBom = "2024.05.00"
 splashscreen = "1.0.1"
 navigation = "2.7.7"
+koinVersion = "3.5.3"
+koinTestVersion = "3.5.0"
+okhttp3Version = "4.12.0"
+squareupRetrofitVersion = "2.9.0"
+coilVersion = "2.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -26,8 +31,27 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+
+#OkHttp and Retrofit
+okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp3Version" }
+squareup-okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
+squareup-okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+squareup-okhttp-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "squareupRetrofitVersion" }
+squareup-okhttp-retrofit-gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "squareupRetrofitVersion" }
+
+#Splashscreen
 splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+
+# Coil for Async Image
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coilVersion" }
+
+#Navigation
 navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+
+#Koin
+android-koin = {group = "io.insert-koin", name = "koin-android", version.ref = "koinVersion"}
+android-koinCore = {group = "io.insert-koin", name = "koin-core", version.ref = "koinTestVersion"}
+android-koinCompose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

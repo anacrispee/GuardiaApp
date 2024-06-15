@@ -23,7 +23,7 @@ fun MyProfileScreen(
     ) {
         Text(
             text = "MyProfileScreen",
-            style = AppTheme.typography.titleBold.title_lg_bold,
+            style = AppTheme.typography.titleBold.title_lg,
             color = AppTheme.colors.primary.dark_grey
         )
     }

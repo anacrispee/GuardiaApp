@@ -23,7 +23,7 @@ fun FindSheltersScreen(
     ) {
         Text(
             text = "SheltersScreen",
-            style = AppTheme.typography.titleBold.title_lg_bold,
+            style = AppTheme.typography.titleBold.title_lg,
             color = AppTheme.colors.primary.dark_grey
         )
     }

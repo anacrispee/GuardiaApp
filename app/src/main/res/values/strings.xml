@@ -5,4 +5,18 @@
     <string name="navigation_bar_emergency">Emergência</string>
     <string name="navigation_bar_find_shelters">Abrigos</string>
     <string name="navigation_bar_my_profile">Perfil</string>
+
+    <!-- Home -->
+    <string name="home_text_field">Buscar</string>
+    <string name="home_filter_violence">Violência</string>
+    <string name="home_filter_psychological_abuse">Abuso psicológico</string>
+    <string name="home_filter_harassment">Assédio</string>
+    <string name="home_filter_threat">Ameaça</string>
+    <string name="home_popular_articles">Artigos populares</string>
+    <string name="home_personal_stories">Relatos pessoais</string>
+    <string name="home_see_more_news_card">Veja mais...</string>
+
+    <!-- Generic Screens -->
+    <string name="empty_state_screen_title">Não encontramos nenhum artigo relacionado...</string>
+    <string name="empty_state_screen_subtitle">Verifique o que foi escrito e tente novamente. \n Utilize palavras-chave como violência, abuso, etc...</string>
 </resources>

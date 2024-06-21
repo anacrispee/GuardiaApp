@@ -5,13 +5,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
-import com.example.guardia.di.NavGraphConstants.CONNECTION_ERROR_SCREEN_ARGS
-import com.example.guardia.di.NavGraphConstants.FIND_SHELTERS_SCREEN
-import com.example.guardia.di.NavGraphConstants.HOME_SCREEN
-import com.example.guardia.di.NavGraphConstants.MY_PROFILE_SCREEN
-import com.example.guardia.di.NavGraphConstants.PANIC_BUTTON_SCREEN
-import com.example.guardia.features.connection_error_screen.ConnectionErrorScreen
+import com.example.guardia.AppConstants.ARTICLE_READING_SCREEN
+import com.example.guardia.AppConstants.FIND_SHELTERS_SCREEN
+import com.example.guardia.AppConstants.HOME_SCREEN
+import com.example.guardia.AppConstants.MY_PROFILE_SCREEN
+import com.example.guardia.AppConstants.PANIC_BUTTON_SCREEN
+import com.example.guardia.features.article_reading_screen.ArticleReadingScreen
 import com.example.guardia.features.feature_home.HomeScreen
 import com.example.guardia.features.feature_my_profile.MyProfileScreen
 import com.example.guardia.features.feature_panic_button.PanicButtonScreen
@@ -22,7 +21,8 @@ fun NavigationGraph(
     navController: NavHostController
 ) {
     NavHost(
-        navController = navController, startDestination = HOME_SCREEN
+        navController = navController,
+        startDestination = HOME_SCREEN
     ) {
         composable(HOME_SCREEN) {
             HomeScreen(navController)
@@ -50,6 +50,10 @@ fun NavigationGraph(
                     fromScreen = it1
                 )
             }
+        }
+
+        composable(ARTICLE_READING_SCREEN) {
+            ArticleReadingScreen(navController)
         }
     }
 }

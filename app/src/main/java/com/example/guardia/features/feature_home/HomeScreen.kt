@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.guardia.R
 import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleResponse
@@ -83,7 +84,8 @@ fun HomeScreen(
         ContentScreen(
             viewState = viewState,
             action = action,
-            listVerticalFilters = listVerticalFilters
+            listVerticalFilters = listVerticalFilters,
+            navController = navController
         )
     }
 }
@@ -92,7 +94,8 @@ fun HomeScreen(
 private fun ContentScreen(
     viewState: HomeViewState,
     action: (HomeViewAction) -> Unit,
-    listVerticalFilters: List<SearchFiltersModel>
+    listVerticalFilters: List<SearchFiltersModel>,
+    navController: NavHostController
 ) {
     var filterOption by remember { mutableIntStateOf(FiltersEnum.VIOLENCE.id) }
     var searchInputValue by remember { mutableStateOf("") }
@@ -195,7 +198,8 @@ private fun ContentScreen(
         }
         DefaultHomeArticles(
             viewState = viewState,
-            filterOption = filterOption
+            filterOption = filterOption,
+            navController = navController
         )
         Spacer(modifier = Modifier.height(120.dp))
     }
@@ -204,7 +208,8 @@ private fun ContentScreen(
 @Composable
 private fun DefaultHomeArticles(
     viewState: HomeViewState,
-    filterOption: Int
+    filterOption: Int,
+    navController: NavHostController
 ) {
     if (viewState.isEmptyState) {
         EmptyStateContentScreen()
@@ -212,18 +217,21 @@ private fun DefaultHomeArticles(
         if (viewState.hasSearched) {
             LazyRowItem(
                 articlesTitle = decideArticlesSectionTitle(viewState.searchId),
-                articlesList = decideArticlesSectionList(viewState.searchId, viewState)
+                articlesList = decideArticlesSectionList(viewState.searchId, viewState),
+                navController = navController
             )
         } else {
             LazyRowItem(
                 articlesTitle = decideArticlesSectionTitle(filterOption),
-                articlesList = decideArticlesSectionList(filterOption, viewState)
+                articlesList = decideArticlesSectionList(filterOption, viewState),
+                navController = navController
             )
             if (filterOption == FiltersEnum.VIOLENCE.id) {
                 Spacer(modifier = Modifier.height(24.dp))
                 LazyRowItem(
                     articlesTitle = R.string.home_personal_stories,
-                    articlesList = viewState.domesticViolenceStories ?: listOf()
+                    articlesList = viewState.domesticViolenceStories ?: listOf(),
+                    navController = navController
                 )
             }
         }
@@ -265,7 +273,8 @@ private fun EmptyStateContentScreen() {
 @Composable
 private fun LazyRowItem(
     articlesTitle: Int,
-    articlesList: List<DomesticViolenceArticleResponse>
+    articlesList: List<DomesticViolenceArticleResponse>,
+    navController: NavHostController
 ) {
     Text(
         text = stringResource(id = articlesTitle),
@@ -279,7 +288,8 @@ private fun LazyRowItem(
         items(articlesList) { article ->
             if (article.source?.sourceId != null)
                 ArticleCard(
-                    article = article
+                    article = article,
+                    navController = navController
                 )
         }
     }
@@ -287,7 +297,8 @@ private fun LazyRowItem(
 
 @Composable
 private fun ArticleCard(
-    article: DomesticViolenceArticleResponse
+    article: DomesticViolenceArticleResponse,
+    navController: NavHostController
 ) {
     var showShimmer by remember {
         mutableStateOf(false)
@@ -301,7 +312,10 @@ private fun ArticleCard(
                 shape = RoundedCornerShape(14.dp)
             )
             .width(320.dp)
-            .height(280.dp),
+            .height(280.dp)
+            .clickable {
+                navController.navigate("ArticleReadingScreen/{$article}")
+            },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -382,6 +396,7 @@ private fun HomeScreenPreview() {
     ContentScreen(
         viewState = HomeViewState(),
         action = {},
-        listVerticalFilters = listVerticalFilters
+        listVerticalFilters = listVerticalFilters,
+        navController = rememberNavController()
     )
 }

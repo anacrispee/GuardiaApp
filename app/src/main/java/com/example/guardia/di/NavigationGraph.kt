@@ -59,7 +59,6 @@ object NavGraphConstants {
     const val MY_PROFILE_SCREEN = "MyProfileScreen"
     const val PANIC_BUTTON_SCREEN = "PanicButtonScreen"
     const val FIND_SHELTERS_SCREEN = "FindSheltersScreen"
-    const val CONNECTION_ERROR_SCREEN = "ConnectionErrorScreen"
 
     const val CONNECTION_ERROR_SCREEN_ARGS = "ConnectionErrorScreen/{fromScreen}"
 }

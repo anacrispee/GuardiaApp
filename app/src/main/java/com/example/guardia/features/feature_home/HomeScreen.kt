@@ -46,8 +46,8 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.guardia.R
 import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleResponse
-import com.example.guardia.domain.utils.Listener
 import com.example.guardia.domain.utils.getDayAndMonthNameAndYear
+import com.example.guardia.domain.utils.isNetworkAvailable
 import com.example.guardia.domain.utils.toServiceDate
 import com.example.guardia.ui.app_theme.AppTheme
 import com.example.guardia.ui.uikit.components.shimmer_effect.shimmerBrush
@@ -63,19 +63,18 @@ fun HomeScreen(
     val action = viewModel::dispatcherViewAction
     val screenContext = LocalContext.current
 
-    Listener(
-        screenContext = screenContext,
-        navController = navController,
-        fromScreen = "HomeScreen"
-    )
-
-    LaunchedEffect(key1 = true) {
-        action(
-            HomeViewAction.GetDomesticViolenceArticles
-        )
-        action(
-            HomeViewAction.GetDomesticViolenceStories
-        )
+    LaunchedEffect(true) {
+        if (isNetworkAvailable(screenContext).not()) {
+            navController.navigate("ConnectionErrorScreen/HomeScreen")
+        } else {
+            action(
+                HomeViewAction.GetDomesticViolenceArticles
+            )
+            action(
+                HomeViewAction.GetDomesticViolenceStories
+            )
+        }
+        return@LaunchedEffect
     }
 
     if (viewState.isLoading) {
@@ -230,7 +229,6 @@ private fun DefaultHomeArticles(
         }
     }
 }
-
 
 @Composable
 private fun decideArticlesSectionList(

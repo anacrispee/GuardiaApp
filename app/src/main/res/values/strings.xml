@@ -19,4 +19,7 @@
     <!-- Generic Screens -->
     <string name="empty_state_screen_title">Não encontramos nenhum artigo relacionado...</string>
     <string name="empty_state_screen_subtitle">Verifique o que foi escrito e tente novamente. \n Utilize palavras-chave como violência, abuso, etc...</string>
+    <string name="connection_error_title">Algo deu errado...</string>
+    <string name="connection_error_subtitle">Não conseguimos acessar suas informações. Verifique sua conexão de internet ou tente novamente mais tarde.</string>
+    <string name="try_again_button">Tentar novamente</string>
 </resources>

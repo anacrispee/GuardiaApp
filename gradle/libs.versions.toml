@@ -15,6 +15,7 @@ koinTestVersion = "3.5.0"
 okhttp3Version = "4.12.0"
 squareupRetrofitVersion = "2.9.0"
 coilVersion = "2.6.0"
+serialization = "1.6.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,7 +54,10 @@ android-koin = {group = "io.insert-koin", name = "koin-android", version.ref = "
 android-koinCore = {group = "io.insert-koin", name = "koin-core", version.ref = "koinTestVersion"}
 android-koinCompose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinVersion" }
 
+#Serialization
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+kotlin-serializarion = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

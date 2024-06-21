@@ -36,10 +36,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
-import com.example.guardia.AppConstants.FIND_SHELTERS_SCREEN
-import com.example.guardia.AppConstants.HOME_SCREEN
-import com.example.guardia.AppConstants.MY_PROFILE_SCREEN
-import com.example.guardia.AppConstants.PANIC_BUTTON_SCREEN
+import com.example.guardia.di.NavGraphConstants.FIND_SHELTERS_SCREEN
+import com.example.guardia.di.NavGraphConstants.HOME_SCREEN
+import com.example.guardia.di.NavGraphConstants.MY_PROFILE_SCREEN
+import com.example.guardia.di.NavGraphConstants.PANIC_BUTTON_SCREEN
 import com.example.guardia.di.NavigationGraph
 import com.example.guardia.ui.app_theme.AppTheme
 

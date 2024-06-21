@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -46,10 +47,11 @@ import coil.compose.AsyncImage
 import com.example.guardia.R
 import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleResponse
 import com.example.guardia.domain.utils.getDayAndMonthNameAndYear
+import com.example.guardia.domain.utils.isNetworkAvailable
 import com.example.guardia.domain.utils.toServiceDate
 import com.example.guardia.ui.app_theme.AppTheme
 import com.example.guardia.ui.uikit.components.shimmer_effect.shimmerBrush
-import com.example.guardia.ui.uikit.generic_screens.SimpleGenericScreen
+import com.example.guardia.ui.uikit.generic_screens.GenericEmptyStateScreen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -59,14 +61,20 @@ fun HomeScreen(
 ) {
     val viewState = viewModel.viewState
     val action = viewModel::dispatcherViewAction
+    val screenContext = LocalContext.current
 
-    LaunchedEffect(key1 = true) {
-        action(
-            HomeViewAction.GetDomesticViolenceArticles
-        )
-        action(
-            HomeViewAction.GetDomesticViolenceStories
-        )
+    LaunchedEffect(true) {
+        if (isNetworkAvailable(screenContext).not()) {
+            navController.navigate("ConnectionErrorScreen/HomeScreen")
+        } else {
+            action(
+                HomeViewAction.GetDomesticViolenceArticles
+            )
+            action(
+                HomeViewAction.GetDomesticViolenceStories
+            )
+        }
+        return@LaunchedEffect
     }
 
     if (viewState.isLoading) {
@@ -222,7 +230,6 @@ private fun DefaultHomeArticles(
     }
 }
 
-
 @Composable
 private fun decideArticlesSectionList(
     listId: Int,
@@ -248,7 +255,7 @@ private fun decideArticlesSectionTitle(
 
 @Composable
 private fun EmptyStateContentScreen() {
-    SimpleGenericScreen(
+    GenericEmptyStateScreen(
         image = R.drawable.magnifying_glass,
         title = R.string.empty_state_screen_title,
         subtitle = R.string.empty_state_screen_subtitle

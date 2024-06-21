@@ -20,7 +20,7 @@ import com.example.guardia.R
 import com.example.guardia.ui.app_theme.AppTheme
 
 @Composable
-fun SimpleGenericScreen(
+fun GenericEmptyStateScreen(
     @DrawableRes image: Int,
     title: Int,
     subtitle: Int
@@ -61,8 +61,8 @@ fun SimpleGenericScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SimpleGenericScreenPreview() {
-    SimpleGenericScreen(
+private fun GenericEmptyStateScreenPreview() {
+    GenericEmptyStateScreen(
         image = R.drawable.magnifying_glass,
         title = R.string.empty_state_screen_title,
         subtitle = R.string.empty_state_screen_subtitle

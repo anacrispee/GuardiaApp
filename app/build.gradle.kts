@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.kotlin.serializarion)
 }
 
 android {
@@ -51,6 +52,7 @@ android {
 
 dependencies {
 
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.coil)
     implementation(platform(libs.okhttp3))
     implementation(libs.squareup.okhttp)

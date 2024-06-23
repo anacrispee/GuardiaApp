@@ -8,6 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.guardia.R
 
+private const val xxx_large_size = 32
 private const val extra_large_size = 24
 private const val large_size = 20
 private const val medium_size = 16
@@ -51,6 +52,11 @@ object TitleBold {
     val title_lg: TextStyle = TextStyle(
         fontFamily = manropeBold,
         fontSize = large_size.sp
+    )
+
+    val title_xxx_lg: TextStyle = TextStyle(
+        fontFamily = manropeBold,
+        fontSize = xxx_large_size.sp
     )
 }
 

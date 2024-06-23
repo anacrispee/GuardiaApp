@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -43,16 +42,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.guardia.R
 import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleResponse
+import com.example.guardia.di.NavGraphConstants.ARTICLE_READING_SCREEN
+import com.example.guardia.di.NavGraphConstants.CONNECTION_ERROR_SCREEN
 import com.example.guardia.domain.utils.getDayAndMonthNameAndYear
 import com.example.guardia.domain.utils.isNetworkAvailable
 import com.example.guardia.domain.utils.toServiceDate
 import com.example.guardia.ui.app_theme.AppTheme
-import com.example.guardia.ui.uikit.components.shimmer_effect.shimmerBrush
+import com.example.guardia.ui.uikit.components.LoadingScreen
+import com.example.guardia.ui.uikit.components.shimmerBrush
 import com.example.guardia.ui.uikit.generic_screens.GenericEmptyStateScreen
 import org.koin.androidx.compose.koinViewModel
+import java.net.URLEncoder
 
 @Composable
 fun HomeScreen(
@@ -65,7 +69,7 @@ fun HomeScreen(
 
     LaunchedEffect(true) {
         if (isNetworkAvailable(screenContext).not()) {
-            navController.navigate("ConnectionErrorScreen/HomeScreen")
+            navController.navigate(CONNECTION_ERROR_SCREEN)
         } else {
             action(
                 HomeViewAction.GetDomesticViolenceArticles
@@ -83,7 +87,8 @@ fun HomeScreen(
         ContentScreen(
             viewState = viewState,
             action = action,
-            listVerticalFilters = listVerticalFilters
+            listVerticalFilters = listVerticalFilters,
+            navController = navController
         )
     }
 }
@@ -92,7 +97,8 @@ fun HomeScreen(
 private fun ContentScreen(
     viewState: HomeViewState,
     action: (HomeViewAction) -> Unit,
-    listVerticalFilters: List<SearchFiltersModel>
+    listVerticalFilters: List<SearchFiltersModel>,
+    navController: NavHostController
 ) {
     var filterOption by remember { mutableIntStateOf(FiltersEnum.VIOLENCE.id) }
     var searchInputValue by remember { mutableStateOf("") }
@@ -195,7 +201,8 @@ private fun ContentScreen(
         }
         DefaultHomeArticles(
             viewState = viewState,
-            filterOption = filterOption
+            filterOption = filterOption,
+            navController = navController
         )
         Spacer(modifier = Modifier.height(120.dp))
     }
@@ -204,7 +211,8 @@ private fun ContentScreen(
 @Composable
 private fun DefaultHomeArticles(
     viewState: HomeViewState,
-    filterOption: Int
+    filterOption: Int,
+    navController: NavHostController
 ) {
     if (viewState.isEmptyState) {
         EmptyStateContentScreen()
@@ -212,18 +220,21 @@ private fun DefaultHomeArticles(
         if (viewState.hasSearched) {
             LazyRowItem(
                 articlesTitle = decideArticlesSectionTitle(viewState.searchId),
-                articlesList = decideArticlesSectionList(viewState.searchId, viewState)
+                articlesList = decideArticlesSectionList(viewState.searchId, viewState),
+                navController = navController
             )
         } else {
             LazyRowItem(
                 articlesTitle = decideArticlesSectionTitle(filterOption),
-                articlesList = decideArticlesSectionList(filterOption, viewState)
+                articlesList = decideArticlesSectionList(filterOption, viewState),
+                navController = navController
             )
             if (filterOption == FiltersEnum.VIOLENCE.id) {
                 Spacer(modifier = Modifier.height(24.dp))
                 LazyRowItem(
                     articlesTitle = R.string.home_personal_stories,
-                    articlesList = viewState.domesticViolenceStories ?: listOf()
+                    articlesList = viewState.domesticViolenceStories ?: listOf(),
+                    navController = navController
                 )
             }
         }
@@ -265,7 +276,8 @@ private fun EmptyStateContentScreen() {
 @Composable
 private fun LazyRowItem(
     articlesTitle: Int,
-    articlesList: List<DomesticViolenceArticleResponse>
+    articlesList: List<DomesticViolenceArticleResponse>,
+    navController: NavHostController
 ) {
     Text(
         text = stringResource(id = articlesTitle),
@@ -279,7 +291,8 @@ private fun LazyRowItem(
         items(articlesList) { article ->
             if (article.source?.sourceId != null)
                 ArticleCard(
-                    article = article
+                    article = article,
+                    navController = navController
                 )
         }
     }
@@ -287,13 +300,16 @@ private fun LazyRowItem(
 
 @Composable
 private fun ArticleCard(
-    article: DomesticViolenceArticleResponse
+    article: DomesticViolenceArticleResponse,
+    navController: NavHostController
 ) {
     var showShimmer by remember {
         mutableStateOf(false)
     }
 
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .padding(end = 16.dp)
             .background(
@@ -301,9 +317,22 @@ private fun ArticleCard(
                 shape = RoundedCornerShape(14.dp)
             )
             .width(320.dp)
-            .height(280.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
+            .height(280.dp)
+            .clickable {
+                if (article.title.isNullOrBlank().not() &&
+                    article.author.isNullOrBlank().not() &&
+                    article.publishedAt.isNullOrBlank().not() &&
+                    article.url.isNullOrBlank().not()) {
+
+                    val title = URLEncoder.encode(article.title, "UTF-8")
+                    val author = URLEncoder.encode(article.author, "UTF-8")
+                    val publishedAt = URLEncoder.encode(article.publishedAt, "UTF-8")
+                    val contentLink = URLEncoder.encode(article.url, "UTF-8")
+
+                    navController
+                        .navigate("$ARTICLE_READING_SCREEN/$title/$author/$publishedAt/$contentLink")
+                }
+            }
     ) {
         AsyncImage(
             modifier = Modifier
@@ -363,25 +392,13 @@ private fun ArticleCard(
     }
 }
 
-@Composable
-private fun LoadingScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator(
-            color = AppTheme.colors.primary.dark_pink
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
     ContentScreen(
         viewState = HomeViewState(),
         action = {},
-        listVerticalFilters = listVerticalFilters
+        listVerticalFilters = listVerticalFilters,
+        navController = rememberNavController()
     )
 }

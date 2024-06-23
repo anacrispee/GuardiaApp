@@ -18,6 +18,7 @@
 
     <!-- ArticleReadingScreen -->
     <string name="article_reading_toolbar">Artigo</string>
+    <string name="article_reading_author_description">Escrito por&#160;%s, %s</string>
 
     <!-- Generic Screens -->
     <string name="empty_state_screen_title">Não encontramos nenhum artigo relacionado...</string>

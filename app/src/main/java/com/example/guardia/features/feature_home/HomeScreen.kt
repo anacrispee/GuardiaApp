@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -53,7 +52,8 @@ import com.example.guardia.domain.utils.getDayAndMonthNameAndYear
 import com.example.guardia.domain.utils.isNetworkAvailable
 import com.example.guardia.domain.utils.toServiceDate
 import com.example.guardia.ui.app_theme.AppTheme
-import com.example.guardia.ui.uikit.components.shimmer_effect.shimmerBrush
+import com.example.guardia.ui.uikit.components.LoadingScreen
+import com.example.guardia.ui.uikit.components.shimmerBrush
 import com.example.guardia.ui.uikit.generic_screens.GenericEmptyStateScreen
 import org.koin.androidx.compose.koinViewModel
 import java.net.URLEncoder
@@ -319,13 +319,19 @@ private fun ArticleCard(
             .width(320.dp)
             .height(280.dp)
             .clickable {
-                val title = URLEncoder.encode(article.title, "UTF-8")
-                val author = URLEncoder.encode(article.author, "UTF-8")
-                val publishedAt = URLEncoder.encode(article.publishedAt, "UTF-8")
-                val contentLink = URLEncoder.encode(article.url, "UTF-8")
+                if (article.title.isNullOrBlank().not() &&
+                    article.author.isNullOrBlank().not() &&
+                    article.publishedAt.isNullOrBlank().not() &&
+                    article.url.isNullOrBlank().not()) {
 
-                navController
-                    .navigate("$ARTICLE_READING_SCREEN/$title/$author/$publishedAt/$contentLink")
+                    val title = URLEncoder.encode(article.title, "UTF-8")
+                    val author = URLEncoder.encode(article.author, "UTF-8")
+                    val publishedAt = URLEncoder.encode(article.publishedAt, "UTF-8")
+                    val contentLink = URLEncoder.encode(article.url, "UTF-8")
+
+                    navController
+                        .navigate("$ARTICLE_READING_SCREEN/$title/$author/$publishedAt/$contentLink")
+                }
             }
     ) {
         AsyncImage(
@@ -383,19 +389,6 @@ private fun ArticleCard(
                 textAlign = TextAlign.Start
             )
         }
-    }
-}
-
-@Composable
-private fun LoadingScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator(
-            color = AppTheme.colors.primary.dark_pink
-        )
     }
 }
 

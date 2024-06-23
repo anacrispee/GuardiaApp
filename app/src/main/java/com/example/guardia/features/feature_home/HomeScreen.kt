@@ -47,6 +47,8 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.guardia.R
 import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleResponse
+import com.example.guardia.di.NavGraphConstants.ARTICLE_READING_SCREEN
+import com.example.guardia.di.NavGraphConstants.CONNECTION_ERROR_SCREEN
 import com.example.guardia.domain.utils.getDayAndMonthNameAndYear
 import com.example.guardia.domain.utils.isNetworkAvailable
 import com.example.guardia.domain.utils.toServiceDate
@@ -54,6 +56,7 @@ import com.example.guardia.ui.app_theme.AppTheme
 import com.example.guardia.ui.uikit.components.shimmer_effect.shimmerBrush
 import com.example.guardia.ui.uikit.generic_screens.GenericEmptyStateScreen
 import org.koin.androidx.compose.koinViewModel
+import java.net.URLEncoder
 
 @Composable
 fun HomeScreen(
@@ -66,7 +69,7 @@ fun HomeScreen(
 
     LaunchedEffect(true) {
         if (isNetworkAvailable(screenContext).not()) {
-            navController.navigate("ConnectionErrorScreen/HomeScreen")
+            navController.navigate(CONNECTION_ERROR_SCREEN)
         } else {
             action(
                 HomeViewAction.GetDomesticViolenceArticles
@@ -305,6 +308,8 @@ private fun ArticleCard(
     }
 
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .padding(end = 16.dp)
             .background(
@@ -314,10 +319,14 @@ private fun ArticleCard(
             .width(320.dp)
             .height(280.dp)
             .clickable {
-                navController.navigate("ArticleReadingScreen/{$article}")
-            },
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
+                val title = URLEncoder.encode(article.title, "UTF-8")
+                val author = URLEncoder.encode(article.author, "UTF-8")
+                val publishedAt = URLEncoder.encode(article.publishedAt, "UTF-8")
+                val contentLink = URLEncoder.encode(article.url, "UTF-8")
+
+                navController
+                    .navigate("$ARTICLE_READING_SCREEN/$title/$author/$publishedAt/$contentLink")
+            }
     ) {
         AsyncImage(
             modifier = Modifier

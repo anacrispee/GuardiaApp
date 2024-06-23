@@ -1,4 +1,4 @@
-package com.example.guardia.ui.uikit.components.shimmer_effect
+package com.example.guardia.ui.uikit.components
 
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat

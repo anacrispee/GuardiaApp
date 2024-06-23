@@ -6,11 +6,13 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.guardia.di.NavGraphConstants.CONNECTION_ERROR_SCREEN_ARGS
+import com.example.guardia.di.NavGraphConstants.ARTICLE_READING_SCREEN_ARGS
+import com.example.guardia.di.NavGraphConstants.CONNECTION_ERROR_SCREEN
 import com.example.guardia.di.NavGraphConstants.FIND_SHELTERS_SCREEN
 import com.example.guardia.di.NavGraphConstants.HOME_SCREEN
 import com.example.guardia.di.NavGraphConstants.MY_PROFILE_SCREEN
 import com.example.guardia.di.NavGraphConstants.PANIC_BUTTON_SCREEN
+import com.example.guardia.features.article_reading_screen.ArticleReadingScreen
 import com.example.guardia.features.connection_error_screen.ConnectionErrorScreen
 import com.example.guardia.features.feature_home.HomeScreen
 import com.example.guardia.features.feature_my_profile.MyProfileScreen
@@ -22,7 +24,8 @@ fun NavigationGraph(
     navController: NavHostController
 ) {
     NavHost(
-        navController = navController, startDestination = HOME_SCREEN
+        navController = navController,
+        startDestination = HOME_SCREEN
     ) {
         composable(HOME_SCREEN) {
             HomeScreen(navController)
@@ -40,16 +43,32 @@ fun NavigationGraph(
             FindSheltersScreen(navController)
         }
 
-        composable(route = CONNECTION_ERROR_SCREEN_ARGS,
-            arguments = listOf(navArgument("fromScreen") {
-                type = NavType.StringType
-            })) {
-            it.arguments?.getString("fromScreen")?.let { it1 ->
+        composable(route = CONNECTION_ERROR_SCREEN) {
                 ConnectionErrorScreen(
-                    navController = navController,
-                    fromScreen = it1
+                    navController = navController
                 )
             }
+
+        composable(ARTICLE_READING_SCREEN_ARGS,
+            arguments = listOf(
+                navArgument("title") { type = NavType.StringType },
+                navArgument("author") { type = NavType.StringType },
+                navArgument("publishedAt") { type = NavType.StringType },
+                navArgument("contentLink") { type = NavType.StringType }
+            )
+        ) {
+            val title = it.arguments?.getString("title")
+            val author = it.arguments?.getString("author")
+            val publishedAt = it.arguments?.getString("publishedAt")
+            val contentLink = it.arguments?.getString("contentLink")
+
+            ArticleReadingScreen(
+                navController = navController,
+                title = title.orEmpty(),
+                author = author.orEmpty(),
+                publishedAt = publishedAt.orEmpty(),
+                contentLink = contentLink.orEmpty()
+            )
         }
     }
 }
@@ -59,6 +78,9 @@ object NavGraphConstants {
     const val MY_PROFILE_SCREEN = "MyProfileScreen"
     const val PANIC_BUTTON_SCREEN = "PanicButtonScreen"
     const val FIND_SHELTERS_SCREEN = "FindSheltersScreen"
+    const val CONNECTION_ERROR_SCREEN = "ConnectionErrorScreen"
+    const val ARTICLE_READING_SCREEN = "ArticleReadingScreen"
 
-    const val CONNECTION_ERROR_SCREEN_ARGS = "ConnectionErrorScreen/{fromScreen}"
+    const val ARTICLE_READING_SCREEN_ARGS =
+        "$ARTICLE_READING_SCREEN/{title}/{author}/{publishedAt}/{contentLink}"
 }

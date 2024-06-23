@@ -4,20 +4,12 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Place
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
@@ -31,7 +23,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -103,8 +96,10 @@ class MainActivity : ComponentActivity() {
                                                     )
                                             }
                                         ) {
-                                            Icon(
-                                                imageVector = if (index == selectedItemIndex)
+                                            Image(
+                                                modifier = Modifier
+                                                    .size(24.dp),
+                                                painter = if (index == selectedItemIndex)
                                                     item.selectedIcon
                                                 else
                                                     item.unselectedIcon,
@@ -131,28 +126,26 @@ class MainActivity : ComponentActivity() {
             BottomNavigationItem(
                 route = HOME_SCREEN,
                 title = stringResource(id = R.string.navigation_bar_home),
-                selectedIcon = Icons.Default.Home,
-                unselectedIcon = Icons.Outlined.Home,
-                badgeCount = 2
+                selectedIcon = painterResource(id = R.drawable.ic_home_selected),
+                unselectedIcon = painterResource(id = R.drawable.ic_home)
             ),
             BottomNavigationItem(
                 route = PANIC_BUTTON_SCREEN,
                 title = stringResource(id = R.string.navigation_bar_emergency),
-                selectedIcon = Icons.Default.Call,
-                unselectedIcon = Icons.Outlined.Call
+                selectedIcon = painterResource(id = R.drawable.ic_call_selected),
+                unselectedIcon = painterResource(id = R.drawable.ic_call)
             ),
             BottomNavigationItem(
                 route = FIND_SHELTERS_SCREEN,
                 title = stringResource(id = R.string.navigation_bar_find_shelters),
-                selectedIcon = Icons.Default.Place,
-                unselectedIcon = Icons.Outlined.Place,
-                hasNews = true
+                selectedIcon = painterResource(id = R.drawable.ic_tent_selected),
+                unselectedIcon = painterResource(id = R.drawable.ic_tent)
             ),
             BottomNavigationItem(
                 route = MY_PROFILE_SCREEN,
                 title = stringResource(id = R.string.navigation_bar_my_profile),
-                selectedIcon = Icons.Default.Person,
-                unselectedIcon = Icons.Outlined.Person
+                selectedIcon = painterResource(id = R.drawable.ic_user_selected),
+                unselectedIcon = painterResource(id = R.drawable.ic_user)
             )
         )
         return items
@@ -161,8 +154,8 @@ class MainActivity : ComponentActivity() {
     data class BottomNavigationItem(
         val route: String,
         val title: String,
-        val selectedIcon: ImageVector,
-        val unselectedIcon: ImageVector,
+        val selectedIcon: Painter,
+        val unselectedIcon: Painter,
         val hasNews: Boolean = false,
         val badgeCount: Int? = null
     )

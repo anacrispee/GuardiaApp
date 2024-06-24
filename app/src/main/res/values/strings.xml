@@ -16,9 +16,16 @@
     <string name="home_personal_stories">Relatos pessoais</string>
     <string name="home_see_more_news_card">Veja mais...</string>
 
-    <!-- ArticleReadingScreen -->
+    <!-- Article Reading Screen -->
     <string name="article_reading_toolbar">Artigo</string>
     <string name="article_reading_author_description">Escrito por&#160;%s, %s</string>
+
+    <!-- Panic Button Screen -->
+    <string name="panic_button_title">Aguarde, a ajuda está indo até você!</string>
+    <string name="panic_button_subtitle">Estamos acionando o socorro mais próximo com urgência para lhe ajudar.</string>
+    <string name="panic_button_disclaimer">Mantenha-se em um local seguro até o socorro chegar.</string>
+    <string name="panic_button_cancel_button">Cancelar pedido de socorro</string>
+    <string name="panic_button_already_been_helped">Já fui socorrida</string>
 
     <!-- Generic Screens -->
     <string name="empty_state_screen_title">Não encontramos nenhum artigo relacionado...</string>

@@ -108,6 +108,11 @@ object BodyBold {
         Font(R.font.manrope_bold, FontWeight.Bold)
     )
 
+    val body_large: TextStyle = TextStyle(
+        fontFamily = manropeBold,
+        fontSize = large_size.sp
+    )
+
     val body_small: TextStyle = TextStyle(
         fontFamily = manropeBold,
         fontSize = small_size.sp

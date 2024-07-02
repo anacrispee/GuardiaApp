@@ -33,4 +33,10 @@
     <string name="connection_error_title">Algo deu errado...</string>
     <string name="connection_error_subtitle">Não conseguimos acessar suas informações. Verifique sua conexão de internet ou tente novamente mais tarde.</string>
     <string name="try_again_button">Tentar novamente</string>
+
+    <!-- Shelters Screen -->
+    <string name="shelters_next_to_you">%s abrigos próximos de você</string>
+    <string name="empty_state_shelter_title">Não encontramos nenhum abrigo próximo</string>
+    <string name="empty_state_shelter_subtitle">Não conseguimos encontrar nenhum abrigo próximo a você, verifique suas permissões de localização e tente novamente.</string>
+    <string name="how_to_arrive">Como chegar</string>
 </resources>

@@ -17,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -96,10 +98,14 @@ private fun CallingHelp(
             color = AppTheme.colors.primary.dark_grey,
             textAlign = TextAlign.Center
         )
-        Lottie()
+        if (timer > 0)
+            Lottie()
         Timer(timer)
         Disclaimer()
-        Buttons(action)
+        Buttons(
+            action,
+            timer
+        )
         Spacer(modifier = Modifier.height(120.dp))
     }
 }
@@ -150,15 +156,23 @@ private fun Lottie() {
 }
 
 @Composable
-private fun Buttons(action: (PanicButtonViewAction) -> Unit) {
+private fun Buttons(
+    action: (PanicButtonViewAction) -> Unit,
+    timer: Int
+) {
     Button(
         modifier = Modifier
-            .padding(top = 16.dp, bottom = 4.dp),
+            .padding(top = 16.dp),
         onClick = {
             action(
                 PanicButtonViewAction.UpdateScreenState
             )
-        }
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+            contentColor = if (timer > 0) AppTheme.colors.primary.dark_pink else AppTheme.colors.primary.lighter_pink
+        ),
+        enabled = (timer > 0)
     ) {
         Text(
             text = stringResource(id = R.string.panic_button_cancel_button)
@@ -166,15 +180,20 @@ private fun Buttons(action: (PanicButtonViewAction) -> Unit) {
     }
     Button(
         modifier = Modifier
-            .padding(top = 4.dp, bottom = 16.dp),
+            .padding(bottom = 16.dp),
         onClick = {
             action(
                 PanicButtonViewAction.UpdateScreenState
             )
-        }
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = AppTheme.colors.primary.dark_pink,
+        )
     ) {
         Text(
-            text = stringResource(id = R.string.panic_button_already_been_helped)
+            text = stringResource(id = R.string.panic_button_already_been_helped),
+            modifier = Modifier
+                .padding(vertical = 4.dp, horizontal = 24.dp)
         )
     }
 }

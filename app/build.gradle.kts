@@ -52,6 +52,7 @@ android {
 
 dependencies {
 
+    implementation(libs.lottie)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.coil)
     implementation(platform(libs.okhttp3))

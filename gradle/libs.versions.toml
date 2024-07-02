@@ -16,6 +16,7 @@ okhttp3Version = "4.12.0"
 squareupRetrofitVersion = "2.9.0"
 coilVersion = "2.6.0"
 serialization = "1.6.3"
+lottieVersion = "4.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +57,9 @@ android-koinCompose = { group = "io.insert-koin", name = "koin-androidx-compose"
 
 #Serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+
+#Lottie
+lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

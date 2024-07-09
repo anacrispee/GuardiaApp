@@ -1,11 +1,10 @@
 package com.example.guardia.features.feature_shelters
 
-import com.example.guardia.data_remote.model.shelter.ShelterListModel
-import com.example.guardia.data_remote.model.shelter.ShelterModel
+import com.example.guardia.data_remote.model.shelter.SheltersListModel
 
 data class SheltersViewState(
     val isLoading: Boolean = false,
     val error: Throwable? = null,
-    val shelters: ShelterListModel? = null,
+    val shelters: SheltersListModel = UtilFactory.DUMMY_SHELTER_LIST_MODEL,
     val isEmptyState: Boolean = false
 )

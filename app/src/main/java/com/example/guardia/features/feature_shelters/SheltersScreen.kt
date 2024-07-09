@@ -7,12 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -57,9 +53,7 @@ fun FindSheltersScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .verticalScroll(rememberScrollState())
     ) {
         if (viewState.isLoading) {
             LoadingScreen()
@@ -145,17 +139,17 @@ private fun ContentScreen(
     } else {
         Text(
             text = stringResource(
-                id = R.string.shelters_next_to_you,
-                viewState.shelters?.totalShelters ?: 0),
+                id = if (viewState.shelters.shelters.size == 1) R.string.shelter_next_to_you
+                else R.string.shelters_next_to_you,
+                viewState.shelters.shelters.size
+            ),
             modifier = Modifier
-                .padding(vertical = 8.dp)
+                .padding(vertical = 8.dp, horizontal = 16.dp)
         )
-        LazyColumn {
-            items(viewState.shelters?.sheltersList ?: listOf()) { shelter ->
-                ShelterCard(
-                    shelter = shelter
-                )
-            }
+        viewState.shelters.shelters.forEach { shelter ->
+            ShelterCard(
+                shelter = shelter
+            )
         }
     }
 }
@@ -165,16 +159,12 @@ private fun ShelterCard(
     shelter: ShelterModel?
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
-            .padding(16.dp)
+            .padding(vertical = 8.dp, horizontal = 16.dp)
             .background(
                 color = AppTheme.colors.secondary.lighter,
                 shape = RoundedCornerShape(14.dp)
             )
-            .width(320.dp)
-            .height(280.dp)
     ) {
         ShelterCardTitle(shelter)
         HorizontalDivider(
@@ -191,6 +181,8 @@ private fun ShelterCard(
                     ", " + shelter?.addressModel?.city +
                     " - " + shelter?.addressModel?.state +
                     ", " + shelter?.addressModel?.zipCode,
+            style = AppTheme.typography.bodySemiBold.body_small,
+            color = AppTheme.colors.primary.dark_grey
         )
         HorizontalDivider(
             modifier = Modifier
@@ -198,16 +190,34 @@ private fun ShelterCard(
             thickness = 1.dp,
             color = AppTheme.colors.primary.lighter_grey
         )
-        Button(
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = AppTheme.colors.primary.dark_pink
-            ),
-            onClick = {}
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = stringResource(id = R.string.how_to_arrive)
-            )
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = AppTheme.colors.primary.dark_pink
+                ),
+                onClick = {}
+            ) {
+                Text(
+                    text = stringResource(id = R.string.button_how_to_arrive)
+                )
+            }
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = AppTheme.colors.primary.dark_pink
+                ),
+                onClick = {}
+            ) {
+                Text(
+                    text = stringResource(id = R.string.button_call)
+                )
+            }
         }
     }
 }
@@ -217,14 +227,14 @@ private fun ShelterCardTitle(shelter: ShelterModel?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             modifier = Modifier
-                .padding(end = 4.dp),
+                .padding(end = 8.dp),
             painter = painterResource(id = R.drawable.ic_line_tent_small),
+            tint = AppTheme.colors.primary.dark_pink,
             contentDescription = null
         )
         Text(

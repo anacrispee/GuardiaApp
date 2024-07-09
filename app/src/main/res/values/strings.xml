@@ -36,7 +36,9 @@
 
     <!-- Shelters Screen -->
     <string name="shelters_next_to_you">%s abrigos próximos de você</string>
+    <string name="shelter_next_to_you">%s abrigo próximos de você</string>
     <string name="empty_state_shelter_title">Não encontramos nenhum abrigo próximo</string>
     <string name="empty_state_shelter_subtitle">Não conseguimos encontrar nenhum abrigo próximo a você, verifique suas permissões de localização e tente novamente.</string>
-    <string name="how_to_arrive">Como chegar</string>
+    <string name="button_how_to_arrive">Como chegar</string>
+    <string name="button_call">Ligar</string>
 </resources>

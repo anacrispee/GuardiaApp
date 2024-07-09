@@ -9,7 +9,6 @@ import androidx.compose.ui.unit.sp
 import com.example.guardia.R
 
 private const val xxx_large_size = 32
-private const val extra_large_size = 24
 private const val large_size = 20
 private const val medium_size = 16
 private const val small_size = 14
@@ -24,8 +23,6 @@ data class AppTypography(
     val bodyMedium: BodyMedium = BodyMedium,
     val bodyBold: BodyBold = BodyBold,
     val bodySemiBold: BodySemiBold = BodySemiBold,
-
-    val buttonExtraBold: ButtonExtraBold = ButtonExtraBold
 )
 
 object TitleRegular {
@@ -142,22 +139,6 @@ object BodySemiBold {
     val body_tiny: TextStyle = TextStyle(
         fontFamily = manropeSemiBold,
         fontSize = tiny_size.sp
-    )
-}
-
-object ButtonExtraBold {
-    private val manropeExtraBold = FontFamily(
-        Font(R.font.manrope_extrabold, FontWeight.ExtraBold)
-    )
-
-    val button_extra_bold_x_large: TextStyle = TextStyle(
-        fontFamily = manropeExtraBold,
-        fontSize = extra_large_size.sp
-    )
-
-    val button_extra_bold_large: TextStyle = TextStyle(
-        fontFamily = manropeExtraBold,
-        fontSize = large_size.sp
     )
 }
 

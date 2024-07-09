@@ -204,7 +204,6 @@ private fun ContentScreen(
             filterOption = filterOption,
             navController = navController
         )
-        Spacer(modifier = Modifier.height(120.dp))
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.guardia.features.article_reading_screen
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
@@ -13,6 +14,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -28,6 +33,7 @@ import com.example.guardia.domain.utils.isNetworkAvailable
 import com.example.guardia.domain.utils.toServiceDate
 import com.example.guardia.ui.app_theme.AppTheme
 import com.example.guardia.ui.uikit.components.CustomTopBar
+import com.example.guardia.ui.uikit.components.LoadingScreen
 import java.net.URLDecoder
 
 @Composable
@@ -104,6 +110,8 @@ private fun HeaderArea(
 private fun WebViewArea(
     contentLink: String
 ) {
+    var isLoading by remember { mutableStateOf(true) }
+
     AndroidView(
         factory = {
             WebView(it).apply {
@@ -113,6 +121,16 @@ private fun WebViewArea(
                         request: WebResourceRequest?
                     ): Boolean {
                         return true
+                    }
+
+                    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                        super.onPageStarted(view, url, favicon)
+                        isLoading = true
+                    }
+
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        super.onPageFinished(view, url)
+                        isLoading = false
                     }
                 }
 
@@ -139,6 +157,10 @@ private fun WebViewArea(
             webView.loadUrl(contentLink)
         }
     )
+
+    if (isLoading) {
+        LoadingScreen()
+    }
 }
 
 @Composable

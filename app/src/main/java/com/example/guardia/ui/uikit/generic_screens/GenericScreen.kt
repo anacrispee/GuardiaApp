@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
@@ -37,6 +39,7 @@ fun GenericScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         Spacer(modifier = Modifier.weight(1f))
         Icon(
@@ -77,7 +80,7 @@ fun GenericScreen(
         ) {
             Text(
                 text = stringResource(id = buttonText),
-                style = AppTheme.typography.buttonExtraBold.button_extra_bold_x_large,
+                style = AppTheme.typography.titleBold.title_md,
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             )

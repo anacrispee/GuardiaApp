@@ -33,4 +33,19 @@
     <string name="connection_error_title">Algo deu errado...</string>
     <string name="connection_error_subtitle">Não conseguimos acessar suas informações. Verifique sua conexão de internet ou tente novamente mais tarde.</string>
     <string name="try_again_button">Tentar novamente</string>
+
+    <!-- Shelters Screen -->
+    <string name="shelters_next_to_you">%s abrigos próximos de você</string>
+    <string name="shelter_next_to_you">%s abrigo próximos de você</string>
+    <string name="empty_state_shelter_title">Não encontramos nenhum abrigo próximo</string>
+    <string name="empty_state_shelter_subtitle">Não conseguimos encontrar nenhum abrigo próximo a você, verifique suas permissões de localização e tente novamente.</string>
+    <string name="button_how_to_arrive">Como chegar</string>
+    <string name="button_call">Ligar</string>
+    <string name="call_shelter_dialog_message">Tem certeza que deseja ligar para este número?</string>
+    <string name="call_shelter_dialog_positive_button">Ligar</string>
+    <string name="call_shelter_dialog_negative_button">Cancelar</string>
+    <string name="find_shelter_dialog_messase">Quer saber como chegar ao abrigo?</string>
+    <string name="find_shelter_dialog_positive_button">Como chegar</string>
+    <string name="find_shelter_dialog_negative_button">Cancelar</string>
+    <string name="cannot_open_maps_app">Para saber como chegar, você precisa ter um aplicativo de mapa instalado</string>
 </resources>

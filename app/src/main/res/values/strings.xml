@@ -44,4 +44,8 @@
     <string name="call_shelter_dialog_message">Tem certeza que deseja ligar para este número?</string>
     <string name="call_shelter_dialog_positive_button">Ligar</string>
     <string name="call_shelter_dialog_negative_button">Cancelar</string>
+    <string name="find_shelter_dialog_messase">Quer saber como chegar ao abrigo?</string>
+    <string name="find_shelter_dialog_positive_button">Como chegar</string>
+    <string name="find_shelter_dialog_negative_button">Cancelar</string>
+    <string name="cannot_open_maps_app">Para saber como chegar, você precisa ter um aplicativo de mapa instalado</string>
 </resources>

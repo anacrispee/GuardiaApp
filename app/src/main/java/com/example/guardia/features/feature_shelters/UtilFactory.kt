@@ -18,8 +18,10 @@ object UtilFactory {
                     neighborhood = "Downtown",
                     city = "New York",
                     zipCode = "10001",
-                    state = "NY"
-                )
+                    state = "NY",
+                ),
+                latitude = 40.7128,
+                longitude = -74.0060
             ),
             ShelterModel(
                 id = 2,
@@ -33,7 +35,9 @@ object UtilFactory {
                     city = "Los Angeles",
                     zipCode = "90001",
                     state = "CA"
-                )
+                ),
+                latitude = 34.0522,
+                longitude = -118.2437
             ),
             ShelterModel(
                 id = 3,
@@ -47,7 +51,9 @@ object UtilFactory {
                     city = "Chicago",
                     zipCode = "60601",
                     state = "IL"
-                )
+                ),
+                latitude = 41.8781,
+                longitude = -87.6298
             )
         )
     )

@@ -8,8 +8,10 @@ data class ShelterModel(
     val id: Int? = 0,
     val name: String? = "",
     val phone: String? = "",
-    val website: String? = "r",
-    val addressModel: AddressModel
+    val website: String? = "",
+    val addressModel: AddressModel,
+    val latitude: Double? = 0.0,
+    val longitude: Double? = 0.0
 )
 
 data class AddressModel(

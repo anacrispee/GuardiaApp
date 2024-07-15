@@ -6,4 +6,5 @@ sealed class SheltersViewAction {
     data class GetContext(val context: Context) : SheltersViewAction()
     data class SearchNewShelter(val shelterName: String) : SheltersViewAction()
     data class OnCallClick(val phone: String) : SheltersViewAction()
+    data class OnFindShelter(val latitudeLongitude: Pair<Double?, Double?>) : SheltersViewAction()
 }

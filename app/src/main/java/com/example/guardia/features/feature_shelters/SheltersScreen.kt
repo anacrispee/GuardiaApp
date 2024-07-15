@@ -40,6 +40,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.guardia.R
 import com.example.guardia.data_remote.model.shelter.ShelterModel
+import com.example.guardia.data_remote.model.shelter.SheltersListModel
 import com.example.guardia.ui.app_theme.AppTheme
 import com.example.guardia.ui.uikit.components.LoadingScreen
 import com.example.guardia.ui.uikit.generic_screens.GenericEmptyStateScreen
@@ -143,23 +144,38 @@ private fun ContentScreen(
         maxLines = 1
     )
 
-    if (viewState.isEmptyState) {
+    SheltersList(
+        isEmptyState = viewState.isEmptyState,
+        shelters = viewState.shelters,
+        action = action,
+        context = viewState.context
+    )
+}
+
+@Composable
+private fun SheltersList(
+    isEmptyState: Boolean,
+    shelters: SheltersListModel,
+    action: (SheltersViewAction) -> Unit,
+    context: Context?
+) {
+    if (isEmptyState) {
         EmptyStateScreen()
     } else {
         Text(
             text = stringResource(
-                id = if (viewState.shelters.shelters.size == 1) R.string.shelter_next_to_you
+                id = if (shelters.shelters.size == 1) R.string.shelter_next_to_you
                 else R.string.shelters_next_to_you,
-                viewState.shelters.shelters.size
+                shelters.shelters.size
             ),
             modifier = Modifier
                 .padding(vertical = 8.dp, horizontal = 16.dp)
         )
-        viewState.shelters.shelters.forEach { shelter ->
+        shelters.shelters.forEach { shelter ->
             ShelterCard(
                 shelter = shelter,
                 action = action,
-                context = viewState.context
+                context = context
             )
         }
     }
@@ -171,10 +187,6 @@ private fun ShelterCard(
     action: (SheltersViewAction) -> Unit,
     context: Context?
 ) {
-    val message = stringResource(id = R.string.call_shelter_dialog_message)
-    val positiveButtonText = stringResource(id = R.string.call_shelter_dialog_positive_button)
-    val negativeButtonText = stringResource(id = R.string.call_shelter_dialog_negative_button)
-
     Column(
         modifier = Modifier
             .padding(vertical = 8.dp, horizontal = 16.dp)
@@ -218,7 +230,21 @@ private fun ShelterCard(
                     containerColor = Color.Transparent,
                     contentColor = AppTheme.colors.primary.dark_pink
                 ),
-                onClick = {}
+                onClick = {
+                    createDialog(
+                        message = R.string.find_shelter_dialog_messase,
+                        positiveButtonText = R.string.find_shelter_dialog_positive_button,
+                        negativeButtonText = R.string.find_shelter_dialog_negative_button,
+                        context = context,
+                        onPositiveButtonClick = {
+                            action(
+                                SheltersViewAction.OnFindShelter(
+                                    latitudeLongitude = Pair(shelter?.latitude, shelter?.longitude)
+                                )
+                            )
+                        }
+                    )
+                }
             ) {
                 Text(
                     text = stringResource(id = R.string.button_how_to_arrive)
@@ -231,9 +257,9 @@ private fun ShelterCard(
                 ),
                 onClick = {
                     createDialog(
-                        message = message,
-                        positiveButtonText = positiveButtonText,
-                        negativeButtonText = negativeButtonText,
+                        message = R.string.call_shelter_dialog_message,
+                        positiveButtonText = R.string.call_shelter_dialog_positive_button,
+                        negativeButtonText = R.string.call_shelter_dialog_negative_button,
                         context = context,
                         onPositiveButtonClick = {
                             action(
@@ -254,18 +280,18 @@ private fun ShelterCard(
 }
 
 private fun createDialog(
-    message: String,
-    positiveButtonText: String,
-    negativeButtonText: String,
+    message: Int,
+    positiveButtonText: Int,
+    negativeButtonText: Int,
     context: Context?,
     onPositiveButtonClick: () -> Unit
 ) {
     val dialog = AlertDialog.Builder(context)
-    dialog.setMessage(message)
-        .setPositiveButton(positiveButtonText) { _, _ ->
+    dialog.setMessage(context?.getString(message))
+        .setPositiveButton(context?.getString(positiveButtonText)) { _, _ ->
             onPositiveButtonClick()
         }
-        .setNegativeButton(negativeButtonText) { dialog, _ ->
+        .setNegativeButton(context?.getString(negativeButtonText)) { dialog, _ ->
             dialog.dismiss()
         }
     dialog.show()

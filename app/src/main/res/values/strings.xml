@@ -48,4 +48,14 @@
     <string name="find_shelter_dialog_positive_button">Como chegar</string>
     <string name="find_shelter_dialog_negative_button">Cancelar</string>
     <string name="cannot_open_maps_app">Para saber como chegar, você precisa ter um aplicativo de mapa instalado</string>
+
+    <!-- My Profile Screen -->
+    <string name="my_profile_card_title">Dados pessoais</string>
+    <string name="my_profile_card_name">Nome</string>
+    <string name="my_profile_card_phone">Telefone</string>
+    <string name="my_profile_card_address">Endereço</string>
+    <string name="my_profile_card_email">E-mail</string>
+    <string name="my_profile_card_password">Senha</string>
+    <string name="my_profile_card_permissions_title">Permissões do aplicativo</string>
+    <string name="my_profile_card_permissions_subtitle">Gerencie as permissões do aplicativo no seu celular</string>
 </resources>

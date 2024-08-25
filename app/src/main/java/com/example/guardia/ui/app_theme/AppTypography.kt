@@ -30,6 +30,11 @@ object TitleRegular {
         Font(R.font.manrope_regular, FontWeight.Normal)
     )
 
+    val title_tiny: TextStyle = TextStyle(
+        fontFamily = manropeRegular,
+        fontSize = tiny_size.sp
+    )
+
     val title_lg: TextStyle = TextStyle(
         fontFamily = manropeRegular,
         fontSize = large_size.sp
@@ -39,6 +44,16 @@ object TitleRegular {
 object TitleBold {
     private val manropeBold = FontFamily(
         Font(R.font.manrope_bold, FontWeight.Bold)
+    )
+
+    val title_tiny: TextStyle = TextStyle(
+        fontFamily = manropeBold,
+        fontSize = tiny_size.sp
+    )
+
+    val title_small: TextStyle = TextStyle(
+        fontFamily = manropeBold,
+        fontSize = small_size.sp
     )
 
     val title_md: TextStyle = TextStyle(

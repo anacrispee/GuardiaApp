@@ -63,7 +63,6 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieVersion" }
 
 #Tests
-kotlin-tests = { group = "org.jetbrains.kotlin", name = "kotlinx-coroutines-test", version.ref = "kotlin-test" }
 mockito = { group = "org.mockito.kotlin", name = "mockito-kotlin", version = "4.1.0" }
 
 [plugins]

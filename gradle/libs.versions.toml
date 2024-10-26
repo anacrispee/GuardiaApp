@@ -17,6 +17,7 @@ squareupRetrofitVersion = "2.9.0"
 coilVersion = "2.6.0"
 serialization = "1.6.3"
 lottieVersion = "4.0.0"
+kotlin-test = "1.6.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -60,6 +61,10 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 
 #Lottie
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieVersion" }
+
+#Tests
+kotlin-tests = { group = "org.jetbrains.kotlin", name = "kotlinx-coroutines-test", version.ref = "kotlin-test" }
+mockito = { group = "org.mockito.kotlin", name = "mockito-kotlin", version = "4.1.0" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

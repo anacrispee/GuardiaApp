@@ -21,7 +21,7 @@ Inicialmente este aplicativo está sendo desenvolvido em Android nativo, e tem c
 - Arquitetura MVI
 - Retrofrit/OkHttp
 - Koin para injeção de dependência
-- Trello para organização das tasks utilizando metodologias ágeis
+- [Trello](https://trello.com/b/UmSudVMK) para organização das tasks utilizando metodologias ágeis
 - Gitflow para organização do fluxo de trabalho
 ### APIs utilizadas
 - [NewsAPI](https://newsapi.org/) - retorna notícias de todo o mundo, sendo filtrado por uma lista de palavras-chafe, retornando somente notícias pertinentes ao objetivo do app.

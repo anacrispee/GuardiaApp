@@ -13,7 +13,7 @@ Inicialmente este aplicativo está sendo desenvolvido em Android nativo, e tem c
 ### Design
 - Acesse o [Figma Design](https://www.figma.com/design/O8yoOtgsnMyKRRSFxCnrS3/App-Guardi%C3%A3?node-id=0-1&t=X03ZkEo7pfHircG9-1) do App
 ### Documentações acadêmicas produzidas
-- [Hands on Work VIII - Aplicação e automatização de testes unitários](https://docs.google.com/document/d/1dIHBQbTkp5yGl3bMgSyUALoYh6iJ1ihmDLa20_jT59U/edit?usp=sharing) - _Em andamento_
+- [Hands on Work VIII - Implementação e automatização de testes unitários](https://docs.google.com/document/d/1dIHBQbTkp5yGl3bMgSyUALoYh6iJ1ihmDLa20_jT59U/edit?usp=sharing) - _Em andamento_
 - [Hands on Work IX - Definição do escopo do projeto e testes de usabilidade](https://docs.google.com/document/d/1SCvSPoTSgmEsHLvOtETZo_kauVEGI6fvnWeYG9ST4Dw/edit?usp=sharing)
 - [Hands on Work X - Análise paramétrica de concorrentes](https://docs.google.com/document/d/1pEYAvKYYmZ6197spZDcHUI27Kzemrdp3PDNpipK6IhQ/edit?usp=sharing)
 ### Tecnologias e ferramentas usadas

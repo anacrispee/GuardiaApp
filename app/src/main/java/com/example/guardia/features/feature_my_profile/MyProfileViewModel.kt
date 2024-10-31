@@ -10,8 +10,14 @@ class MyProfileViewModel : ViewModel(), KoinComponent {
     var viewState by mutableStateOf(MyProfileViewState())
 
     fun dispatcherViewAction(action: MyProfileViewAction) {
-//        when (action) {
-//
-//        }
+        when (action) {
+            MyProfileViewAction.GetUser -> getUser()
+        }
+    }
+
+    private fun getUser() {
+        viewState = viewState.copy(
+            user = DummyViewState.DUMMY_PROFILE
+        )
     }
 }

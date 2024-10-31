@@ -2,28 +2,37 @@ package com.example.guardia.features.feature_my_profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.guardia.R
+import com.example.guardia.data_remote.model.user.UserModel
 import com.example.guardia.ui.app_theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -34,6 +43,10 @@ fun MyProfileScreen(
 ) {
     val viewState = viewModel.viewState
     val action = viewModel::dispatcherViewAction
+
+    LaunchedEffect(true) {
+        action(MyProfileViewAction.GetUser)
+    }
 
     Box(
         modifier = Modifier
@@ -46,31 +59,56 @@ fun MyProfileScreen(
             contentDescription = null,
             contentScale = ContentScale.Crop
         )
-        Header()
-        MyProfileCard()
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Header(
+                user = viewState.user
+            )
+            MyProfileCard(
+                user = viewState.user
+            )
+        }
     }
 }
 
 @Composable
-private fun Header() {
+private fun Header(
+    user: UserModel?
+) {
+    Spacer(modifier = Modifier.height(64.dp))
     AsyncImage(
         modifier = Modifier
-            .padding(16.dp),
-        model = model.imageProfile,
-        contentDescription = null
+            .size(164.dp)
+            .padding(16.dp)
+            .clip(
+                shape = CircleShape
+            )
+            .border(
+                width = 2.dp,
+                color = AppTheme.colors.secondary.lighter,
+                shape = CircleShape
+            ),
+        model = user?.image ?: R.drawable.image_unavailable_image,
+        contentDescription = null,
+        contentScale = ContentScale.Crop
     )
     Text(
-        text = model.name,
+        text = user?.name.orEmpty(),
         style = AppTheme.typography.titleBold.title_lg,
         color = AppTheme.colors.secondary.lighter
     )
 }
 
 @Composable
-private fun MyProfileCard() {
+private fun MyProfileCard(
+    user: UserModel?
+) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(16.dp)
             .background(
                 color = AppTheme.colors.secondary.lighter,
@@ -82,27 +120,28 @@ private fun MyProfileCard() {
         CardTitle()
         CardItem(
             title = stringResource(id = R.string.my_profile_card_name),
-            value = model.name
+            value = user?.name.orEmpty()
         )
         CardItem(
             title = stringResource(id = R.string.my_profile_card_phone),
-            value = model.phone
+            value = user?.phone.orEmpty()
         )
         CardItem(
             title = stringResource(id = R.string.my_profile_card_address),
-            value = model.address
+            value = user?.address.orEmpty()
         )
         CardItem(
             title = stringResource(id = R.string.my_profile_card_email),
-            value = model.email
+            value = user?.email.orEmpty()
         )
         CardItem(
             title = stringResource(id = R.string.my_profile_card_password),
-            value = model.password
+            value = "**************"
         )
         CardItem(
             title = stringResource(id = R.string.my_profile_card_permissions_title),
-            value = stringResource(id = R.string.my_profile_card_permissions_subtitle)
+            value = stringResource(id = R.string.my_profile_card_permissions_subtitle),
+            showIcon = false
         )
     }
 }
@@ -110,12 +149,13 @@ private fun MyProfileCard() {
 @Composable
 private fun CardItem(
     title: String,
-    value: String
+    value: String,
+    showIcon: Boolean = true
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -131,15 +171,19 @@ private fun CardItem(
             Text(
                 text = value,
                 style = AppTheme.typography.titleRegular.title_tiny,
-                color = AppTheme.colors.primary.dark_grey
+                color = AppTheme.colors.primary.dark_grey,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
             )
         }
-        Icon(
-            modifier = Modifier
-                .weight(0.2f),
-            painter = painterResource(id = R.drawable.ic_line_edit),
-            contentDescription = null
-        )
+        if (showIcon)
+            Icon(
+                modifier = Modifier
+                    .weight(0.2f),
+                painter = painterResource(id = R.drawable.ic_line_edit),
+                tint = AppTheme.colors.primary.dark_pink,
+                contentDescription = null
+            )
     }
 }
 

@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.android.koinCompose)
     implementation(libs.navigation)
     implementation(libs.splashscreen)
+    implementation(libs.mockito)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

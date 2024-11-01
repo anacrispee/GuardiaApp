@@ -64,6 +64,8 @@ lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = 
 
 #Tests
 mockito = { group = "org.mockito.kotlin", name = "mockito-kotlin", version = "4.1.0" }
+testimplementation = { group = "io.mockk", name = "mockk-android", version = "1.13.2" }
+coretesting = { group = "androidx.arch.core", name = "core-testing", version = "2.2.0" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

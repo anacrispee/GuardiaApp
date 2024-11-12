@@ -6,6 +6,7 @@ import com.example.guardia.data_remote.model.news_api.ArticleSource
 import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleResponse
 import com.example.guardia.data_remote.model.news_api.generic_response.GenericResponseNewsApi
 import com.example.guardia.data_remote.services.NewsApiService
+import com.example.utils.DummyFactory
 import com.example.utils.RequestWrapperTest
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -49,19 +50,7 @@ class NewsApiRemoteDataSourceImplTest {
             status = "ok",
             totalResults = 1,
             articles = listOf(
-                DomesticViolenceArticleResponse(
-                    source = ArticleSource(
-                        sourceId = "id",
-                        sourceName = "name"
-                    ),
-                    author = "author",
-                    title = "title",
-                    description = "description",
-                    url = "url",
-                    urlToImage = "urlToImage",
-                    publishedAt = "publishedAt",
-                    content = "content"
-                )
+                DummyFactory.DUMMY_DOMESTIC_VIOLENCE_ARTICLE
             )
         )
 

@@ -17,7 +17,7 @@ squareupRetrofitVersion = "2.9.0"
 coilVersion = "2.6.0"
 serialization = "1.6.3"
 lottieVersion = "4.0.0"
-kotlin-test = "1.6.8"
+kotlin-test = "1.8.10"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,8 +64,11 @@ lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = 
 
 #Tests
 mockito = { group = "org.mockito.kotlin", name = "mockito-kotlin", version = "4.1.0" }
-testimplementation = { group = "io.mockk", name = "mockk-android", version = "1.13.2" }
+testimplementation = { group = "io.mockk", name = "mockk-android", version = "1.13.10" }
 coretesting = { group = "androidx.arch.core", name = "core-testing", version = "2.2.0" }
+kotlin-tests = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin-test" }
+mockito-core = { group = "org.mockito", name = "mockito-core", version = "4.5.1" }
+mockito-android = { group = "org.mockito", name = "mockito-android", version = "4.5.1" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

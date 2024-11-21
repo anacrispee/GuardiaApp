@@ -2,7 +2,7 @@ package com.example.usecase
 
 import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleResponse
 import com.example.guardia.domain.repository.NewsApiRemoteRepository
-import com.example.guardia.domain.use_case.GetDomesticPsychologicalAbuseArticlesUseCase
+import com.example.guardia.domain.use_case.GetDomesticViolenceArticlesUseCase
 import com.example.utils.testFlow
 import com.example.utils.testModule
 import io.mockk.MockKAnnotations
@@ -20,20 +20,20 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 
-class GetDomesticPsychologicalAbuseArticlesUseCaseTest : KoinTest {
+class GetDomesticViolenceArticlesUseCaseTest : KoinTest {
     @MockK
     private lateinit var response: DomesticViolenceArticleResponse
 
     @MockK
     private lateinit var repository: NewsApiRemoteRepository
-    private lateinit var subject: GetDomesticPsychologicalAbuseArticlesUseCase
+    private lateinit var subject: GetDomesticViolenceArticlesUseCase
 
     @Before
     fun before() {
         stopKoin()
         MockKAnnotations.init(this)
         startKoin { modules(testModule) }
-        subject = GetDomesticPsychologicalAbuseArticlesUseCase(
+        subject = GetDomesticViolenceArticlesUseCase(
             scope = CoroutineScope(Dispatchers.Unconfined),
             repository
         )
@@ -46,7 +46,7 @@ class GetDomesticPsychologicalAbuseArticlesUseCaseTest : KoinTest {
     }
 
     @Test
-    fun whenSucceedMustReturnListOfDomesticPsychologicalAbuseArticles() {
+    fun whenSucceedMustReturnListOfDomesticViolenceArticles() {
         stubOnSuccess()
         subject.run(
             params = null
@@ -56,7 +56,7 @@ class GetDomesticPsychologicalAbuseArticlesUseCaseTest : KoinTest {
     }
 
     private fun stubOnSuccess() {
-        every { repository.getDomesticPsychologicalAbuseArticles() } returns flowOf(
+        every { repository.getDomesticViolenceArticles() } returns flowOf(
             listOf(response)
         )
     }

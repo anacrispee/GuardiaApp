@@ -53,7 +53,7 @@ android {
 }
 
 dependencies {
-
+    // general dependencies
     implementation(libs.lottie)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.coil)
@@ -67,12 +67,6 @@ dependencies {
     implementation(libs.android.koinCompose)
     implementation(libs.navigation)
     implementation(libs.splashscreen)
-    implementation(libs.mockito)
-    implementation(libs.testimplementation)
-    implementation(libs.coretesting)
-    implementation(libs.kotlin.tests)
-    implementation(libs.mockito.core)
-    implementation(libs.mockito.android)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -81,6 +75,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // test dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -88,4 +84,11 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidcore.testing)
+    implementation(libs.android.androidMockk)
+    implementation(libs.android.mockitoKotlin)
+    implementation(libs.android.kotlinJunit)
+    implementation(libs.android.mockitoAndroid)
+    testImplementation(libs.android.mockk)
+    implementation(libs.android.koinTest)
 }

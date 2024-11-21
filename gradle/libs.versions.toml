@@ -11,13 +11,21 @@ composeBom = "2024.05.00"
 splashscreen = "1.0.1"
 navigation = "2.7.7"
 koinVersion = "3.5.3"
-koinTestVersion = "3.5.0"
+koinCoreVersion = "3.5.0"
 okhttp3Version = "4.12.0"
 squareupRetrofitVersion = "2.9.0"
 coilVersion = "2.6.0"
 serialization = "1.6.3"
 lottieVersion = "4.0.0"
-kotlin-test = "1.8.10"
+
+#Test versions
+androidCoreTesting = "2.2.0"
+androidMockkVersion = "1.13.10"
+mockitoKotlinVersion = "4.1.0"
+kotlinJunitVersion = "1.9.0"
+mockitoAndroidVersion = "5.14.2"
+mockkVersion = "1.13.10"
+koinTestVersion = "3.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -53,7 +61,7 @@ navigation = { group = "androidx.navigation", name = "navigation-compose", versi
 
 #Koin
 android-koin = {group = "io.insert-koin", name = "koin-android", version.ref = "koinVersion"}
-android-koinCore = {group = "io.insert-koin", name = "koin-core", version.ref = "koinTestVersion"}
+android-koinCore = {group = "io.insert-koin", name = "koin-core", version.ref = "koinCoreVersion" }
 android-koinCompose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinVersion" }
 
 #Serialization
@@ -62,13 +70,14 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 #Lottie
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieVersion" }
 
-#Tests
-mockito = { group = "org.mockito.kotlin", name = "mockito-kotlin", version = "4.1.0" }
-testimplementation = { group = "io.mockk", name = "mockk-android", version = "1.13.10" }
-coretesting = { group = "androidx.arch.core", name = "core-testing", version = "2.2.0" }
-kotlin-tests = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin-test" }
-mockito-core = { group = "org.mockito", name = "mockito-core", version = "4.5.1" }
-mockito-android = { group = "org.mockito", name = "mockito-android", version = "4.5.1" }
+#Test
+androidcore-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "androidCoreTesting" }
+android-androidMockk = { group = "io.mockk", name = "mockk-android", version.ref = "androidMockkVersion" }
+android-mockitoKotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlinVersion" }
+android-kotlinJunit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlinJunitVersion" }
+android-mockitoAndroid = { group = "org.mockito", name = "mockito-android", version.ref = "mockitoAndroidVersion" }
+android-mockk = { group = "io.mockk", name = "mockk", version.ref = "mockkVersion" }
+android-koinTest = { group = "io.insert-koin", name = "koin-test", version.ref = "koinTestVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

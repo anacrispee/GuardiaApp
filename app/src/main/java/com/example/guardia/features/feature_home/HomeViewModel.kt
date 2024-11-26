@@ -4,25 +4,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.guardia.domain.use_case.GetDomesticPsychologicalAbuseArticlesUseCase
 import com.example.guardia.domain.use_case.GetDomesticViolenceArticlesUseCase
 import com.example.guardia.domain.use_case.GetDomesticViolenceStoriesUseCase
 import com.example.guardia.domain.use_case.GetHarassmentAgainstWomenArticlesUseCase
 import com.example.guardia.domain.use_case.GetThreatAgainstWomenArticlesUseCase
+import com.example.guardia.domain.utils.useCase
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import org.koin.core.parameter.parametersOf
 
 class HomeViewModel : ViewModel(), KoinComponent {
 
     var viewState by mutableStateOf(HomeViewState())
 
-    private val getDomesticViolenceArticlesUseCase: GetDomesticViolenceArticlesUseCase by inject { parametersOf(viewModelScope) }
-    private val getDomesticViolenceStoriesUseCase: GetDomesticViolenceStoriesUseCase by inject { parametersOf(viewModelScope) }
-    private val getDomesticPsychologicalAbuseArticlesUseCase: GetDomesticPsychologicalAbuseArticlesUseCase by inject { parametersOf(viewModelScope) }
-    private val getHarassmentAgainstWomenArticlesUseCase: GetHarassmentAgainstWomenArticlesUseCase by inject { parametersOf(viewModelScope) }
-    private val getThreatAgainstWomenArticlesUseCase: GetThreatAgainstWomenArticlesUseCase by inject { parametersOf(viewModelScope) }
+    private val getDomesticViolenceArticlesUseCase: GetDomesticViolenceArticlesUseCase by useCase()
+    private val getDomesticViolenceStoriesUseCase: GetDomesticViolenceStoriesUseCase by useCase()
+    private val getDomesticPsychologicalAbuseArticlesUseCase: GetDomesticPsychologicalAbuseArticlesUseCase by useCase()
+    private val getHarassmentAgainstWomenArticlesUseCase: GetHarassmentAgainstWomenArticlesUseCase by useCase()
+    private val getThreatAgainstWomenArticlesUseCase: GetThreatAgainstWomenArticlesUseCase by useCase()
 
     fun dispatcherViewAction(action: HomeViewAction) {
         when (action) {

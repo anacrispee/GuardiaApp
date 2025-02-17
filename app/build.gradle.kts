@@ -47,6 +47,8 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/LICENSE-notice.md"
         }
     }
 }
@@ -68,6 +70,9 @@ dependencies {
     implementation(libs.android.koinCompose)
     implementation(libs.navigation)
     implementation(libs.splashscreen)
+    implementation(libs.mockito)
+    implementation(libs.testimplementation)
+    implementation(libs.coretesting)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

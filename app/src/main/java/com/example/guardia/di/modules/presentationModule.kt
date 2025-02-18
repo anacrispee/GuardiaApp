@@ -1,5 +1,6 @@
 package com.example.guardia.di.modules
 
+import com.example.guardia.features.authentication.login.LoginViewModel
 import com.example.guardia.features.feature_home.HomeViewModel
 import com.example.guardia.features.feature_my_profile.MyProfileViewModel
 import com.example.guardia.features.feature_panic_button.PanicButtonViewModel
@@ -12,4 +13,5 @@ val presentationModule = module {
     viewModel { PanicButtonViewModel() }
     viewModel { SheltersViewModel() }
     viewModel { MyProfileViewModel() }
+    viewModel { LoginViewModel() }
 }

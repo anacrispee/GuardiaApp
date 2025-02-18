@@ -10,9 +10,11 @@ import com.example.guardia.di.NavGraphConstants.ARTICLE_READING_SCREEN_ARGS
 import com.example.guardia.di.NavGraphConstants.CONNECTION_ERROR_SCREEN
 import com.example.guardia.di.NavGraphConstants.FIND_SHELTERS_SCREEN
 import com.example.guardia.di.NavGraphConstants.HOME_SCREEN
+import com.example.guardia.di.NavGraphConstants.LOGIN_SCREEN
 import com.example.guardia.di.NavGraphConstants.MY_PROFILE_SCREEN
 import com.example.guardia.di.NavGraphConstants.PANIC_BUTTON_SCREEN
 import com.example.guardia.features.article_reading_screen.ArticleReadingScreen
+import com.example.guardia.features.authentication.login.LoginScreen
 import com.example.guardia.features.connection_error_screen.ConnectionErrorScreen
 import com.example.guardia.features.feature_home.HomeScreen
 import com.example.guardia.features.feature_my_profile.MyProfileScreen
@@ -25,29 +27,12 @@ fun NavigationGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = HOME_SCREEN
+        startDestination = LOGIN_SCREEN
     ) {
+        //region home screen
         composable(HOME_SCREEN) {
             HomeScreen(navController)
         }
-
-        composable(MY_PROFILE_SCREEN) {
-            MyProfileScreen(navController)
-        }
-
-        composable(PANIC_BUTTON_SCREEN) {
-            PanicButtonScreen(navController)
-        }
-
-        composable(FIND_SHELTERS_SCREEN) {
-            FindSheltersScreen(navController)
-        }
-
-        composable(route = CONNECTION_ERROR_SCREEN) {
-                ConnectionErrorScreen(
-                    navController = navController
-                )
-            }
 
         composable(ARTICLE_READING_SCREEN_ARGS,
             arguments = listOf(
@@ -70,17 +55,52 @@ fun NavigationGraph(
                 contentLink = contentLink.orEmpty()
             )
         }
+        //endregion
+
+        //region authentication
+        composable(LOGIN_SCREEN) {
+            LoginScreen(navController)
+        }
+        //endregion
+
+        //region others
+        composable(MY_PROFILE_SCREEN) {
+            MyProfileScreen(navController)
+        }
+
+        composable(PANIC_BUTTON_SCREEN) {
+            PanicButtonScreen(navController)
+        }
+
+        composable(FIND_SHELTERS_SCREEN) {
+            FindSheltersScreen(navController)
+        }
+
+        composable(route = CONNECTION_ERROR_SCREEN) {
+                ConnectionErrorScreen(
+                    navController = navController
+                )
+            }
+        //endregion
     }
 }
 
 object NavGraphConstants {
+    //region home screen
     const val HOME_SCREEN = "HomeScreen"
+    const val ARTICLE_READING_SCREEN = "ArticleReadingScreen"
+    const val ARTICLE_READING_SCREEN_ARGS =
+        "$ARTICLE_READING_SCREEN/{title}/{author}/{publishedAt}/{contentLink}"
+    //endregion
+
+    //region authentication
+    const val LOGIN_SCREEN = "LoginScreen"
+    //endregion
+
+    //region others
     const val MY_PROFILE_SCREEN = "MyProfileScreen"
     const val PANIC_BUTTON_SCREEN = "PanicButtonScreen"
     const val FIND_SHELTERS_SCREEN = "FindSheltersScreen"
     const val CONNECTION_ERROR_SCREEN = "ConnectionErrorScreen"
-    const val ARTICLE_READING_SCREEN = "ArticleReadingScreen"
-
-    const val ARTICLE_READING_SCREEN_ARGS =
-        "$ARTICLE_READING_SCREEN/{title}/{author}/{publishedAt}/{contentLink}"
+    //endregion
 }

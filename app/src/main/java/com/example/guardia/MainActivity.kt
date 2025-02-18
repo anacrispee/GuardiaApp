@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.NavigationBar
@@ -24,7 +23,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -37,31 +35,11 @@ import com.example.guardia.di.NavGraphConstants.MY_PROFILE_SCREEN
 import com.example.guardia.di.NavGraphConstants.PANIC_BUTTON_SCREEN
 import com.example.guardia.di.NavigationGraph
 import com.example.guardia.ui.app_theme.AppTheme
-import com.google.firebase.auth.auth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-//        val auth = Firebase.auth
-//        println("ldsfksldss - ${auth.currentUser}")
-
-//        auth.createUserWithEmailAndPassword(
-//            "anocabatatoide@gmail.com",
-//            "batatinha123"
-//        ).addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                println("ldsfksldss - criou usuario SUCESSOOOOOO")
-//            } else {
-//                println("ldsfksldss - não criou usuario: ${task.exception}")
-//            }
-//        }
-
-//        auth.signOut()
-
         installSplashScreen()
         setContent {
             var selectedItemIndex by rememberSaveable {
@@ -78,9 +56,7 @@ class MainActivity : ComponentActivity() {
                     containerColor = AppTheme.colors.secondary.background,
                     bottomBar = {
                         NavigationBar(
-                            containerColor = AppTheme.colors.primary.dark_pink,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
+                            containerColor = AppTheme.colors.primary.dark_pink
                         ) {
                             items.forEachIndexed { index, item ->
                                 val color = AppTheme.colors.secondary.lighter

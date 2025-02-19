@@ -1,5 +1,6 @@
 package com.example.guardia.features.feature_home
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -67,6 +68,7 @@ fun HomeScreen(
     val action = viewModel::dispatcherViewAction
     val screenContext = LocalContext.current
 
+    BackHandler {}
     LaunchedEffect(true) {
         if (isNetworkAvailable(screenContext).not()) {
             navController.navigate(CONNECTION_ERROR_SCREEN)

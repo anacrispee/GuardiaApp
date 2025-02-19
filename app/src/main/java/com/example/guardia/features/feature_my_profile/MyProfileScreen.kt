@@ -1,5 +1,6 @@
 package com.example.guardia.features.feature_my_profile
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,8 +14,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,6 +48,7 @@ fun MyProfileScreen(
     val viewState = viewModel.viewState
     val action = viewModel::dispatcherViewAction
 
+    BackHandler {}
     LaunchedEffect(true) {
         action(MyProfileViewAction.GetUser)
     }
@@ -61,6 +66,7 @@ fun MyProfileScreen(
         )
         Column(
             modifier = Modifier
+                .verticalScroll(rememberScrollState())
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -70,6 +76,13 @@ fun MyProfileScreen(
             MyProfileCard(
                 user = viewState.user
             )
+            Button(
+                onClick = {
+                    action(MyProfileViewAction.Logout(navController))
+                }
+            ) {
+                Text("Sair")
+            }
         }
     }
 }

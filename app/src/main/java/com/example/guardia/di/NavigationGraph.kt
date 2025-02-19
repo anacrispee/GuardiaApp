@@ -23,11 +23,12 @@ import com.example.guardia.features.feature_shelters.FindSheltersScreen
 
 @Composable
 fun NavigationGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    hasUserLogged: Boolean
 ) {
     NavHost(
         navController = navController,
-        startDestination = LOGIN_SCREEN
+        startDestination = if (hasUserLogged) HOME_SCREEN else LOGIN_SCREEN
     ) {
         //region home screen
         composable(HOME_SCREEN) {

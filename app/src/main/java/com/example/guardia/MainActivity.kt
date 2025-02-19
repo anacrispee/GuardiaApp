@@ -20,6 +20,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -35,6 +37,8 @@ import com.example.guardia.di.NavGraphConstants.MY_PROFILE_SCREEN
 import com.example.guardia.di.NavGraphConstants.PANIC_BUTTON_SCREEN
 import com.example.guardia.di.NavigationGraph
 import com.example.guardia.ui.app_theme.AppTheme
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -47,6 +51,13 @@ class MainActivity : ComponentActivity() {
             }
             val navController = rememberNavController()
             val items = bottomNavigationItems()
+            var hasUserLogged by remember { mutableStateOf(Firebase.auth.currentUser != null) }
+
+            Firebase.auth.addAuthStateListener { auth ->
+                hasUserLogged = auth.currentUser != null
+            }
+            println("sdlkfjlsdkjf - bateu Activity")
+            println("sdlkfjlsdkjf - hasUserLogged: $hasUserLogged")
 
             Surface(
                 modifier = Modifier.fillMaxSize()
@@ -55,57 +66,59 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     containerColor = AppTheme.colors.secondary.background,
                     bottomBar = {
-                        NavigationBar(
-                            containerColor = AppTheme.colors.primary.dark_pink
-                        ) {
-                            items.forEachIndexed { index, item ->
-                                val color = AppTheme.colors.secondary.lighter
-                                NavigationBarItem(
-                                    colors = NavigationBarItemColors(
-                                        disabledIconColor = color,
-                                        selectedIconColor = color,
-                                        selectedTextColor = color,
-                                        disabledTextColor = color,
-                                        selectedIndicatorColor = AppTheme.colors.primary.darker_pink,
-                                        unselectedIconColor = color,
-                                        unselectedTextColor = color
-                                    ),
-                                    selected = selectedItemIndex == index,
-                                    onClick = {
-                                        selectedItemIndex = index
-                                        navController.navigate(item.route)
-                                    },
-                                    label = {
-                                        Text(text = item.title)
-                                    },
-                                    icon = {
-                                        BadgedBox(
-                                            badge = {
-                                                if (item.badgeCount != null)
-                                                    Badge(
-                                                        containerColor = color,
-                                                        contentColor = AppTheme.colors.primary.dark_pink
-                                                    ) {
-                                                        Text(text = item.badgeCount.toString())
-                                                    }
-                                                else if (item.hasNews)
-                                                    Badge(
-                                                        containerColor = color
-                                                    )
+                        if (hasUserLogged) {
+                            NavigationBar(
+                                containerColor = AppTheme.colors.primary.dark_pink
+                            ) {
+                                items.forEachIndexed { index, item ->
+                                    val color = AppTheme.colors.secondary.lighter
+                                    NavigationBarItem(
+                                        colors = NavigationBarItemColors(
+                                            disabledIconColor = color,
+                                            selectedIconColor = color,
+                                            selectedTextColor = color,
+                                            disabledTextColor = color,
+                                            selectedIndicatorColor = AppTheme.colors.primary.darker_pink,
+                                            unselectedIconColor = color,
+                                            unselectedTextColor = color
+                                        ),
+                                        selected = selectedItemIndex == index,
+                                        onClick = {
+                                            selectedItemIndex = index
+                                            navController.navigate(item.route)
+                                        },
+                                        label = {
+                                            Text(text = item.title)
+                                        },
+                                        icon = {
+                                            BadgedBox(
+                                                badge = {
+                                                    if (item.badgeCount != null)
+                                                        Badge(
+                                                            containerColor = color,
+                                                            contentColor = AppTheme.colors.primary.dark_pink
+                                                        ) {
+                                                            Text(text = item.badgeCount.toString())
+                                                        }
+                                                    else if (item.hasNews)
+                                                        Badge(
+                                                            containerColor = color
+                                                        )
+                                                }
+                                            ) {
+                                                Image(
+                                                    modifier = Modifier
+                                                        .size(24.dp),
+                                                    painter = if (index == selectedItemIndex)
+                                                        item.selectedIcon
+                                                    else
+                                                        item.unselectedIcon,
+                                                    contentDescription = item.title
+                                                )
                                             }
-                                        ) {
-                                            Image(
-                                                modifier = Modifier
-                                                    .size(24.dp),
-                                                painter = if (index == selectedItemIndex)
-                                                    item.selectedIcon
-                                                else
-                                                    item.unselectedIcon,
-                                                contentDescription = item.title
-                                            )
                                         }
-                                    }
-                                )
+                                    )
+                                }
                             }
                         }
                     }
@@ -115,7 +128,8 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                     ) {
                         NavigationGraph(
-                            navController = navController
+                            navController = navController,
+                            hasUserLogged = hasUserLogged
                         )
                     }
                 }

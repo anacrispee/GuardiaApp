@@ -2,6 +2,7 @@ package com.example.guardia.features.feature_shelters
 
 import android.app.AlertDialog
 import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -54,6 +55,7 @@ fun FindSheltersScreen(
     val viewState = viewModel.viewState
     val action = viewModel::dispatcherViewAction
 
+    BackHandler {}
     action(
         SheltersViewAction.GetContext(
             context = LocalContext.current

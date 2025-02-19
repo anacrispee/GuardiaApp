@@ -1,5 +1,6 @@
 package com.example.guardia.features.feature_panic_button
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -52,6 +53,7 @@ fun PanicButtonScreen(
     val viewState = viewModel.viewState
     val action = viewModel::dispatcherViewAction
 
+    BackHandler {}
     if (viewState.isPanicButtonVisible) {
         PanicButton(
             action = action

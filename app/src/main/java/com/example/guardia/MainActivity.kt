@@ -4,6 +4,11 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.FiniteAnimationSpec
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -52,12 +57,14 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             val items = bottomNavigationItems()
             var hasUserLogged by remember { mutableStateOf(Firebase.auth.currentUser != null) }
+            val animationSpec : FiniteAnimationSpec<Float> = spring(
+                dampingRatio = 0.3f,
+                stiffness = 100f
+            )
 
             Firebase.auth.addAuthStateListener { auth ->
                 hasUserLogged = auth.currentUser != null
             }
-            println("sdlkfjlsdkjf - bateu Activity")
-            println("sdlkfjlsdkjf - hasUserLogged: $hasUserLogged")
 
             Surface(
                 modifier = Modifier.fillMaxSize()
@@ -66,7 +73,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     containerColor = AppTheme.colors.secondary.background,
                     bottomBar = {
-                        if (hasUserLogged) {
+                        AnimatedVisibility(
+                            visible = hasUserLogged,
+                            enter = fadeIn(animationSpec),
+                            exit = fadeOut(animationSpec)
+                        ) {
                             NavigationBar(
                                 containerColor = AppTheme.colors.primary.dark_pink
                             ) {

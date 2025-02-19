@@ -42,8 +42,7 @@ fun LoginScreen(
     val viewState = viewModel.viewState
     val action = viewModel::dispatcherViewAction
     val context = LocalContext.current
-//            "anocabatatoide@gmail.com",
-//            "batatinha123"
+
     if (viewState.isLoading.not() && viewState.hasLogged && viewState.error == null) {
         Toast.makeText(
             context,
@@ -80,7 +79,9 @@ private fun LoginScreenContent(
             },
             label = {
                 Text(text = stringResource(id = R.string.login_screen_email))
-            }
+            },
+            maxLines = 1,
+            singleLine = true
         )
         Spacer(modifier = Modifier.padding(16.dp))
         TextField(
@@ -107,7 +108,9 @@ private fun LoginScreenContent(
                         tint = AppTheme.colors.primary.dark_pink
                     )
                 }
-            }
+            },
+            maxLines = 1,
+            singleLine = true
         )
         viewState.loginError?.let {
             Spacer(modifier = Modifier.padding(16.dp))

@@ -60,9 +60,13 @@
     <string name="my_profile_card_permissions_subtitle">Gerencie as permissões do aplicativo no seu celular</string>
 
     <!-- Authentication -->
-    <string name="login_screen_email">E-mail</string>"
-    <string name="login_screen_password">Senha</string>"
-    <string name="login_screen_login">Entrar</string>"
-    <string name="login_screen_success_message">Usuário logado com sucesso!</string>"
-    <string name="login_screen_error_message">Usuário ou senha incorretos</string>"
+    <string name="login_screen_email">E-mail</string>
+    <string name="login_screen_password">Senha</string>
+    <string name="login_screen_login">Entrar</string>
+    <string name="login_screen_success_message">Usuário logado com sucesso!</string>
+    <string name="login_screen_error_message">Usuário ou senha incorretos</string>
+    <string name="create_account_button">Ainda não tem conta? Crie uma.</string>
+    <string name="create_account_button_create">Criar conta</string>
+    <string name="create_account_confirm_password">Confirme sua senha</string>
+    <string name="create_account_wrong_passwords">As senhas não conferem</string>
 </resources>

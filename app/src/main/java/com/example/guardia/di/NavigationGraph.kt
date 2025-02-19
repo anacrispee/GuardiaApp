@@ -8,12 +8,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.guardia.di.NavGraphConstants.ARTICLE_READING_SCREEN_ARGS
 import com.example.guardia.di.NavGraphConstants.CONNECTION_ERROR_SCREEN
+import com.example.guardia.di.NavGraphConstants.CREATE_ACCOUNT_SCREEN
 import com.example.guardia.di.NavGraphConstants.FIND_SHELTERS_SCREEN
 import com.example.guardia.di.NavGraphConstants.HOME_SCREEN
 import com.example.guardia.di.NavGraphConstants.LOGIN_SCREEN
 import com.example.guardia.di.NavGraphConstants.MY_PROFILE_SCREEN
 import com.example.guardia.di.NavGraphConstants.PANIC_BUTTON_SCREEN
 import com.example.guardia.features.article_reading_screen.ArticleReadingScreen
+import com.example.guardia.features.authentication.create_account.CreateAccountScreen
 import com.example.guardia.features.authentication.login.LoginScreen
 import com.example.guardia.features.connection_error_screen.ConnectionErrorScreen
 import com.example.guardia.features.feature_home.HomeScreen
@@ -62,6 +64,10 @@ fun NavigationGraph(
         composable(LOGIN_SCREEN) {
             LoginScreen(navController)
         }
+
+        composable(CREATE_ACCOUNT_SCREEN) {
+            CreateAccountScreen(navController)
+        }
         //endregion
 
         //region others
@@ -96,6 +102,7 @@ object NavGraphConstants {
 
     //region authentication
     const val LOGIN_SCREEN = "LoginScreen"
+    const val CREATE_ACCOUNT_SCREEN = "CreateAccountScreen"
     //endregion
 
     //region others

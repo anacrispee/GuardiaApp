@@ -27,7 +27,7 @@ class LoginViewModel : ViewModel(), KoinComponent {
             }
 
             LoginViewAction.ShowPassword -> {
-                viewState = viewState.copy(isPasswordHide = !viewState.isPasswordHide)
+                viewState = viewState.copy(isPasswordHide = viewState.isPasswordHide.not())
             }
             LoginViewAction.Login -> login()
         }

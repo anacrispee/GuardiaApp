@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.guardia.R
+import com.example.guardia.di.NavGraphConstants.CREATE_ACCOUNT_SCREEN
 import com.example.guardia.di.NavGraphConstants.HOME_SCREEN
 import com.example.guardia.ui.app_theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
@@ -54,14 +55,16 @@ fun LoginScreen(
 
     LoginScreenContent(
         viewState = viewState,
-        action = action
+        action = action,
+        navController = navController
     )
 }
 
 @Composable
 private fun LoginScreenContent(
     viewState: LoginViewState,
-    action: (LoginViewAction) -> Unit
+    action: (LoginViewAction) -> Unit,
+    navController: NavHostController
 ) {
     Column(
         modifier = Modifier
@@ -143,6 +146,14 @@ private fun LoginScreenContent(
                     viewState.passwordInput.isNotBlank()
         ) {
             Text(text = stringResource(id = R.string.login_screen_login))
+        }
+        Spacer(modifier = Modifier.padding(16.dp))
+        Button(
+            onClick = {
+                navController.navigate(CREATE_ACCOUNT_SCREEN)
+            }
+        ) {
+            Text(text = stringResource(id = R.string.create_account_button))
         }
     }
 }

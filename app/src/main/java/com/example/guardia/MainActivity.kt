@@ -78,6 +78,7 @@ class MainActivity : ComponentActivity() {
                             enter = fadeIn(animationSpec),
                             exit = fadeOut(animationSpec)
                         ) {
+                            selectedItemIndex = 0
                             NavigationBar(
                                 containerColor = AppTheme.colors.primary.dark_pink
                             ) {

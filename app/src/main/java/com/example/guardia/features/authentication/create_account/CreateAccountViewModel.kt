@@ -43,8 +43,15 @@ class CreateAccountViewModel : ViewModel(), KoinComponent {
         auth.createUserWithEmailAndPassword(
             viewState.email,
             viewState.password
-        )
-        updateCurrentUserName()
+        ).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                updateCurrentUserName()
+            }
+        }
+            .addOnFailureListener { task ->
+                println("ljdfsdhfsdj - falhou criar usuário")
+                println("ljdfsdhfsdj - erro = ${task.message}")
+            }
     }
 
     private fun updateCurrentUserName() {

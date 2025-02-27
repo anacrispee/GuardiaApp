@@ -9,5 +9,6 @@ data class CreateAccountViewState(
     val confirmPassword: String = "",
     val isPasswordHide: Boolean = true,
     val isPasswordConfirmationHide: Boolean = true,
-    val passwordsMatch: Boolean? = null
+    val passwordsMatch: Boolean? = null,
+    val createAccountError: Throwable? = null
 )

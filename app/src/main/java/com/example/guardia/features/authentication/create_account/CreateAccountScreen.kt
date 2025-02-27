@@ -1,8 +1,5 @@
 package com.example.guardia.features.authentication.create_account
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,13 +8,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -28,6 +23,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.guardia.R
 import com.example.guardia.ui.app_theme.AppTheme
+import com.example.guardia.ui.uikit.components.ErrorDisclaimer
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -88,24 +84,16 @@ fun CreateAccountScreen(
             enabled = viewState.password.isNotBlank()
         )
         Spacer(modifier = Modifier.padding(16.dp))
+        viewState.createAccountError?.let {
+            ErrorDisclaimer(
+                text = it.message ?: stringResource(R.string.connection_error_title)
+            )
+        }
         if (viewState.passwordsMatch == false) {
             Spacer(modifier = Modifier.padding(16.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(
-                        width = 1.dp, color = Color.Red, shape = MaterialTheme.shapes.small
-                    )
-                    .background(
-                        color = Color.Red.copy(alpha = 0.1f), shape = MaterialTheme.shapes.small
-                    )
-            ) {
-                Text(
-                    text = stringResource(R.string.create_account_wrong_passwords),
-                    modifier = Modifier.padding(16.dp),
-                    color = Color.Red
-                )
-            }
+            ErrorDisclaimer(
+                text = stringResource(R.string.create_account_wrong_passwords)
+            )
         }
         Spacer(modifier = Modifier.weight(0.7f))
         Button(

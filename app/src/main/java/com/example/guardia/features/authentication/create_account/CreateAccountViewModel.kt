@@ -22,11 +22,13 @@ class CreateAccountViewModel : ViewModel(), KoinComponent {
                 email = action.value
             )
             is CreateAccountViewAction.UpdatePasswordInput -> viewState = viewState.copy(
-                password = action.value
+                password = action.value,
+                createAccountError = null
             )
             is CreateAccountViewAction.UpdatePasswordConfirmationInput -> viewState = viewState.copy(
                 confirmPassword = action.value,
-                passwordsMatch = if (viewState.password.isBlank()) true else viewState.password == action.value
+                passwordsMatch = if (viewState.password.isBlank()) true else viewState.password == action.value,
+                createAccountError = null
             )
 
             CreateAccountViewAction.CreateAccount -> createAccount()
@@ -49,8 +51,9 @@ class CreateAccountViewModel : ViewModel(), KoinComponent {
             }
         }
             .addOnFailureListener { task ->
-                println("ljdfsdhfsdj - falhou criar usuário")
-                println("ljdfsdhfsdj - erro = ${task.message}")
+                viewState = viewState.copy(
+                    createAccountError = task
+                )
             }
     }
 

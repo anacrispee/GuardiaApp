@@ -1,10 +1,7 @@
 package com.example.guardia.features.authentication.login
 
 import android.widget.Toast
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,13 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,6 +28,7 @@ import com.example.guardia.R
 import com.example.guardia.di.NavGraphConstants.CREATE_ACCOUNT_SCREEN
 import com.example.guardia.di.NavGraphConstants.HOME_SCREEN
 import com.example.guardia.ui.app_theme.AppTheme
+import com.example.guardia.ui.uikit.components.ErrorDisclaimer
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -117,25 +113,9 @@ private fun LoginScreenContent(
         )
         viewState.loginError?.let {
             Spacer(modifier = Modifier.padding(16.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(
-                        width = 1.dp,
-                        color = Color.Red,
-                        shape = MaterialTheme.shapes.small
-                    )
-                    .background(
-                        color = Color.Red.copy(alpha = 0.1f),
-                        shape = MaterialTheme.shapes.small
-                    )
-            ) {
-                Text(
-                    text = stringResource(R.string.login_screen_error_message),
-                    modifier = Modifier.padding(16.dp),
-                    color = Color.Red
-                )
-            }
+            ErrorDisclaimer(
+                text = stringResource(R.string.login_screen_error_message)
+            )
         }
         Spacer(modifier = Modifier.padding(16.dp))
         Button(

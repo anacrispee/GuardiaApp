@@ -81,8 +81,21 @@ fun MyProfileScreen(
                     action(MyProfileViewAction.Logout(navController))
                 }
             ) {
-                Text("Sair")
+                Text(
+                    text = stringResource(R.string.my_profile_exit_account)
+                )
             }
+            Spacer(modifier = Modifier.padding(16.dp))
+            Button(
+                onClick = {
+                    action(MyProfileViewAction.DeleteAccount(navController))
+                }
+            ) {
+                Text(
+                    text = stringResource(R.string.my_profile_delete_account)
+                )
+            }
+            Spacer(modifier = Modifier.padding(16.dp))
         }
     }
 }

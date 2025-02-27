@@ -4,5 +4,7 @@ import androidx.navigation.NavHostController
 
 sealed class MyProfileViewAction {
     data class Logout(val navController: NavHostController) : MyProfileViewAction()
+    data class DeleteAccount(val navController: NavHostController) : MyProfileViewAction()
+
     object GetUser : MyProfileViewAction()
 }

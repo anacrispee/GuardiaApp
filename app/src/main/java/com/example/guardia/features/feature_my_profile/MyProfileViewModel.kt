@@ -20,6 +20,9 @@ class MyProfileViewModel : ViewModel(), KoinComponent {
             is MyProfileViewAction.Logout -> logout(
                 navController = action.navController
             )
+            is MyProfileViewAction.DeleteAccount -> deleteAccount(
+                navController = action.navController
+            )
             MyProfileViewAction.GetUser -> getUser()
         }
     }
@@ -47,5 +50,16 @@ class MyProfileViewModel : ViewModel(), KoinComponent {
     ) {
         auth.signOut()
         navController.navigate(LOGIN_SCREEN)
+    }
+
+    private fun deleteAccount(
+        navController: NavHostController
+    ) {
+        auth.currentUser?.delete()
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    navController.navigate(LOGIN_SCREEN)
+                }
+            }
     }
 }

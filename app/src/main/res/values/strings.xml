@@ -58,6 +58,8 @@
     <string name="my_profile_card_password">Senha</string>
     <string name="my_profile_card_permissions_title">Permissões do aplicativo</string>
     <string name="my_profile_card_permissions_subtitle">Gerencie as permissões do aplicativo no seu celular</string>
+    <string name="my_profile_exit_account">Sair da conta</string>
+    <string name="my_profile_delete_account">Deletar da conta</string>
 
     <!-- Authentication -->
     <string name="login_screen_email">E-mail</string>

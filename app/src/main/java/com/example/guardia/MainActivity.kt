@@ -44,6 +44,7 @@ import com.example.guardia.di.NavigationGraph
 import com.example.guardia.ui.app_theme.AppTheme
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -51,6 +52,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
+            val viewModel: AppViewModel by inject()
             var selectedItemIndex by rememberSaveable {
                 mutableIntStateOf(0)
             }
@@ -62,9 +64,7 @@ class MainActivity : ComponentActivity() {
                 stiffness = 100f
             )
 
-            Firebase.auth.addAuthStateListener { auth ->
-                hasUserLogged = auth.currentUser != null
-            }
+            viewModel.teti()
 
             Surface(
                 modifier = Modifier.fillMaxSize()

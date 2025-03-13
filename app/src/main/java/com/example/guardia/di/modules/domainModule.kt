@@ -6,6 +6,7 @@ import com.example.guardia.domain.use_case.GetDomesticViolenceArticlesUseCase
 import com.example.guardia.domain.use_case.GetDomesticViolenceStoriesUseCase
 import com.example.guardia.domain.use_case.GetHarassmentAgainstWomenArticlesUseCase
 import com.example.guardia.domain.use_case.GetThreatAgainstWomenArticlesUseCase
+import com.example.guardia.domain.use_case.authentication.GetUserUseCase
 import kotlinx.coroutines.CoroutineScope
 import org.koin.dsl.module
 
@@ -44,6 +45,13 @@ val domainModule = module {
 
     factory { (scope: CoroutineScope) ->
         GetDomesticPsychologicalAbuseArticlesUseCase(
+            scope = scope,
+            repository = get()
+        )
+    }
+
+    factory { (scope: CoroutineScope) ->
+        GetUserUseCase(
             scope = scope,
             repository = get()
         )

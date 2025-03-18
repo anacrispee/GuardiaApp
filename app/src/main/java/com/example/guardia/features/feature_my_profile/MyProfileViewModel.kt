@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
-import com.example.guardia.data_remote.model.user.UserModel
+import com.example.guardia.domain.models.user.UserModel
 import com.example.guardia.di.NavGraphConstants.LOGIN_SCREEN
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth

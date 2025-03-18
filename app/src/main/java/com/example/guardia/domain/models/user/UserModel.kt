@@ -1,4 +1,4 @@
-package com.example.guardia.data_remote.model.user
+package com.example.guardia.domain.models.user
 
 data class UserModel(
     val image: String = "",

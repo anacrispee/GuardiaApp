@@ -36,7 +36,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.guardia.R
-import com.example.guardia.data_remote.model.user.UserModel
+import com.example.guardia.domain.models.user.UserModel
 import com.example.guardia.ui.app_theme.AppTheme
 import org.koin.androidx.compose.koinViewModel
 

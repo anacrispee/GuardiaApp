@@ -1,11 +1,15 @@
 package com.example.guardia.di
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.guardia.AppViewModel
 import com.example.guardia.di.NavGraphConstants.ARTICLE_READING_SCREEN_ARGS
 import com.example.guardia.di.NavGraphConstants.CONNECTION_ERROR_SCREEN
 import com.example.guardia.di.NavGraphConstants.CREATE_ACCOUNT_SCREEN
@@ -22,15 +26,15 @@ import com.example.guardia.features.feature_home.HomeScreen
 import com.example.guardia.features.feature_my_profile.MyProfileScreen
 import com.example.guardia.features.feature_panic_button.PanicButtonScreen
 import com.example.guardia.features.feature_shelters.FindSheltersScreen
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NavigationGraph(
-    navController: NavHostController,
-    hasUserLogged: Boolean
+    navController: NavHostController
 ) {
     NavHost(
         navController = navController,
-        startDestination = if (hasUserLogged) HOME_SCREEN else LOGIN_SCREEN
+        startDestination = LOGIN_SCREEN
     ) {
         //region home screen
         composable(HOME_SCREEN) {
@@ -39,16 +43,16 @@ fun NavigationGraph(
 
         composable(ARTICLE_READING_SCREEN_ARGS,
             arguments = listOf(
-                navArgument("title") { type = NavType.StringType },
-                navArgument("author") { type = NavType.StringType },
-                navArgument("publishedAt") { type = NavType.StringType },
-                navArgument("contentLink") { type = NavType.StringType }
+                navArgument(NavArguments.TITLE) { type = NavType.StringType },
+                navArgument(NavArguments.AUTHOR) { type = NavType.StringType },
+                navArgument(NavArguments.PUBLISHED_AT) { type = NavType.StringType },
+                navArgument(NavArguments.CONTENT_LINK) { type = NavType.StringType }
             )
         ) {
-            val title = it.arguments?.getString("title")
-            val author = it.arguments?.getString("author")
-            val publishedAt = it.arguments?.getString("publishedAt")
-            val contentLink = it.arguments?.getString("contentLink")
+            val title = it.arguments?.getString(NavArguments.TITLE)
+            val author = it.arguments?.getString(NavArguments.AUTHOR)
+            val publishedAt = it.arguments?.getString(NavArguments.PUBLISHED_AT)
+            val contentLink = it.arguments?.getString(NavArguments.CONTENT_LINK)
 
             ArticleReadingScreen(
                 navController = navController,
@@ -62,6 +66,13 @@ fun NavigationGraph(
 
         //region authentication
         composable(LOGIN_SCREEN) {
+            val viewModel: AppViewModel = koinViewModel()
+            val currentUser by viewModel.user.collectAsStateWithLifecycle()
+            LaunchedEffect(true) {
+                if (currentUser.user != null) {
+                    navController.navigate(HOME_SCREEN)
+                }
+            }
             LoginScreen(navController)
         }
 
@@ -111,4 +122,11 @@ object NavGraphConstants {
     const val FIND_SHELTERS_SCREEN = "FindSheltersScreen"
     const val CONNECTION_ERROR_SCREEN = "ConnectionErrorScreen"
     //endregion
+}
+
+object NavArguments {
+    const val TITLE = "title"
+    const val AUTHOR = "author"
+    const val PUBLISHED_AT = "publishedAt"
+    const val CONTENT_LINK = "contentLink"
 }

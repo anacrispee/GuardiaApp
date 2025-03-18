@@ -1,6 +1,7 @@
 package com.example.guardia.features.authentication.login
 
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -40,6 +41,7 @@ fun LoginScreen(
     val action = viewModel::dispatcherViewAction
     val context = LocalContext.current
 
+    BackHandler {}
     if (viewState.isLoading.not() && viewState.hasLogged && viewState.error == null) {
         Toast.makeText(
             context,

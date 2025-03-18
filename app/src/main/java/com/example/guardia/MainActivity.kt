@@ -23,27 +23,26 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.guardia.di.NavGraphConstants.CREATE_ACCOUNT_SCREEN
 import com.example.guardia.di.NavGraphConstants.FIND_SHELTERS_SCREEN
 import com.example.guardia.di.NavGraphConstants.HOME_SCREEN
+import com.example.guardia.di.NavGraphConstants.LOGIN_SCREEN
 import com.example.guardia.di.NavGraphConstants.MY_PROFILE_SCREEN
 import com.example.guardia.di.NavGraphConstants.PANIC_BUTTON_SCREEN
 import com.example.guardia.di.NavigationGraph
 import com.example.guardia.ui.app_theme.AppTheme
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
@@ -53,18 +52,17 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         setContent {
             val viewModel: AppViewModel by inject()
-            var selectedItemIndex by rememberSaveable {
-                mutableIntStateOf(0)
-            }
             val navController = rememberNavController()
             val items = bottomNavigationItems()
-            var hasUserLogged by remember { mutableStateOf(Firebase.auth.currentUser != null) }
             val animationSpec : FiniteAnimationSpec<Float> = spring(
                 dampingRatio = 0.3f,
                 stiffness = 100f
             )
+            val currentRoute = currentRoute(navController)
 
-            viewModel.teti()
+            LaunchedEffect(true) {
+                viewModel.getUser()
+            }
 
             Surface(
                 modifier = Modifier.fillMaxSize()
@@ -74,16 +72,20 @@ class MainActivity : ComponentActivity() {
                     containerColor = AppTheme.colors.secondary.background,
                     bottomBar = {
                         AnimatedVisibility(
-                            visible = hasUserLogged,
+                            visible = (currentRoute != LOGIN_SCREEN) && (currentRoute != CREATE_ACCOUNT_SCREEN),
                             enter = fadeIn(animationSpec),
                             exit = fadeOut(animationSpec)
                         ) {
-                            selectedItemIndex = 0
+                            val navStackBackEntry by navController.currentBackStackEntryAsState()
+                            val currentDestination = navStackBackEntry?.destination
+
                             NavigationBar(
                                 containerColor = AppTheme.colors.primary.dark_pink
                             ) {
-                                items.forEachIndexed { index, item ->
+                                items.map { item ->
                                     val color = AppTheme.colors.secondary.lighter
+                                    val isSelected = currentDestination?.hierarchy?.any { it.route == item.route}
+
                                     NavigationBarItem(
                                         colors = NavigationBarItemColors(
                                             disabledIconColor = color,
@@ -94,9 +96,8 @@ class MainActivity : ComponentActivity() {
                                             unselectedIconColor = color,
                                             unselectedTextColor = color
                                         ),
-                                        selected = selectedItemIndex == index,
+                                        selected = isSelected ?: false,
                                         onClick = {
-                                            selectedItemIndex = index
                                             navController.navigate(item.route)
                                         },
                                         label = {
@@ -121,7 +122,7 @@ class MainActivity : ComponentActivity() {
                                                 Image(
                                                     modifier = Modifier
                                                         .size(24.dp),
-                                                    painter = if (index == selectedItemIndex)
+                                                    painter = if (isSelected == true)
                                                         item.selectedIcon
                                                     else
                                                         item.unselectedIcon,
@@ -140,13 +141,18 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                     ) {
                         NavigationGraph(
-                            navController = navController,
-                            hasUserLogged = hasUserLogged
+                            navController = navController
                         )
                     }
                 }
             }
         }
+    }
+
+    @Composable
+    fun currentRoute(navController: NavController): String? {
+        val backStackEntry = navController.currentBackStackEntryAsState()
+        return backStackEntry.value?.destination?.route
     }
 
     @Composable

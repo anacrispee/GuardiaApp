@@ -21,6 +21,7 @@ kotlin-test = "1.6.8"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.0.0"
 firebaseBom = "33.4.0"
+lifecycleRuntimeComposeAndroid = "2.8.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -74,6 +75,7 @@ coretesting = { group = "androidx.arch.core", name = "core-testing", version = "
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -2,7 +2,11 @@ package com.example.guardia
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.guardia.domain.models.firebase.UserAuthModel
 import com.example.guardia.domain.use_case.authentication.GetUserUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
@@ -10,15 +14,24 @@ import org.koin.core.parameter.parametersOf
 class AppViewModel : ViewModel(), KoinComponent {
     val getUserUseCase: GetUserUseCase by inject { parametersOf(viewModelScope) }
 
-    fun teti() {
+    private val _user = MutableStateFlow(UserAuthModel())
+    val user = _user.asStateFlow()
+
+    fun getUser() {
         getUserUseCase(
             onSuccess = { currentUser ->
-                println("dkjflsdkjf - batata frita com ketchup currentUser = $currentUser")
-//                hasUserLogged = currentUser != null
+                _user.update {
+                    it.copy(
+                        user = currentUser
+                    )
+                }
             },
-            onError = {
-                println("dkjflsdkjf - error = $it")
-                println("dkjflsdkjf - error message = ${it.message}")
+            onError = { _ ->
+                _user.update {
+                    it.copy(
+                        user = null
+                    )
+                }
             }
         )
     }

@@ -23,7 +23,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -43,7 +42,6 @@ import com.example.guardia.di.NavGraphConstants.MY_PROFILE_SCREEN
 import com.example.guardia.di.NavGraphConstants.PANIC_BUTTON_SCREEN
 import com.example.guardia.di.NavigationGraph
 import com.example.guardia.ui.app_theme.AppTheme
-import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -51,7 +49,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
-            val viewModel: AppViewModel by inject()
             val navController = rememberNavController()
             val items = bottomNavigationItems()
             val animationSpec : FiniteAnimationSpec<Float> = spring(
@@ -59,10 +56,6 @@ class MainActivity : ComponentActivity() {
                 stiffness = 100f
             )
             val currentRoute = currentRoute(navController)
-
-            LaunchedEffect(true) {
-                viewModel.getUser()
-            }
 
             Surface(
                 modifier = Modifier.fillMaxSize()

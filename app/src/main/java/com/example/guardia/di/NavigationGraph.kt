@@ -67,12 +67,19 @@ fun NavigationGraph(
         //region authentication
         composable(LOGIN_SCREEN) {
             val viewModel: AppViewModel = koinViewModel()
-            val currentUser by viewModel.user.collectAsStateWithLifecycle()
+
             LaunchedEffect(true) {
+                viewModel.getUser()
+            }
+
+            val currentUser by viewModel.user.collectAsStateWithLifecycle()
+
+            LaunchedEffect(currentUser) {
                 if (currentUser.user != null) {
                     navController.navigate(HOME_SCREEN)
                 }
             }
+
             LoginScreen(navController)
         }
 
@@ -125,8 +132,10 @@ object NavGraphConstants {
 }
 
 object NavArguments {
+    // region article reading screen
     const val TITLE = "title"
     const val AUTHOR = "author"
     const val PUBLISHED_AT = "publishedAt"
     const val CONTENT_LINK = "contentLink"
+    //endregion
 }

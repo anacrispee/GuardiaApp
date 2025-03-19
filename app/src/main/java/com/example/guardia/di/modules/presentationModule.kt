@@ -1,6 +1,7 @@
 package com.example.guardia.di.modules
 
 import com.example.guardia.AppViewModel
+import com.example.guardia.features.article_screen.ArticleViewModel
 import com.example.guardia.features.authentication.create_account.CreateAccountViewModel
 import com.example.guardia.features.authentication.login.LoginViewModel
 import com.example.guardia.features.feature_home.HomeViewModel
@@ -18,4 +19,5 @@ val presentationModule = module {
     viewModel { MyProfileViewModel() }
     viewModel { LoginViewModel() }
     viewModel { CreateAccountViewModel() }
+    viewModel { ArticleViewModel() }
 }

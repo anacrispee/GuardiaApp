@@ -1,4 +1,4 @@
-package com.example.guardia.features.article_reading_screen
+package com.example.guardia.features.article_screen
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -14,45 +14,40 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.guardia.R
 import com.example.guardia.di.NavGraphConstants.CONNECTION_ERROR_SCREEN
+import com.example.guardia.domain.models.article.ArticleModel
+import com.example.guardia.domain.models.article.ArticleScreenArgumentsModel
 import com.example.guardia.domain.utils.getDayAndMonthNameAndYear
 import com.example.guardia.domain.utils.isNetworkAvailable
 import com.example.guardia.domain.utils.toServiceDate
 import com.example.guardia.ui.app_theme.AppTheme
 import com.example.guardia.ui.uikit.components.CustomTopBar
 import com.example.guardia.ui.uikit.components.LoadingScreen
-import java.net.URLDecoder
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun ArticleReadingScreen(
-    navController: NavHostController,
-    title: String,
-    author: String,
-    publishedAt: String,
-    contentLink: String
+fun ArticleScreen(
+    model: ArticleScreenArgumentsModel
 ) {
+    val viewState = model.viewModel.viewState
+    val action = model.viewModel::dispatcherViewAction
     val screenContext = LocalContext.current
-    val decodedTitle = URLDecoder.decode(title, "UTF-8")
-    val decodedAuthor = URLDecoder.decode(author, "UTF-8")
-    val decodedPublishedAt = URLDecoder.decode(publishedAt, "UTF-8")
-    val decodedContentLink = URLDecoder.decode(contentLink, "UTF-8")
+    val lifecycleScope = rememberCoroutineScope()
 
     LaunchedEffect(true) {
         if (isNetworkAvailable(screenContext).not()) {
-            navController.navigate(CONNECTION_ERROR_SCREEN)
+            model.navController.navigate(CONNECTION_ERROR_SCREEN)
         }
         return@LaunchedEffect
     }
@@ -62,7 +57,11 @@ fun ArticleReadingScreen(
             title = R.string.article_reading_toolbar,
             showNavigationButton = true,
             onNavigationBackClick = {
-                navController.popBackStack()
+                lifecycleScope.launch {
+                    action(ArticleViewAction.UpdateIsLoading(false))
+                    delay(300)
+                    model.navController.popBackStack()
+                }
             }
         )
         Column(
@@ -70,12 +69,14 @@ fun ArticleReadingScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             HeaderArea(
-                decodedTitle = decodedTitle,
-                decodedAuthor = decodedAuthor,
-                decodedPublishedAt = decodedPublishedAt
+                decodedTitle = model.article.decodeArticle().title.orEmpty(),
+                decodedAuthor = model.article.decodeArticle().author.orEmpty(),
+                decodedPublishedAt = model.article.decodeArticle().publishedAt.orEmpty()
             )
             WebViewArea(
-                contentLink = decodedContentLink
+                action = action,
+                contentLink = model.article.decodeArticle().contentLink.orEmpty(),
+                isLoading = viewState.isLoading
             )
         }
     }
@@ -108,9 +109,14 @@ private fun HeaderArea(
 
 @Composable
 private fun WebViewArea(
-    contentLink: String
+    action: (ArticleViewAction) -> Unit,
+    contentLink: String,
+    isLoading: Boolean
 ) {
-    var isLoading by remember { mutableStateOf(true) }
+    if (isLoading) {
+        LoadingScreen()
+        return
+    }
 
     AndroidView(
         factory = {
@@ -125,12 +131,12 @@ private fun WebViewArea(
 
                     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                         super.onPageStarted(view, url, favicon)
-                        isLoading = true
+                        action(ArticleViewAction.UpdateIsLoading(true))
                     }
 
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
-                        isLoading = false
+                        action(ArticleViewAction.UpdateIsLoading(false))
                     }
                 }
 
@@ -155,22 +161,29 @@ private fun WebViewArea(
         },
         update = { webView ->
             webView.loadUrl(contentLink)
+        },
+        onRelease = { webView ->
+            webView.stopLoading()
+            webView.clearHistory()
+            webView.removeAllViews()
+            webView.destroy()
         }
     )
-
-    if (isLoading) {
-        LoadingScreen()
-    }
 }
 
 @Composable
 @Preview(showBackground = true)
 private fun ArticleReadingScreenPreview() {
-    ArticleReadingScreen(
-        navController = rememberNavController(),
-        title = "O Resgate do Soldado Ryan",
-        author = "Robert Rodat",
-        publishedAt = "20 mar. 1998",
-        contentLink = "batatinhafrita123.com.br"
+    ArticleScreen(
+        model = ArticleScreenArgumentsModel(
+            viewModel = koinViewModel(),
+            navController = rememberNavController(),
+            article = ArticleModel(
+                author = "Lohane Vekanandre",
+                title = "As Aventuras de Timtim",
+                publishedAt = "17/03/2000",
+                contentLink = "url"
+            )
+        )
     )
 }

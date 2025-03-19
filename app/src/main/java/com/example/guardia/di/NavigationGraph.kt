@@ -18,7 +18,9 @@ import com.example.guardia.di.NavGraphConstants.HOME_SCREEN
 import com.example.guardia.di.NavGraphConstants.LOGIN_SCREEN
 import com.example.guardia.di.NavGraphConstants.MY_PROFILE_SCREEN
 import com.example.guardia.di.NavGraphConstants.PANIC_BUTTON_SCREEN
-import com.example.guardia.features.article_reading_screen.ArticleReadingScreen
+import com.example.guardia.domain.models.article.ArticleModel
+import com.example.guardia.domain.models.article.ArticleScreenArgumentsModel
+import com.example.guardia.features.article_screen.ArticleScreen
 import com.example.guardia.features.authentication.create_account.CreateAccountScreen
 import com.example.guardia.features.authentication.login.LoginScreen
 import com.example.guardia.features.connection_error_screen.ConnectionErrorScreen
@@ -32,6 +34,8 @@ import org.koin.androidx.compose.koinViewModel
 fun NavigationGraph(
     navController: NavHostController
 ) {
+    val navBackStackEntry = navController.currentBackStackEntry
+
     NavHost(
         navController = navController,
         startDestination = LOGIN_SCREEN
@@ -49,17 +53,21 @@ fun NavigationGraph(
                 navArgument(NavArguments.CONTENT_LINK) { type = NavType.StringType }
             )
         ) {
-            val title = it.arguments?.getString(NavArguments.TITLE)
-            val author = it.arguments?.getString(NavArguments.AUTHOR)
-            val publishedAt = it.arguments?.getString(NavArguments.PUBLISHED_AT)
-            val contentLink = it.arguments?.getString(NavArguments.CONTENT_LINK)
+            val title = navBackStackEntry?.arguments?.getString(NavArguments.TITLE).orEmpty()
+            val author = navBackStackEntry?.arguments?.getString(NavArguments.AUTHOR).orEmpty()
+            val publishedAt = navBackStackEntry?.arguments?.getString(NavArguments.PUBLISHED_AT).orEmpty()
+            val contentLink = navBackStackEntry?.arguments?.getString(NavArguments.CONTENT_LINK).orEmpty()
 
-            ArticleReadingScreen(
-                navController = navController,
-                title = title.orEmpty(),
-                author = author.orEmpty(),
-                publishedAt = publishedAt.orEmpty(),
-                contentLink = contentLink.orEmpty()
+            ArticleScreen(
+                model = ArticleScreenArgumentsModel(
+                    navController = navController,
+                    article = ArticleModel(
+                        title = title,
+                        author = author,
+                        publishedAt = publishedAt,
+                        contentLink = contentLink
+                    )
+                )
             )
         }
         //endregion

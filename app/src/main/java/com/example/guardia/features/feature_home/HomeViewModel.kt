@@ -10,7 +10,6 @@ import com.example.guardia.domain.use_case.GetDomesticViolenceArticlesUseCase
 import com.example.guardia.domain.use_case.GetDomesticViolenceStoriesUseCase
 import com.example.guardia.domain.use_case.GetHarassmentAgainstWomenArticlesUseCase
 import com.example.guardia.domain.use_case.GetThreatAgainstWomenArticlesUseCase
-import com.example.guardia.domain.use_case.authentication.GetUserUseCase
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.parameter.parametersOf
@@ -24,7 +23,6 @@ class HomeViewModel : ViewModel(), KoinComponent {
     private val getDomesticPsychologicalAbuseArticlesUseCase: GetDomesticPsychologicalAbuseArticlesUseCase by inject { parametersOf(viewModelScope) }
     private val getHarassmentAgainstWomenArticlesUseCase: GetHarassmentAgainstWomenArticlesUseCase by inject { parametersOf(viewModelScope) }
     private val getThreatAgainstWomenArticlesUseCase: GetThreatAgainstWomenArticlesUseCase by inject { parametersOf(viewModelScope) }
-    val getUserUseCase: GetUserUseCase by inject { parametersOf(viewModelScope) }
 
     fun dispatcherViewAction(action: HomeViewAction) {
         when (action) {
@@ -89,6 +87,7 @@ class HomeViewModel : ViewModel(), KoinComponent {
     }
 
     private fun getDomesticViolenceArticles() {
+        println("sdlfkjdslfj caiu aqui getDomesticViolenceArticles")
         if (viewState.domesticViolencePopularArticles.isNullOrEmpty()) {
             viewState = viewState.copy(
                 isLoading = true
@@ -111,6 +110,7 @@ class HomeViewModel : ViewModel(), KoinComponent {
     }
 
     private fun getDomesticViolenceStories() {
+        println("sdlfkjdslfj caiu aqui getDomesticViolenceStories")
         if (viewState.domesticViolenceStories.isNullOrEmpty()) {
             viewState = viewState.copy(
                 isLoading = true

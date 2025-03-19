@@ -36,6 +36,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -104,6 +105,7 @@ private fun ContentScreen(
     listVerticalFilters: List<SearchFiltersModel>,
     navController: NavHostController
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
     var filterOption by remember { mutableIntStateOf(FiltersEnum.VIOLENCE.id) }
     var searchInputValue by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
@@ -154,6 +156,7 @@ private fun ContentScreen(
                                 searchInputValue = ""
                                 focusManager.clearFocus()
                                 action(HomeViewAction.UpdateIsEmpty(false))
+                                keyboardController?.hide()
                             }
                     )
                 }
@@ -209,6 +212,7 @@ private fun ContentScreen(
             filterOption = filterOption,
             navController = navController
         )
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 

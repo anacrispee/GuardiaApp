@@ -59,7 +59,7 @@ fun ArticleScreen(
             onNavigationBackClick = {
                 lifecycleScope.launch {
                     action(ArticleViewAction.UpdateIsLoading(false))
-                    delay(300)
+                    delay(1000)
                     model.navController.popBackStack()
                 }
             }

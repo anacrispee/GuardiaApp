@@ -26,13 +26,14 @@ class HomeViewModel : ViewModel(), KoinComponent {
 
     fun dispatcherViewAction(action: HomeViewAction) {
         when (action) {
-
             is HomeViewAction.FetchDataByFilterOption -> fetchDataByFilterOption(
                 id = action.id
             )
-
             is HomeViewAction.SearchNewsSubject -> searchNewsSubject(
                 subject = action.subject
+            )
+            is HomeViewAction.UpdateIsEmpty -> viewState = viewState.copy(
+                isEmptyState = action.value
             )
 
             HomeViewAction.GetDomesticViolenceArticles -> getDomesticViolenceArticles()
@@ -87,7 +88,6 @@ class HomeViewModel : ViewModel(), KoinComponent {
     }
 
     private fun getDomesticViolenceArticles() {
-        println("sdlfkjdslfj caiu aqui getDomesticViolenceArticles")
         if (viewState.domesticViolencePopularArticles.isNullOrEmpty()) {
             viewState = viewState.copy(
                 isLoading = true
@@ -96,13 +96,15 @@ class HomeViewModel : ViewModel(), KoinComponent {
                 onSuccess = {
                     viewState = viewState.copy(
                         isLoading = false,
-                        domesticViolencePopularArticles = it
+                        domesticViolencePopularArticles = it,
+                        isEmptyState = it.isEmpty()
                     )
                 },
                 onError = {
                     viewState = viewState.copy(
                         error = it,
-                        isLoading = false
+                        isLoading = false,
+                        isEmptyState = true
                     )
                 }
             )
@@ -110,7 +112,6 @@ class HomeViewModel : ViewModel(), KoinComponent {
     }
 
     private fun getDomesticViolenceStories() {
-        println("sdlfkjdslfj caiu aqui getDomesticViolenceStories")
         if (viewState.domesticViolenceStories.isNullOrEmpty()) {
             viewState = viewState.copy(
                 isLoading = true
@@ -119,13 +120,16 @@ class HomeViewModel : ViewModel(), KoinComponent {
                 onSuccess = {
                     viewState = viewState.copy(
                         isLoading = false,
-                        domesticViolenceStories = it
+                        domesticViolenceStories = it,
+                        isEmptyState = it.isEmpty()
+
                     )
                 },
                 onError = {
                     viewState = viewState.copy(
                         error = it,
-                        isLoading = false
+                        isLoading = false,
+                        isEmptyState = true
                     )
                 }
             )
@@ -137,12 +141,14 @@ class HomeViewModel : ViewModel(), KoinComponent {
             getDomesticPsychologicalAbuseArticlesUseCase(
                 onSuccess = {
                     viewState = viewState.copy(
-                        domesticPsychologicalAbuseArticles = it
+                        domesticPsychologicalAbuseArticles = it,
+                        isEmptyState = it.isEmpty()
                     )
                 },
                 onError = {
                     viewState = viewState.copy(
-                        error = it
+                        error = it,
+                        isEmptyState = true
                     )
                 }
             )
@@ -154,12 +160,14 @@ class HomeViewModel : ViewModel(), KoinComponent {
             getHarassmentAgainstWomenArticlesUseCase(
                 onSuccess = {
                     viewState = viewState.copy(
-                        harassmentAgainstWomenArticles = it
+                        harassmentAgainstWomenArticles = it,
+                        isEmptyState = it.isEmpty()
                     )
                 },
                 onError = {
                     viewState = viewState.copy(
-                        error = it
+                        error = it,
+                        isEmptyState = true
                     )
                 }
             )
@@ -171,12 +179,14 @@ class HomeViewModel : ViewModel(), KoinComponent {
             getThreatAgainstWomenArticlesUseCase(
                 onSuccess = {
                     viewState = viewState.copy(
-                        threatAgainstWomenArticles = it
+                        threatAgainstWomenArticles = it,
+                        isEmptyState = it.isEmpty()
                     )
                 },
                 onError = {
                     viewState = viewState.copy(
-                        error = it
+                        error = it,
+                        isEmptyState = true
                     )
                 }
             )

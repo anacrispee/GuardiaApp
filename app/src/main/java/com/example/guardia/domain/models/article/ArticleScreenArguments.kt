@@ -1,6 +1,7 @@
 package com.example.guardia.domain.models.article
 
 import androidx.navigation.NavController
+import com.example.guardia.domain.utils.StringUtils.ENCODER
 import com.example.guardia.features.article_screen.ArticleViewModel
 import java.net.URLDecoder
 
@@ -23,7 +24,5 @@ data class ArticleModel(
         contentLink = URLDecoder.decode(contentLink, ENCODER)
     )
 
-    companion object {
-        const val ENCODER = "UTF-8"
-    }
+
 }

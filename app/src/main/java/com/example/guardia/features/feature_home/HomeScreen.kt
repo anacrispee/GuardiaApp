@@ -49,6 +49,7 @@ import com.example.guardia.R
 import com.example.guardia.data_remote.model.news_api.DomesticViolenceArticleResponse
 import com.example.guardia.di.NavGraphConstants.ARTICLE_READING_SCREEN
 import com.example.guardia.di.NavGraphConstants.CONNECTION_ERROR_SCREEN
+import com.example.guardia.domain.utils.encodeUtf8
 import com.example.guardia.domain.utils.getDayAndMonthNameAndYear
 import com.example.guardia.domain.utils.isNetworkAvailable
 import com.example.guardia.domain.utils.toServiceDate
@@ -57,7 +58,6 @@ import com.example.guardia.ui.uikit.components.LoadingScreen
 import com.example.guardia.ui.uikit.components.shimmerBrush
 import com.example.guardia.ui.uikit.generic_screens.GenericEmptyStateScreen
 import org.koin.androidx.compose.koinViewModel
-import java.net.URLEncoder
 
 @Composable
 fun HomeScreen(
@@ -72,7 +72,9 @@ fun HomeScreen(
     LaunchedEffect(true) {
         if (isNetworkAvailable(screenContext).not()) {
             navController.navigate(CONNECTION_ERROR_SCREEN)
-        } else {
+        } else if (viewState.domesticViolencePopularArticles == null
+            && viewState.domesticViolenceStories == null
+        ) {
             action(
                 HomeViewAction.GetDomesticViolenceArticles
             )
@@ -151,6 +153,7 @@ private fun ContentScreen(
                             .clickable {
                                 searchInputValue = ""
                                 focusManager.clearFocus()
+                                action(HomeViewAction.UpdateIsEmpty(false))
                             }
                     )
                 }
@@ -215,7 +218,7 @@ private fun DefaultHomeArticles(
     filterOption: Int,
     navController: NavHostController
 ) {
-    if (viewState.isEmptyState) {
+    if (viewState.isLoading.not() && viewState.isEmptyState) {
         EmptyStateContentScreen()
     } else {
         if (viewState.hasSearched) {
@@ -234,7 +237,7 @@ private fun DefaultHomeArticles(
                 Spacer(modifier = Modifier.height(24.dp))
                 LazyRowItem(
                     articlesTitle = R.string.home_personal_stories,
-                    articlesList = viewState.domesticViolenceStories ?: listOf(),
+                    articlesList = viewState.domesticViolenceStories.orEmpty(),
                     navController = navController
                 )
             }
@@ -320,15 +323,15 @@ private fun ArticleCard(
             .width(320.dp)
             .height(280.dp)
             .clickable {
-                if (article.title.isNullOrBlank().not() &&
-                    article.author.isNullOrBlank().not() &&
-                    article.publishedAt.isNullOrBlank().not() &&
-                    article.url.isNullOrBlank().not()) {
+                if (article.title.isNullOrBlank().not()
+                    && article.author.isNullOrBlank().not()
+                    && article.publishedAt.isNullOrBlank().not()
+                    && article.url.isNullOrBlank().not()) {
 
-                    val title = URLEncoder.encode(article.title, "UTF-8")
-                    val author = URLEncoder.encode(article.author, "UTF-8")
-                    val publishedAt = URLEncoder.encode(article.publishedAt, "UTF-8")
-                    val contentLink = URLEncoder.encode(article.url, "UTF-8")
+                    val title = article.title?.encodeUtf8()
+                    val author = article.author?.encodeUtf8()
+                    val publishedAt = article.publishedAt?.encodeUtf8()
+                    val contentLink = article.url?.encodeUtf8()
 
                     navController
                         .navigate("$ARTICLE_READING_SCREEN/$title/$author/$publishedAt/$contentLink")

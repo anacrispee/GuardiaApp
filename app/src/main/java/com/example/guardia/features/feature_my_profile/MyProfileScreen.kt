@@ -80,9 +80,11 @@ fun MyProfileScreen(
             Header(
                 user = viewState.user
             )
+            Spacer(modifier = Modifier.padding(16.dp))
             MyProfileCard(
                 user = viewState.user
             )
+            Spacer(modifier = Modifier.padding(16.dp))
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -100,7 +102,7 @@ fun MyProfileScreen(
                     text = stringResource(R.string.my_profile_exit_account)
                 )
             }
-            Spacer(modifier = Modifier.padding(16.dp))
+            Spacer(modifier = Modifier.padding(8.dp))
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -173,7 +175,7 @@ private fun MyProfileCard(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
             .background(
                 color = AppTheme.colors.secondary.lighter,
                 shape = RoundedCornerShape(14.dp)

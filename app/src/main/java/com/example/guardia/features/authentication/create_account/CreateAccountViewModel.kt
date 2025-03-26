@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
+import com.example.guardia.di.NavGraphConstants.HOME_SCREEN
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.auth.userProfileChangeRequest
@@ -31,7 +33,7 @@ class CreateAccountViewModel : ViewModel(), KoinComponent {
                 createAccountError = null
             )
 
-            CreateAccountViewAction.CreateAccount -> createAccount()
+            is CreateAccountViewAction.CreateAccount -> createAccount(navController = action.navController)
             CreateAccountViewAction.ShowPassword -> viewState = viewState.copy(
                 isPasswordHide = viewState.isPasswordHide.not()
             )
@@ -41,13 +43,14 @@ class CreateAccountViewModel : ViewModel(), KoinComponent {
         }
     }
 
-    private fun createAccount() {
+    private fun createAccount(navController: NavController) {
         auth.createUserWithEmailAndPassword(
             viewState.email,
             viewState.password
         ).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 updateCurrentUserName()
+                navController.navigate(HOME_SCREEN)
             }
         }
             .addOnFailureListener { task ->

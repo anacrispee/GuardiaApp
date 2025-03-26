@@ -100,7 +100,7 @@ fun CreateAccountScreen(
             modifier = Modifier
                 .fillMaxWidth(),
             onClick = {
-                action(CreateAccountViewAction.CreateAccount)
+                action(CreateAccountViewAction.CreateAccount(navController))
             },
             enabled = viewState.name.isNotBlank() &&
                     viewState.email.isNotBlank() &&

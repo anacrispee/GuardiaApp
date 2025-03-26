@@ -108,7 +108,7 @@ fun CreateAccountScreen(
                     viewState.confirmPassword.isNotBlank() &&
                     viewState.passwordsMatch == true
         ) {
-            Text(text = stringResource(id = R.string.create_account_button))
+            Text(text = stringResource(id = R.string.create_account_button_create))
         }
     }
 }

@@ -7,4 +7,5 @@ sealed class MyProfileViewAction {
     data class DeleteAccount(val navController: NavHostController) : MyProfileViewAction()
 
     object GetUser : MyProfileViewAction()
+    object ToggleConfirmDeleteAccountBottomSheet : MyProfileViewAction()
 }

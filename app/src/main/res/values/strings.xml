@@ -71,4 +71,8 @@
     <string name="create_account_button_create">Criar conta</string>
     <string name="create_account_confirm_password">Confirme sua senha</string>
     <string name="create_account_wrong_passwords">As senhas não conferem</string>
+    <string name="delete_account_confirmation_title">Tem certeza que deseja excluir sua conta?</string>
+    <string name="delete_account_confirmation_subtitle">Essa ação não pode ser mais desfeita.</string>
+    <string name="delete_account_confirmation_delete">Sim, desejo deletar minha conta</string>
+    <string name="delete_account_confirmation_cancel">Manter minha conta</string>
 </resources>

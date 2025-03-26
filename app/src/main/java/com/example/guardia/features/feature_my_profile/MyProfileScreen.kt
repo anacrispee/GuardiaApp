@@ -20,17 +20,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,6 +49,7 @@ import com.example.guardia.R
 import com.example.guardia.domain.models.user.UserModel
 import com.example.guardia.ui.app_theme.AppTheme
 import com.example.guardia.ui.uikit.components.shimmerBrush
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -113,7 +119,7 @@ fun MyProfileScreen(
                     containerColor = AppTheme.colors.primary.light_pink
                 ),
                 onClick = {
-                    action(MyProfileViewAction.DeleteAccount(navController))
+                    action(MyProfileViewAction.ToggleConfirmDeleteAccountBottomSheet)
                 }
             ) {
                 Text(
@@ -121,6 +127,9 @@ fun MyProfileScreen(
                 )
             }
             Spacer(modifier = Modifier.padding(16.dp))
+        }
+        if (viewState.showConfirmDeleteAccountBottomSheet) {
+            ConfirmDeleteAccountBottomSheet(action, navController)
         }
     }
 }
@@ -273,6 +282,85 @@ private fun CardTitle() {
             style = AppTheme.typography.titleBold.title_small,
             color = AppTheme.colors.primary.dark_grey
         )
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun ConfirmDeleteAccountBottomSheet(
+    action: (MyProfileViewAction) -> Unit,
+    navController: NavHostController
+) {
+    val scope = rememberCoroutineScope()
+    val sheetState = rememberModalBottomSheetState()
+
+    ModalBottomSheet(
+        onDismissRequest = {
+            action(MyProfileViewAction.ToggleConfirmDeleteAccountBottomSheet)
+        },
+        sheetState = sheetState
+    ) {
+        Spacer(modifier = Modifier.padding(16.dp))
+        Text(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(horizontal = 16.dp),
+            text = stringResource(R.string.delete_account_confirmation_title),
+            style = AppTheme.typography.titleBold.title_md,
+            color = AppTheme.colors.primary.dark_grey
+        )
+        Spacer(modifier = Modifier.padding(4.dp))
+        Text(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .align(Alignment.CenterHorizontally),
+            text = stringResource(R.string.delete_account_confirmation_subtitle),
+            style = AppTheme.typography.bodyRegular.body_small,
+            color = AppTheme.colors.primary.dark_grey
+        )
+        Spacer(modifier = Modifier.padding(8.dp))
+        Button(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Transparent,
+                contentColor = AppTheme.colors.primary.dark_pink
+            ),
+            onClick = {
+                scope.launch { sheetState.hide() }.invokeOnCompletion {
+                    if (!sheetState.isVisible) {
+                        action(MyProfileViewAction.ToggleConfirmDeleteAccountBottomSheet)
+                        action(MyProfileViewAction.DeleteAccount(navController))
+                    }
+                }
+            }
+        ) {
+            Text(stringResource(R.string.delete_account_confirmation_delete))
+        }
+        Spacer(modifier = Modifier.padding(8.dp))
+        Button(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth()
+                .height(48.dp)
+                .padding(horizontal = 16.dp),
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = AppTheme.colors.primary.dark_pink
+            ),
+            onClick = {
+                scope.launch { sheetState.hide() }.invokeOnCompletion {
+                    if (!sheetState.isVisible) {
+                        action(MyProfileViewAction.ToggleConfirmDeleteAccountBottomSheet)
+                    }
+                }
+            }
+        ) {
+            Text(stringResource(R.string.delete_account_confirmation_cancel))
+        }
+        Spacer(modifier = Modifier.padding(24.dp))
     }
 }
 

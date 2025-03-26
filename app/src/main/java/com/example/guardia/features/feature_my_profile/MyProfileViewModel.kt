@@ -24,6 +24,9 @@ class MyProfileViewModel : ViewModel(), KoinComponent {
                 navController = action.navController
             )
             MyProfileViewAction.GetUser -> getUser()
+            MyProfileViewAction.ToggleConfirmDeleteAccountBottomSheet -> viewState = viewState.copy(
+                showConfirmDeleteAccountBottomSheet = viewState.showConfirmDeleteAccountBottomSheet.not()
+            )
         }
     }
 
@@ -60,6 +63,12 @@ class MyProfileViewModel : ViewModel(), KoinComponent {
                 if (task.isSuccessful) {
                     navController.navigate(LOGIN_SCREEN)
                 }
+            }
+            ?.addOnFailureListener {
+                println("hamburguermolhoespecial = erro $it")
+                viewState = viewState.copy(
+                    error = it
+                )
             }
     }
 }

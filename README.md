@@ -1,7 +1,7 @@
 <div><img src="https://github.com/anacrispee/GuardiaApp/blob/main/Wireframe%20Github.png?raw=true" width="740px"/></div>
 
 ## Guardiã App
-Guardiã é um aplicativo que tem como missão auxiliar mulheres em situação de violência doméstica. <br>
+Guardiã é um aplicativo de estudos que tem como missão auxiliar mulheres em situação de violência doméstica. <br>
 Este projeto foi iniciado durante o curso de graduação de Análise e Desevolvimento de Sistemas (UNIVALI), para algumas disciplinas cursadas, porém continua em andamento e em aprimoramento. <br>
 Neste projeto foram aplicados conceitos e práticas estudadas ao longo do curso, visando consolidar o aprendizado absorvido durante a graduação e outros conhecimentos da área mobile.
 

@@ -19,10 +19,15 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +43,7 @@ import coil.compose.AsyncImage
 import com.example.guardia.R
 import com.example.guardia.domain.models.user.UserModel
 import com.example.guardia.ui.app_theme.AppTheme
+import com.example.guardia.ui.uikit.components.shimmerBrush
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -70,6 +76,7 @@ fun MyProfileScreen(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(64.dp))
             Header(
                 user = viewState.user
             )
@@ -77,6 +84,14 @@ fun MyProfileScreen(
                 user = viewState.user
             )
             Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .padding(horizontal = 16.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = AppTheme.colors.primary.light_pink
+                ),
                 onClick = {
                     action(MyProfileViewAction.Logout(navController))
                 }
@@ -87,6 +102,14 @@ fun MyProfileScreen(
             }
             Spacer(modifier = Modifier.padding(16.dp))
             Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .padding(horizontal = 16.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = AppTheme.colors.primary.light_pink
+                ),
                 onClick = {
                     action(MyProfileViewAction.DeleteAccount(navController))
                 }
@@ -104,7 +127,8 @@ fun MyProfileScreen(
 private fun Header(
     user: UserModel?
 ) {
-    Spacer(modifier = Modifier.height(64.dp))
+    var isLoadingImage by remember { mutableStateOf(true) }
+
     AsyncImage(
         modifier = Modifier
             .size(164.dp)
@@ -116,10 +140,24 @@ private fun Header(
                 width = 2.dp,
                 color = AppTheme.colors.secondary.lighter,
                 shape = CircleShape
+            )
+            .background(
+                shimmerBrush(
+                    showShimmer = isLoadingImage
+                )
             ),
-        model = user?.image ?: R.drawable.image_unavailable_image,
+        model = user?.image?.ifBlank { R.drawable.image_unavailable_image },
         contentDescription = null,
-        contentScale = ContentScale.Crop
+        contentScale = ContentScale.Crop,
+        onError = {
+            isLoadingImage = true
+        },
+        onSuccess = {
+            isLoadingImage = false
+        },
+        onLoading = {
+            isLoadingImage = true
+        }
     )
     Text(
         text = user?.name.orEmpty(),

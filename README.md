@@ -39,6 +39,7 @@ The app was developed natively for Android, applying key concepts and practices 
 - [Trello](https://trello.com/b/UmSudVMK) for task management using Agile methodologies
 - Gitflow for organizing the development workflow
 - GitHub Actions for Continuous Integration and test automation
+- JUnit for unit testing
 
 ---
 
@@ -97,6 +98,7 @@ Neste projeto foram aplicados conceitos e práticas estudadas ao longo do curso,
 - [Trello](https://trello.com/b/UmSudVMK) para organização das tarefas utilizando metodologias ágeis
 - Gitflow para organização do fluxo de trabalho
 - GitHub Actions para CI (_Integração Contínua_) e automação de testes
+- Testes unitários com JUnit
 
 ---
 

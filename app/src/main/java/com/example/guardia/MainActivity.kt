@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.NavigationBar
@@ -24,7 +23,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -58,9 +56,7 @@ class MainActivity : ComponentActivity() {
                     containerColor = AppTheme.colors.secondary.background,
                     bottomBar = {
                         NavigationBar(
-                            containerColor = AppTheme.colors.primary.dark_pink,
-                            modifier = Modifier
-                                .clip(RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
+                            containerColor = AppTheme.colors.primary.dark_pink
                         ) {
                             items.forEachIndexed { index, item ->
                                 val color = AppTheme.colors.secondary.lighter

@@ -18,7 +18,18 @@ The app was developed natively for Android, applying key concepts and practices 
  
 ### 🌌 Images
 
-[See the app video here](https://dms.licdn.com/playlist/vid/v2/D4D05AQEToKASCemj1A/mp4-720p-30fp-crf28/B4DZYX6okeHABg-/0/1744157980952?e=1745438400&v=beta&t=R-Y57_2Z7E3I_-gV1kTBlZ1I6k24SYFIWI_TP9pf4P0)
+<div><img src="https://raw.githubusercontent.com/anacrispee/GuardiaApp/refs/heads/main/images/Captura%20de%20Tela%202025-04-16%20a%CC%80s%2016.59.56.png" width="200px"/>
+<img src="https://raw.githubusercontent.com/anacrispee/GuardiaApp/refs/heads/main/images/Captura%20de%20Tela%202025-04-16%20a%CC%80s%2017.00.28.png" width="200px"/>
+<img src="https://raw.githubusercontent.com/anacrispee/GuardiaApp/refs/heads/main/images/Captura%20de%20Tela%202025-04-16%20a%CC%80s%2017.00.55.png" width="200px"/>
+<img src="https://raw.githubusercontent.com/anacrispee/GuardiaApp/refs/heads/main/images/Captura%20de%20Tela%202025-04-16%20a%CC%80s%2017.01.17.png" width="200px"/>
+<img src="https://raw.githubusercontent.com/anacrispee/GuardiaApp/refs/heads/main/images/Captura%20de%20Tela%202025-04-16%20a%CC%80s%2017.01.32.png" width="200px"/>
+<img src="https://raw.githubusercontent.com/anacrispee/GuardiaApp/refs/heads/main/images/Captura%20de%20Tela%202025-04-16%20a%CC%80s%2017.02.45.png" width="200px"/></div>
+
+---
+
+### 🌌 Videos
+
+[App video](https://dms.licdn.com/playlist/vid/v2/D4D05AQEToKASCemj1A/mp4-720p-30fp-crf28/B4DZYX6okeHABg-/0/1744157980952?e=1745438400&v=beta&t=R-Y57_2Z7E3I_-gV1kTBlZ1I6k24SYFIWI_TP9pf4P0)
 
 ---
 

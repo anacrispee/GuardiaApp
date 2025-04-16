@@ -15,6 +15,12 @@ The app was developed natively for Android, applying key concepts and practices 
 - **My Profile** – Contains user identification, contact details, and location.
 
 ---
+ 
+### 🌌 Images
+
+[See the app video here](https://dms.licdn.com/playlist/vid/v2/D4D05AQEToKASCemj1A/mp4-720p-30fp-crf28/B4DZYX6okeHABg-/0/1744157980952?e=1745438400&v=beta&t=R-Y57_2Z7E3I_-gV1kTBlZ1I6k24SYFIWI_TP9pf4P0)
+
+---
 
 ### 🎨 Design
 
